@@ -12,7 +12,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "de.notjansel.sbbot"
+rootProject.name = "SkyblockBot"
 
 enableFeaturePreview("VERSION_CATALOGS")
 

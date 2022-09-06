@@ -11,7 +11,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt")
 }
 
-group = "SkyblockBot"
+group = "de.notjansel.sbbot"
 version = "1.0-SNAPSHOT"
 
 repositories {

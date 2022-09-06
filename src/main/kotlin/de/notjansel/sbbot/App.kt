@@ -5,6 +5,7 @@ package de.notjansel.sbbot
 
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.utils.env
+import de.notjansel.sbbot.extensions.CurrentElection
 import de.notjansel.sbbot.extensions.CurrentMayor
 import dev.kord.common.entity.PresenceStatus
 import dev.kord.common.entity.Snowflake
@@ -24,6 +25,7 @@ suspend fun main() {
         }
         extensions {
             add(::CurrentMayor)
+            add(::CurrentElection)
         }
     }
 
