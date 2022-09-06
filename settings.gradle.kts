@@ -12,7 +12,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "template"
+rootProject.name = "de.notjansel.sbbot"
 
 enableFeaturePreview("VERSION_CATALOGS")
 

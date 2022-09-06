@@ -43,7 +43,7 @@ comments:
 
   AbsentOrWrongFileLicense:
     active: false
-    licenseTemplateFile: 'license.template'
+    licenseTemplateFile: ''
   CommentOverPrivateFunction:
     active: false
   CommentOverPrivateProperty:
@@ -395,7 +395,7 @@ naming:
   InvalidPackageDeclaration:
     active: true
     # TODO: Update this with your project's base package
-    rootPackage: 'template'
+    rootPackage: 'de.notjansel.sbbot'
 
   MatchingDeclarationName:
     active: true

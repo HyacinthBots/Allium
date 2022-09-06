@@ -11,7 +11,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt")
 }
 
-group = "template"
+group = "SkyblockBot"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -45,7 +45,7 @@ dependencies {
 
 application {
     // This is deprecated, but the Shadow plugin requires it
-    mainClassName = "template.AppKt"
+    mainClassName = "de.notjansel.sbbot.AppKt"
 }
 
 gitHooks {
@@ -56,7 +56,7 @@ gitHooks {
 
 tasks.withType<KotlinCompile> {
     // Current LTS version of Java
-    kotlinOptions.jvmTarget = "11"
+    kotlinOptions.jvmTarget = "17"
 
     kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
 }
@@ -64,18 +64,19 @@ tasks.withType<KotlinCompile> {
 tasks.jar {
     manifest {
         attributes(
-            "Main-Class" to "template.AppKt"
+            "Main-Class" to "de.notjansel.sbbot.AppKt"
         )
     }
 }
 
 java {
     // Current LTS version of Java
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 detekt {
     buildUponDefaultConfig = true
+    autoCorrect = true
     config = rootProject.files("detekt.yml")
 }
