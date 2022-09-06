@@ -1,0 +1,20 @@
+[versions]
+detekt = "1.19.0"  # Note: Plugin versions must be updated in the settings.gradle.kts too
+kotlin = "1.6.10"  # Note: Plugin versions must be updated in the settings.gradle.kts too
+
+groovy = "3.0.8"
+jansi = "2.4.0"
+kord-extensions = "1.5.2-RC1"
+kx-ser = "1.3.2"
+logging = "2.1.21"
+logback = "1.2.5"
+
+[libraries]
+detekt = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+groovy = { module = "org.codehaus.groovy:groovy", version.ref = "groovy" }
+jansi = { module = "org.fusesource.jansi:jansi", version.ref = "jansi" }
+kord-extensions = { module = "com.kotlindiscord.kord.extensions:kord-extensions", version.ref = "kord-extensions" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+logging = { module = "io.github.microutils:kotlin-logging", version.ref = "logging" }
+kx-ser = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kx-ser" }

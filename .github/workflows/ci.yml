@@ -1,0 +1,39 @@
+name: Build (CI)
+
+on:
+  push:
+    branches-ignore:
+      - root
+      - develop
+
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Set up Java
+        uses: actions/setup-java@v1
+
+        with:
+          java-version: 1.11
+
+      - name: Gradle (Build)
+        run: sh gradlew build
+
+      - name: Upload artifacts (Main JAR)
+        uses: actions/upload-artifact@v2
+
+        with:
+          name: Main JAR
+          path: build/libs/*-all.jar
+
+      - name: Upload artifacts (JARs)
+        uses: actions/upload-artifact@v2
+
+        with:
+          name: JARs
+          path: build/libs/*.jar
