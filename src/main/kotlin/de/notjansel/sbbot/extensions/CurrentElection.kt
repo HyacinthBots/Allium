@@ -33,6 +33,7 @@ class CurrentElection : Extension() {
                 embed.title = "Current Election"
 
                 respond {
+                    content = "Test"
                 }
             }
         }
