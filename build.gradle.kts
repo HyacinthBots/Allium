@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "de.notjansel.sbbot"
-version = "1.0-SNAPSHOT"
+version = "0.0.1a"
 
 repositories {
     google()
@@ -71,8 +71,8 @@ tasks.jar {
 
 java {
     // Current LTS version of Java
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
 }
 
 detekt {

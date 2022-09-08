@@ -2,6 +2,8 @@ package de.notjansel.sbbot.extensions
 
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
+import com.kotlindiscord.kord.extensions.pagination.builders.PaginatorBuilder
+import com.kotlindiscord.kord.extensions.pagination.pages.Page
 import com.kotlindiscord.kord.extensions.types.respond
 import de.notjansel.sbbot.TEST_SERVER_ID
 import dev.kord.rest.builder.message.EmbedBuilder
@@ -31,9 +33,18 @@ class CurrentElection : Extension() {
                 val json = Json.parseToJsonElement(response.body())
                 val embed: EmbedBuilder = EmbedBuilder()
                 embed.title = "Current Election"
-
+                embed.description = "Here are the current Election Candidates and their Perks:"
+                embed.field("Mayor 1", true) { "List Perks of Mayor 1 here" }
+                embed.field("Mayor 2", true) { "List Perks of Mayor 2 here" }
+                embed.field("Mayor 3", true) { "List Perks of Mayor 3 here" }
+                embed.field("Mayor 4", true) { "List Perks of Mayor 4 here" }
+                embed.field("Mayor 5", true) { "List Perks of Mayor 5 here" }
+                // first tries of a paginator, need to read docs for this.
+                var paginatorBuilder: PaginatorBuilder = PaginatorBuilder()
+                val mayor1: Page = Page("", (suspend { EmbedBuilder })
+                paginatorBuilder.pages.addPage(mayor1)
                 respond {
-                    content = "Test"
+                    embeds.add(embed)
                 }
             }
         }
