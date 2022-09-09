@@ -16,7 +16,7 @@ class Startup : Extension() {
         event<ReadyEvent> {
             action {
                 var online_log = kord.getGuild(TEST_SERVER_ID)?.getChannelOf<TextChannel>(Snowflake(1013046925051834458))
-                online_log?.createMessage("<@472820304801038342> stinkt. oh, und ich bin jetzt online.")
+                online_log?.createMessage("Bot Online")
             }
         }
     }
