@@ -15,8 +15,8 @@ class Startup : Extension() {
     override suspend fun setup() {
         event<ReadyEvent> {
             action {
-                var online_log = kord.getGuild(TEST_SERVER_ID)?.getChannelOf<TextChannel>(Snowflake(1013046925051834458))
-                online_log?.createMessage("Bot Online")
+                val onlineLog = kord.getGuild(TEST_SERVER_ID)?.getChannelOf<TextChannel>(Snowflake(1013046925051834458))
+                onlineLog?.createMessage("Bot Online")
             }
         }
     }
