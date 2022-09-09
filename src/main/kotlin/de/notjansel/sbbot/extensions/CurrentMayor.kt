@@ -16,7 +16,7 @@ import java.net.http.HttpResponse
 
 @OptIn(KordPreview::class)
 class CurrentMayor : Extension() {
-    override val name = "mayor"
+    override val name = "current"
 
     override suspend fun setup() {
         publicSlashCommand() {
