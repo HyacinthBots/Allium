@@ -37,6 +37,8 @@ class CurrentElection : Extension() {
                     }
                     return@action
                 }
+                val formattedjson = Json.parseToJsonElement(json.toString().replace(Regex("§[0-9a-fA-Fk-oK-OrR]"), ""))
+                println(formattedjson)
                 val embed: EmbedBuilder = EmbedBuilder()
                 embed.title = "Current Election"
                 embed.description = "Here are the current Election Candidates and their Perks:"
