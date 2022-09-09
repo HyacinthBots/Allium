@@ -1,14 +1,16 @@
 package de.notjansel.sbbot.extensions
 
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import de.notjansel.sbbot.TEST_SERVER_ID
 import dev.kord.common.annotation.KordPreview
+import dev.kord.rest.builder.message.EmbedBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.jsonObject
+import kotlinx.datetime.Instant
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -32,10 +34,19 @@ class CurrentMayor : Extension() {
                 val response = withContext(Dispatchers.IO) {
                     client.send(request, HttpResponse.BodyHandlers.ofString())
                 }
-                val json = Json.parseToJsonElement(response.body())
-                println(json)
+                val gson: JsonObject = JsonParser.parseString(response.body().replace(Regex("§[0-9a-fA-Fk-oK-OrR]"), "")).asJsonObject
+                val embed: EmbedBuilder = EmbedBuilder()
+                embed.title = "Current mayor: ${gson["mayor"].asJsonObject.get("name").toString().replace("\"", "")}"
+                embed.description = "The mayor's perks are listed below."
+                val footer: EmbedBuilder.Footer = EmbedBuilder.Footer()
+                footer.text = "Last Update: "
+                embed.footer = footer
+                embed.timestamp = Instant.fromEpochMilliseconds(gson["lastUpdated"].asLong)
+                for (perk in gson["mayor"].asJsonObject.getAsJsonArray("perks")) {
+                    embed.field(perk.asJsonObject.get("name").asString, true) { perk.asJsonObject.get("description").asString }
+                }
                 respond {
-                    content = json.jsonObject["mayor"]?.jsonObject?.get("name")?.toString()?.replace("\"", "")
+                    embeds.add(embed)
                 }
             }
         }

@@ -35,6 +35,7 @@ dependencies {
     implementation(libs.kord.extensions)
     implementation(libs.kotlin.stdlib)
     implementation(libs.kx.ser)
+    implementation(libs.gson)
 
     // Logging dependencies
     implementation(libs.groovy)
@@ -71,8 +72,8 @@ tasks.jar {
 
 java {
     // Current LTS version of Java
-    sourceCompatibility = JavaVersion.VERSION_16
-    targetCompatibility = JavaVersion.VERSION_16
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 detekt {

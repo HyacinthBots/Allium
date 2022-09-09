@@ -8,7 +8,6 @@ import com.kotlindiscord.kord.extensions.utils.env
 import de.notjansel.sbbot.extensions.CurrentElection
 import de.notjansel.sbbot.extensions.CurrentMayor
 import de.notjansel.sbbot.extensions.Startup
-import dev.kord.common.entity.PresenceStatus
 import dev.kord.common.entity.Snowflake
 import dev.kord.gateway.builder.PresenceBuilder
 
@@ -20,10 +19,6 @@ private val TOKEN = env("TOKEN")   // Get the bot' token from the env vars or a 
 val presenceBuilder: PresenceBuilder = PresenceBuilder()
 suspend fun main() {
     val bot = ExtensibleBot(TOKEN) {
-        presence {
-            status = PresenceStatus.Idle
-            streaming("your mom", "https://twitch.tv/notjansel")
-        }
         extensions {
             add(::CurrentMayor)
             add(::CurrentElection)
