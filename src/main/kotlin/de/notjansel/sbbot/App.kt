@@ -9,7 +9,6 @@ import de.notjansel.sbbot.extensions.CurrentElection
 import de.notjansel.sbbot.extensions.CurrentMayor
 import de.notjansel.sbbot.extensions.Startup
 import dev.kord.common.entity.Snowflake
-import dev.kord.gateway.builder.PresenceBuilder
 
 val TEST_SERVER_ID = Snowflake(
     env("TEST_SERVER").toLong()  // Get the test server ID from the env vars or a .env file
@@ -20,7 +19,6 @@ val TEST_SERVER_CHANNEL_ID = Snowflake(
 )
 
 private val TOKEN = env("TOKEN")   // Get the bot' token from the env vars or a .env file
-val presenceBuilder: PresenceBuilder = PresenceBuilder()
 suspend fun main() {
     val bot = ExtensibleBot(TOKEN) {
         extensions {
