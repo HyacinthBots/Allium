@@ -21,7 +21,7 @@ class CurrentElection : Extension() {
     override val name = "election"
 
     override suspend fun setup() {
-        publicSlashCommand() {
+        publicSlashCommand {
             name = "election"
             description = "Shows the current election"
             guild(TEST_SERVER_ID)

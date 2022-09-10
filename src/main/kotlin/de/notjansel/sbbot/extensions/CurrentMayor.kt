@@ -21,7 +21,7 @@ class CurrentMayor : Extension() {
     override val name = "current"
 
     override suspend fun setup() {
-        publicSlashCommand() {
+        publicSlashCommand {
             name = "current"
             description = "Get the current Mayor"
             val kord = this@CurrentMayor.kord
