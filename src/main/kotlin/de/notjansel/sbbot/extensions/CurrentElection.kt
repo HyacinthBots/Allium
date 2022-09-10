@@ -5,6 +5,7 @@ import com.google.gson.JsonParser
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
+import com.kotlindiscord.kord.extensions.types.respondEphemeral
 import de.notjansel.sbbot.TEST_SERVER_ID
 import dev.kord.rest.builder.message.EmbedBuilder
 import kotlinx.coroutines.Dispatchers
@@ -33,13 +34,13 @@ class CurrentElection : Extension() {
                 }
                 val gson: JsonObject = JsonParser.parseString(response.body().replace(Regex("§[0-9a-fA-Fk-oK-OrR]"), "")).asJsonObject
                 if (!gson["success"].asBoolean) {
-                    respond {
+                    respondEphemeral {
                         content = "There was a Hypixel API Error. Please try again later."
                     }
                     return@action
                 }
                 if (gson["current"].asJsonObject == null) {
-                    respond {
+                    respondEphemeral {
                         content = "There is no Election running."
                     }
                     return@action
