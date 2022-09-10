@@ -27,6 +27,5 @@ suspend fun main() {
             add(::Startup)
         }
     }
-
     bot.start()
 }

@@ -24,7 +24,6 @@ class CurrentMayor : Extension() {
         publicSlashCommand {
             name = "current"
             description = "Get the current Mayor"
-            val kord = this@CurrentMayor.kord
             guild(TEST_SERVER_ID)
             action {
                 val client = HttpClient.newBuilder().build()
