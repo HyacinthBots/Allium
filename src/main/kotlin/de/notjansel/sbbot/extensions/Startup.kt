@@ -20,7 +20,7 @@ class Startup : Extension() {
                 onlineLog?.createMessage("Bot Online")
                 kord.editPresence {
                     status = PresenceStatus.Online
-                    streaming("some skyblock", "https://twitch.tv/notjansel")
+                    streaming("some skyblock shenanigans", "https://twitch.tv/notjansel")
                 }
             }
         }

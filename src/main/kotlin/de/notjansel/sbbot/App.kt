@@ -15,7 +15,7 @@ val TEST_SERVER_ID = Snowflake(
 )
 
 val TEST_SERVER_CHANNEL_ID = Snowflake(
-    env("TEST_CHANNEL").toLong()
+    env("TEST_CHANNEL").toLong() // Get the test channel ID from the env vars or a .env file
 )
 
 private val TOKEN = env("TOKEN")   // Get the bot' token from the env vars or a .env file
