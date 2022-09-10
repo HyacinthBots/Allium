@@ -47,14 +47,18 @@ class CurrentElection : Extension() {
                 }
                 val embed: EmbedBuilder = EmbedBuilder()
                 embed.title = "Current Election"
+                var totalvotes = 0
                 embed.description = "Here are the current Election Candidates for year ${gson["current"].asJsonObject.get("year").asInt} and their Perks:"
+                for (mayor in gson["current"].asJsonObject.getAsJsonArray("candidates")) {
+                    totalvotes += mayor.asJsonObject["votes"].asInt
+                }
                 for (mayor in gson["current"].asJsonObject.getAsJsonArray("candidates")) {
                     var perks: String = ""
                     for (perk in mayor.asJsonObject.get("perks").asJsonArray) {
                         perks += perk.asJsonObject["name"].asString + "\n"
                         perks += "*" + perk.asJsonObject["description"].asString + "*\n\n"
                     }
-                    perks += "\n**Votes**: " + mayor.asJsonObject["votes"].asInt.toString()
+                    perks += "\n**Votes**: " + mayor.asJsonObject["votes"].asInt.toString() + " (${Math.round(mayor.asJsonObject["votes"].asInt.toDouble() / totalvotes.toDouble() * 100)}%)"
                     embed.field(mayor.asJsonObject.get("name").asString, true) { perks }
                 }
                 val footer: EmbedBuilder.Footer = EmbedBuilder.Footer()
