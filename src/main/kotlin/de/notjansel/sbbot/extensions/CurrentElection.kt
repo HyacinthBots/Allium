@@ -15,6 +15,7 @@ import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
+import kotlin.math.roundToInt
 
 class CurrentElection : Extension() {
     override val name = "election"
@@ -58,7 +59,7 @@ class CurrentElection : Extension() {
                         perks += perk.asJsonObject["name"].asString + "\n"
                         perks += "*" + perk.asJsonObject["description"].asString + "*\n\n"
                     }
-                    perks += "\n**Votes**: " + mayor.asJsonObject["votes"].asInt.toString() + " (${Math.round(mayor.asJsonObject["votes"].asInt.toDouble() / totalvotes.toDouble() * 100)}%)"
+                    perks += "\n**Votes**: " + mayor.asJsonObject["votes"].asInt.toString() + " (${(mayor.asJsonObject["votes"].asInt.toDouble() / totalvotes.toDouble() * 100).roundToInt()}%)"
                     embed.field(mayor.asJsonObject.get("name").asString, true) { perks }
                 }
                 val footer: EmbedBuilder.Footer = EmbedBuilder.Footer()
