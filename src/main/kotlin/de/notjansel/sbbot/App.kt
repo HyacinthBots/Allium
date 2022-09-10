@@ -15,6 +15,10 @@ val TEST_SERVER_ID = Snowflake(
     env("TEST_SERVER").toLong()  // Get the test server ID from the env vars or a .env file
 )
 
+val TEST_SERVER_CHANNEL_ID = Snowflake(
+    env("TEST_CHANNEL").toLong()
+)
+
 private val TOKEN = env("TOKEN")   // Get the bot' token from the env vars or a .env file
 val presenceBuilder: PresenceBuilder = PresenceBuilder()
 suspend fun main() {
