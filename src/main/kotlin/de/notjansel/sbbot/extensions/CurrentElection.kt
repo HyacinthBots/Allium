@@ -5,7 +5,6 @@ import com.google.gson.JsonParser
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
-import com.kotlindiscord.kord.extensions.types.respondEphemeral
 import de.notjansel.sbbot.TEST_SERVER_ID
 import dev.kord.rest.builder.message.EmbedBuilder
 import kotlinx.coroutines.Dispatchers
@@ -35,14 +34,21 @@ class CurrentElection : Extension() {
                 }
                 val gson: JsonObject = JsonParser.parseString(response.body().replace(Regex("§[0-9a-fA-Fk-oK-OrR]"), "")).asJsonObject
                 if (!gson["success"].asBoolean) {
-                    respondEphemeral {
+                    respond {
                         content = "There was a Hypixel API Error. Please try again later."
                     }
                     return@action
                 }
-                if (gson["current"].asJsonObject == null) {
-                    respondEphemeral {
-                        content = "There is no Election running."
+                if (gson["current"] == null) {
+                    val embed: EmbedBuilder = EmbedBuilder()
+                    embed.title = "Current Election"
+                    embed.description = "There is no Election running."
+                    val footer: EmbedBuilder.Footer = EmbedBuilder.Footer()
+                    footer.text = "Last Update: "
+                    embed.footer = footer
+                    embed.timestamp = Instant.fromEpochMilliseconds(gson["lastUpdated"].asLong)
+                    respond {
+                        embeds.add(embed)
                     }
                     return@action
                 }
