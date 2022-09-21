@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "de.notjansel.sbbot"
-version = "0.1.2-build.6"
+version = "0.1.2-build.8"
 
 repositories {
     google()
