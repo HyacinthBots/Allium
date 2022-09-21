@@ -13,6 +13,8 @@ if (environment == "dev") {
     logger("io.ktor.util.random", ERROR)
 }
 
+
+
 appender("CONSOLE", ConsoleAppender) {
     encoder(PatternLayoutEncoder) {
         pattern = "%boldGreen(%d{yyyy-MM-dd}) %boldYellow(%d{HH:mm:ss}) %gray(|) %highlight(%5level) %gray(|) %boldMagenta(%40.40logger{40}) %gray(|) %msg%n"

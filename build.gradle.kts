@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "de.notjansel.sbbot"
-version = "0.1.0a"
+version = "0.1.2-build.6"
 
 repositories {
     google()
@@ -59,7 +59,7 @@ tasks.withType<KotlinCompile> {
     // Current LTS version of Java
     kotlinOptions.jvmTarget = "17"
 
-    kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+    kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
 }
 
 tasks.jar {
