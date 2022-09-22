@@ -13,9 +13,9 @@ plugins {
 
 group = "de.notjansel.sbbot"
 version = if (System.getenv("CI") == "true") {
-    "0.1.2-build.${System.getenv("GITHUB_RUN_NUMBER")}"
+    "0.1.3-build.${System.getenv("GITHUB_RUN_NUMBER")}"
 } else {
-    "0.1.2-build.local"
+    "0.1.3-build.local"
 }
 
 
