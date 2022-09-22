@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-java@v1
 
         with:
-          java-version: 1.11
+          java-version: 17
 
       - name: Gradle (Build)
         run: sh gradlew build
@@ -26,12 +26,5 @@ jobs:
         uses: actions/upload-artifact@v2
 
         with:
-          name: Main JAR
+          name: Main JAR-File
           path: build/libs/*-all.jar
-
-      - name: Upload artifacts (JARs)
-        uses: actions/upload-artifact@v2
-
-        with:
-          name: JARs
-          path: build/libs/*.jar
