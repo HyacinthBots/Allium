@@ -5,8 +5,7 @@ package de.notjansel.sbbot
 
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.utils.env
-import de.notjansel.sbbot.extensions.CurrentElection
-import de.notjansel.sbbot.extensions.CurrentMayor
+import de.notjansel.sbbot.extensions.Mayor
 import de.notjansel.sbbot.extensions.Startup
 import dev.kord.common.entity.Snowflake
 
@@ -22,8 +21,7 @@ private val TOKEN = env("TOKEN")   // Get the bot' token from the env vars or a 
 suspend fun main() {
     val bot = ExtensibleBot(TOKEN) {
         extensions {
-            add(::CurrentMayor)
-            add(::CurrentElection)
+            add(::Mayor)
             add(::Startup)
         }
     }
