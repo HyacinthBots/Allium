@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "de.notjansel.sbbot"
-version = "0.1.2-build.8"
+version = "0.1.2-build.${System.getenv("GITHUB_RUN_NUMBER")}"
 
 repositories {
     google()
