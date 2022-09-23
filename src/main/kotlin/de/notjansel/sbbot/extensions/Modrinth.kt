@@ -27,7 +27,7 @@ class Modrinth : Extension() {
                         respond { content = "No query was given, aborting search." }
                         return@action
                     }
-                    val request = WebRequest(url)
+                    val request = webRequest(url)
                     if (request.statusCode() == 404) {
                         respond { content = "No user found under query ${arguments.query}." }
                     }

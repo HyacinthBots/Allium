@@ -7,7 +7,7 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
-suspend inline fun WebRequest(url: String): HttpResponse<String> {
+suspend inline fun webRequest(url: String): HttpResponse<String> {
     val client = HttpClient.newBuilder().build()
     val request = HttpRequest.newBuilder()
         .uri(URI(url))
