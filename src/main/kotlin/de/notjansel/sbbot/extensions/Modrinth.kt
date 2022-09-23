@@ -1,9 +1,16 @@
 package de.notjansel.sbbot.extensions
 
+import com.google.gson.JsonParser
+import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.slash.publicSubCommand
+import com.kotlindiscord.kord.extensions.commands.converters.impl.defaultingInt
+import com.kotlindiscord.kord.extensions.commands.converters.impl.defaultingString
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
-import java.net.URL
+import com.kotlindiscord.kord.extensions.types.respond
+import com.kotlindiscord.kord.extensions.types.respondEphemeral
+import de.notjansel.sbbot.utils.*
+import dev.kord.rest.builder.message.create.embed
 
 class Modrinth : Extension() {
     override val name = "modrinth"
@@ -11,30 +18,81 @@ class Modrinth : Extension() {
         publicSlashCommand {
             name = "modrinth"
             description = "modrinth related commands"
-            publicSubCommand {
+            publicSubCommand(::ModrinthSearchQuery) {
                 name = "user"
                 description = "Search for a User"
                 action {
-                    val query: String // get the query arg
-                    val url: URL = URL("https://api.modrinth.com/")
+                    val url: String = "https://api.modrinth.com/v2/user/${arguments.query}"
+                    if (arguments.query == "") {
+                        respond { content = "No query was given, aborting search." }
+                        return@action
+                    }
+                    val request = WebRequest(url)
+                    if (request.statusCode() == 404) {
+                        respond { content = "No user found under query ${arguments.query}." }
+                    }
+                    val user = JsonParser.parseString(request.body()).asJsonObject
+                    respond {
+                        embed {
+                            title = user["name"].asString
+                            description = user["bio"].asString
+                            thumbnail {
+                                this.url = user["avatar_url"].asString
+                            }
+                        }
+                    }
                 }
             }
-            publicSubCommand {
-                name = "mod"
-                description = "Search for a mod"
+            publicSubCommand(::ModrinthSearchQuery) {
+                name = "project"
+                description = "Search for a mod/plugin"
+                action {
+                    val url: String = "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:mod%22]]&query=${arguments.query}"
+                    if (arguments.query == "") {
+                        respond { content = "No query was given, aborting search." }
+                        return@action
+                    }
+                    respondEphemeral { content = "Not implemented yet." }
+                }
             }
-            publicSubCommand {
-                name = "plugin"
-                description = "Search for a plugin"
-            }
-            publicSubCommand {
+            publicSubCommand(::ModrinthSearchQuery) {
                 name = "resourcepack"
                 description = "Search for a resource pack"
+                action {
+                    val url: String = "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:resourcepack%22]]&query=${arguments.query}"
+                    if (arguments.query == "") {
+                        respond { content = "No query was given, aborting search." }
+                        return@action
+                    }
+                    respondEphemeral { content = "Not implemented yet." }
+                }
             }
-            publicSubCommand {
+            publicSubCommand(::ModrinthSearchQuery) {
                 name = "modpack"
                 description = "Search for a Modpack"
+                action {
+                    val url: String = "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:modpack%22]]&query=${arguments.query}"
+                    if (arguments.query == "") {
+                        respond { content = "No query was given, aborting search." }
+                        return@action
+                    }
+                    respondEphemeral { content = "Not implemented yet." }
+                }
             }
+        }
+    }
+    inner class ModrinthSearchQuery : Arguments() {
+        val query by defaultingString {
+            name = "query"
+            description = "Query to search"
+            defaultValue = ""
+            require(true)
+        }
+        val limit by defaultingInt {
+            name = "limit"
+            description = "limit search results"
+            defaultValue = 5
+            require(false)
         }
     }
 }
