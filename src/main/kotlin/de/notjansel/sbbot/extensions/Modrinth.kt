@@ -9,6 +9,7 @@ import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.types.respondEphemeral
+import de.notjansel.sbbot.TEST_SERVER_ID
 import de.notjansel.sbbot.utils.*
 import dev.kord.rest.builder.message.create.embed
 
@@ -18,6 +19,7 @@ class Modrinth : Extension() {
         publicSlashCommand {
             name = "modrinth"
             description = "modrinth related commands"
+            guild(TEST_SERVER_ID)
             publicSubCommand(::ModrinthSearchQuery) {
                 name = "user"
                 description = "Search for a User"
