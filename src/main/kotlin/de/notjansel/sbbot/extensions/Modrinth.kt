@@ -92,13 +92,11 @@ class Modrinth : Extension() {
             name = "query"
             description = "Query to search"
             defaultValue = ""
-            require(true)
         }
         val limit by defaultingInt {
             name = "limit"
             description = "limit search results"
             defaultValue = 5
-            require(false)
         }
     }
 }

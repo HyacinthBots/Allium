@@ -9,6 +9,7 @@ import dev.kord.common.entity.PresenceStatus
 import dev.kord.core.behavior.getChannelOf
 import dev.kord.core.entity.channel.TextChannel
 import dev.kord.core.event.gateway.ReadyEvent
+import dev.kord.core.kordLogger
 
 @OptIn(KordPreview::class)
 class Startup : Extension() {
@@ -23,6 +24,9 @@ class Startup : Extension() {
                     streaming("some skyblock shenanigans", "https://twitch.tv/notjansel")
                 }
             }
+        }
+        event<dev.kord.core.event.gateway.DisconnectEvent> {
+            action { kordLogger.info("Bot Disconnected.") }
         }
     }
 }
