@@ -23,6 +23,7 @@ class Modrinth : Extension() {
             publicSubCommand(::ModrinthSearchQuery) {
                 name = "user"
                 description = "Search for a User"
+                guild(TEST_SERVER_ID)
                 action {
                     val url: String = "https://api.modrinth.com/v2/user/${arguments.query}"
                     if (arguments.query == "") {
@@ -48,6 +49,7 @@ class Modrinth : Extension() {
             publicSubCommand(::ModrinthSearchQuery) {
                 name = "project"
                 description = "Search for a mod/plugin"
+                guild(TEST_SERVER_ID)
                 action {
                     val url: String = "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:mod%22]]&query=${arguments.query}"
                     if (arguments.query == "") {
@@ -60,6 +62,7 @@ class Modrinth : Extension() {
             publicSubCommand(::ModrinthSearchQuery) {
                 name = "resourcepack"
                 description = "Search for a resource pack"
+                guild(TEST_SERVER_ID)
                 action {
                     val url: String = "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:resourcepack%22]]&query=${arguments.query}"
                     if (arguments.query == "") {
@@ -72,6 +75,7 @@ class Modrinth : Extension() {
             publicSubCommand(::ModrinthSearchQuery) {
                 name = "modpack"
                 description = "Search for a Modpack"
+                guild(TEST_SERVER_ID)
                 action {
                     val url: String = "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:modpack%22]]&query=${arguments.query}"
                     if (arguments.query == "") {
