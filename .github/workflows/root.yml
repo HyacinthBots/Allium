@@ -32,15 +32,11 @@ jobs:
           mkdir -p ~/.ssh/
           echo "$SSH_PRIVATE_KEY" > ../private.key
           sudo chmod 600 ../private.key
-          host='paulsnextcloud.ddns.net'
-          hosts="$(dig +short "$host" | grep -v '\.$' | sed -z 's|\n|,|g')$host"
-          ssh-keyscan -H "$hosts" > ~/.ssh/known_hosts
         shell: bash
         env:
           SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
-          SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
           SSH_KEY_PATH: ${{ github.workspace }}/../private.key
 
       - name: Upload to Dev Server
-        run: scp -i ./../private.key -P 727 ./build/libs/*-all.jar jansel@paulsnextcloud.ddns.net:/home/jansel/sbbot-beta
+        run: scp -i $SSH_KEY_PATH -P 727 ./build/libs/*-all.jar jansel@paulsnextcloud.ddns.net:/home/jansel/sbbot-beta
         shell: bash
