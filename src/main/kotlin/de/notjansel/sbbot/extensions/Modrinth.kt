@@ -20,13 +20,13 @@ class Modrinth : Extension() {
             name = "modrinth"
             description = "modrinth related commands"
             guild(TEST_SERVER_ID)
-            publicSubCommand(::ModrinthSearchQuery) {
+            publicSubCommand(::UserSearchQuery) {
                 name = "user"
                 description = "Search for a User"
                 guild(TEST_SERVER_ID)
                 action {
                     val url: String = "https://api.modrinth.com/v2/user/${arguments.query}"
-                    if (arguments.query == "") {
+                    if (arguments.query ==  "") {
                         respond { content = "No query was given, aborting search." }
                         return@action
                     }
@@ -97,6 +97,13 @@ class Modrinth : Extension() {
             name = "limit"
             description = "limit search results"
             defaultValue = 5
+        }
+    }
+    inner class UserSearchQuery : Arguments() {
+        val query by defaultingString {
+            name = "query"
+            description = "User to search up"
+            require(true)
         }
     }
 }
