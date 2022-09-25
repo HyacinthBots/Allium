@@ -10,12 +10,9 @@ import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.types.respondEphemeral
-import com.kotlindiscord.kord.extensions.types.respondingPaginator
 import de.notjansel.sbbot.TEST_SERVER_ID
 import de.notjansel.sbbot.utils.*
 import dev.kord.rest.builder.message.create.embed
-import java.util.*
-import kotlin.time.Duration
 import kotlin.time.Duration.Companion.parseIsoString
 
 class Modrinth : Extension() {
@@ -81,7 +78,7 @@ class Modrinth : Extension() {
                                 }
                                 this.description = hit["description"].asString
                                 field("Latest Version", true) { hit["latest_version"].asInt.toString() }
-                                field("Client/Server Side", true) {"Client: ${hit["client_side"]}\nServer: ${hit["server_side"]}"}
+                                field("Client/Server Side", true) { "Client: ${hit["client_side"]}\nServer: ${hit["server_side"]}" }
                                 field("Downloads", true) { hit["downloads"].asString }
                                 field("Author", true) { hit["author"].asString }
                                 field("Last Update", true) { "<t:${parseIsoString(hit["date_modified"].asString).inWholeSeconds}>" }
@@ -94,7 +91,6 @@ class Modrinth : Extension() {
                         return@action
                     }
                     respondEphemeral { content = "Paginator not implemented yet." }
-
                 }
             }
             publicSubCommand(::ModrinthSearchQuery) {
