@@ -77,7 +77,7 @@ class Modrinth : Extension() {
                                     this.url = hit["icon_url"].asString
                                 }
                                 this.description = hit["description"].asString
-                                field("Latest Version", true) { hit["latest_version"].asInt.toString() }
+                                field("Latest Version", true) { hit["latest_version"].asString }
                                 field("Client/Server Side", true) { "Client: ${hit["client_side"]}\nServer: ${hit["server_side"]}" }
                                 field("Downloads", true) { hit["downloads"].asString }
                                 field("Author", true) { hit["author"].asString }
