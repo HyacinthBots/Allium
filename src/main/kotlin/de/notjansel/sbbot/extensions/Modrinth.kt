@@ -13,7 +13,6 @@ import com.kotlindiscord.kord.extensions.types.respondEphemeral
 import de.notjansel.sbbot.TEST_SERVER_ID
 import de.notjansel.sbbot.utils.*
 import dev.kord.rest.builder.message.create.embed
-import kotlin.time.Duration.Companion.parseIsoString
 
 class Modrinth : Extension() {
     override val name = "modrinth"
@@ -81,7 +80,7 @@ class Modrinth : Extension() {
                                 field("Client/Server Side", true) { "Client: ${hit["client_side"]}\nServer: ${hit["server_side"]}" }
                                 field("Downloads", true) { hit["downloads"].asString }
                                 field("Author", true) { hit["author"].asString }
-                                field("Last Update", true) { "<t:${parseIsoString(hit["date_modified"].asString).inWholeSeconds}>" }
+                                // field("Last Update", true) { "<t:${parseIsoString(hit["date_modified"].asString).inWholeSeconds}>" }
                                 field("License", true) { hit["license"].asString }
                                 footer {
                                     this.text = "Modrinth | ${hit["author"]}"
