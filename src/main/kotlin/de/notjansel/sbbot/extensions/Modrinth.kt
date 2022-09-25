@@ -71,7 +71,7 @@ class Modrinth : Extension() {
                         val hit = hits.get(0).asJsonObject
                         respond {
                             embed {
-                                this.title = hit["name"].asString
+                                this.title = hit["title"].asString
                                 this.url = "https://modrinth.com/mod/${hit["slug"]}"
                                 thumbnail {
                                     this.url = hit["icon_url"].asString
