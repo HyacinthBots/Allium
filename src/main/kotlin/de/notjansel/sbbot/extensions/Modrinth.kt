@@ -1,5 +1,6 @@
 package de.notjansel.sbbot.extensions
 
+import com.google.gson.JsonArray
 import com.google.gson.JsonParser
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.slash.publicSubCommand
@@ -9,9 +10,13 @@ import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.types.respondEphemeral
+import com.kotlindiscord.kord.extensions.types.respondingPaginator
 import de.notjansel.sbbot.TEST_SERVER_ID
 import de.notjansel.sbbot.utils.*
 import dev.kord.rest.builder.message.create.embed
+import java.util.*
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.parseIsoString
 
 class Modrinth : Extension() {
     override val name = "modrinth"
@@ -25,7 +30,7 @@ class Modrinth : Extension() {
                 description = "Search for a User"
                 guild(TEST_SERVER_ID)
                 action {
-                    val url: String = "https://api.modrinth.com/v2/user/${arguments.query}"
+                    val url = "https://api.modrinth.com/v2/user/${arguments.query}"
                     if (arguments.query ==  "") {
                         respond { content = "No query was given, aborting search." }
                         return@action
@@ -51,12 +56,45 @@ class Modrinth : Extension() {
                 description = "Search for a mod/plugin"
                 guild(TEST_SERVER_ID)
                 action {
-                    val url: String = "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:mod%22]]&query=${arguments.query}"
+                    val url = "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:mod%22]]&query=${arguments.query}"
                     if (arguments.query == "") {
                         respond { content = "No query was given, aborting search." }
                         return@action
                     }
-                    respondEphemeral { content = "Not implemented yet." }
+                    val request = webRequest(url)
+                    val response = JsonParser.parseString(request.body()).asJsonObject
+                    val hits: JsonArray = response["hits"].asJsonArray
+                    if (hits.isEmpty) {
+                        respond {
+                            content = "No results found."
+                        }
+                        return@action
+                    }
+                    if (response["total_hits"].asInt == 1) {
+                        val hit = hits.get(0).asJsonObject
+                        respond {
+                            embed {
+                                this.title = hit["name"].asString
+                                this.url = "https://modrinth.com/mod/${hit["slug"]}"
+                                thumbnail {
+                                    this.url = hit["icon_url"].asString
+                                }
+                                this.description = hit["description"].asString
+                                field("Latest Version", true) { hit["latest_version"].asInt.toString() }
+                                field("Client/Server Side", true) {"Client: ${hit["client_side"]}\nServer: ${hit["server_side"]}"}
+                                field("Downloads", true) { hit["downloads"].asString }
+                                field("Author", true) { hit["author"].asString }
+                                field("Last Update", true) { "<t:${parseIsoString(hit["date_modified"].asString).inWholeSeconds}>" }
+                                field("License", true) { hit["license"].asString }
+                                footer {
+                                    this.text = "Modrinth | ${hit["author"]}"
+                                }
+                            }
+                        }
+                        return@action
+                    }
+                    respondEphemeral { content = "Paginator not implemented yet." }
+
                 }
             }
             publicSubCommand(::ModrinthSearchQuery) {
@@ -64,7 +102,7 @@ class Modrinth : Extension() {
                 description = "Search for a resource pack"
                 guild(TEST_SERVER_ID)
                 action {
-                    val url: String = "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:resourcepack%22]]&query=${arguments.query}"
+                    val url = "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:resourcepack%22]]&query=${arguments.query}"
                     if (arguments.query == "") {
                         respond { content = "No query was given, aborting search." }
                         return@action
@@ -77,7 +115,7 @@ class Modrinth : Extension() {
                 description = "Search for a Modpack"
                 guild(TEST_SERVER_ID)
                 action {
-                    val url: String = "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:modpack%22]]&query=${arguments.query}"
+                    val url = "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:modpack%22]]&query=${arguments.query}"
                     if (arguments.query == "") {
                         respond { content = "No query was given, aborting search." }
                         return@action

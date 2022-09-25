@@ -99,7 +99,7 @@ class Mayor : Extension() {
                             perks += perk.asJsonObject["name"].asString + "\n"
                             perks += "*" + perk.asJsonObject["description"].asString + "*\n\n"
                         }
-                        perks += "\n**Votes**: " + mayor.asJsonObject["votes"].asInt.toString() + " (${(mayor.asJsonObject["votes"].asInt.toDouble() / totalvotes.toDouble() * 100).roundToInt()}%)"
+                        perks += "\n**Votes**: ${mayor.asJsonObject["votes"].asInt.toString()} (${(mayor.asJsonObject["votes"].asInt.toDouble() / totalvotes.toDouble() * 100).roundToInt()}%)"
                         embed.field(mayor.asJsonObject.get("name").asString, true) { perks }
                     }
                     val footer: EmbedBuilder.Footer = EmbedBuilder.Footer()
