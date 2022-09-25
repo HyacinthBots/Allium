@@ -137,6 +137,7 @@ class Modrinth : Extension() {
         val query by defaultingString {
             name = "query"
             description = "User to search up"
+            defaultValue = ""
             require(true)
         }
     }
