@@ -6,12 +6,20 @@ import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.slash.publicSubCommand
 import com.kotlindiscord.kord.extensions.commands.converters.impl.defaultingInt
 import com.kotlindiscord.kord.extensions.commands.converters.impl.defaultingString
+import com.kotlindiscord.kord.extensions.components.components
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.types.respondEphemeral
 import de.notjansel.sbbot.TEST_SERVER_ID
 import de.notjansel.sbbot.utils.*
+import dev.kord.common.entity.ButtonStyle
+import dev.kord.common.entity.ComponentType
+import dev.kord.core.cache.data.ChatComponentData
+import dev.kord.core.entity.component.ButtonComponent
+import dev.kord.core.entity.component.Component
+import dev.kord.rest.builder.component.ButtonBuilder
+import dev.kord.rest.builder.component.MessageComponentBuilder
 import dev.kord.rest.builder.message.create.embed
 
 class Modrinth : Extension() {
@@ -19,8 +27,28 @@ class Modrinth : Extension() {
     override suspend fun setup() {
         publicSlashCommand {
             name = "modrinth"
-            description = "modrinth related commands"
+            description = "What is Modrinth?"
             guild(TEST_SERVER_ID)
+            action {
+                respond {
+                    embed {
+                        title = "What is Modrinth?"
+                        description = """
+                            Modrinth is a relatively new modding platform where you can publish 
+                            your mods. It gained alot of popularity in the last year, especially 
+                            in the **Open Source Fabric Modding Community**. A notible modder, 
+                            who published releases to Modrinth was Jellysquid, author of Sodium, 
+                            Lithium and Phosphor, 3 of the most popular fabric mods to date.
+                            Modrinth itself gained a great userbase even because it is more
+                            friendly and appealing in general in comparison to CurseForge.
+                            Although you may miss the creator Payouts right now, they are
+                            actively working to get things, asked by the community, done for
+                            the community. Notable user-requested features were the ability
+                            to upload plugins, resource packs and modpacks
+                        """.trimIndent()
+                    }
+                }
+            }
             publicSubCommand(::UserSearchQuery) {
                 name = "user"
                 description = "Search for a User"
