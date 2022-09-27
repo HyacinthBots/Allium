@@ -41,6 +41,8 @@ class About : Extension() {
                             name = "Source code"
                             value = "https://github.com/NotJansel/SkyblockBot"
                         }
+                    }
+                    embed {
                         field {
                             name = "About Jansel himself"
                             value = """
