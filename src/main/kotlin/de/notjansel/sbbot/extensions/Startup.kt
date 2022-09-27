@@ -18,10 +18,10 @@ class Startup : Extension() {
         event<ReadyEvent> {
             action {
                 val onlineLog = kord.getGuild(TEST_SERVER_ID)?.getChannelOf<TextChannel>(TEST_SERVER_CHANNEL_ID)
-                onlineLog?.createMessage("Bot Online")
+                onlineLog?.createMessage("Bot Online, current version: @version@")
                 kord.editPresence {
                     status = PresenceStatus.Online
-                    streaming("some skyblock shenanigans", "https://twitch.tv/notjansel")
+                    streaming("@version@", "https://twitch.tv/notjansel")
                 }
             }
         }
