@@ -42,30 +42,6 @@ class About : Extension() {
                             value = "https://github.com/NotJansel/SkyblockBot"
                         }
                     }
-                    embed {
-                        field {
-                            name = "About Jansel himself"
-                            value = """
-                                Jansel is a developer, who codes when he has time and taught everything
-                                mostly himself. Beginning in Spring 2020, when the lockdowns started to
-                                hit Germany, he decided to learn something he may need in the future: Coding.
-                                With this mindset he began to learn coding and found a first usecase:
-                                Using Methods to get unsupported games running on NVIDIA GeForce NOW.
-                                As a Early Access User of GNF, another Exploit, he quickly learned how
-                                the exploiting was done, and even what dangers it can bring. With that
-                                he continued his path for small over a year and a half, until he got a better GPU.
-                                And when that day came, he decided to turn his back to exploiting after
-                                one of his discord accounts was terminated in Winter 2020. Since he turned
-                                his back to exploiting, he did go on another path of things he liked:
-                                Minecraft. He played it alot, and I mean ALOT when his mental state was
-                                at the lowest of his lifetime and as time flew by, he eventually got back to 
-                                coding, but not exploiting. He realized what he could do with coding and decided
-                                to learn more languages than just C#. He turned his way to Java and Minecraft
-                                Plugin coding. That time was going on for about half a year, until he discovered
-                                Kotlin, the language he is now mainly using and in which this Bot is coded.
-                            """.trimIndent()
-                        }
-                    }
                 }
             }
         }
