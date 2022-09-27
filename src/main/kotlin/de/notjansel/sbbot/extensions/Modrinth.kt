@@ -14,6 +14,7 @@ import de.notjansel.sbbot.TEST_SERVER_ID
 import de.notjansel.sbbot.utils.*
 import dev.kord.common.annotation.KordPreview
 import dev.kord.rest.builder.message.create.embed
+import kotlinx.datetime.Instant
 
 @OptIn(KordPreview::class)
 class Modrinth : Extension() {
@@ -82,7 +83,7 @@ class Modrinth : Extension() {
                                 field("Client/Server Side", true) { "Client: ${hit["client_side"]}\nServer: ${hit["server_side"]}" }
                                 field("Downloads", true) { hit["downloads"].asString }
                                 field("Author", true) { hit["author"].asString }
-                                // field("Last Update", true) { "<t:${parseIsoString(hit["date_modified"].asString).inWholeSeconds}>" }
+                                field("Last Update", true) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
                                 field("License", true) { hit["license"].asString }
                                 footer {
                                     this.text = "Modrinth | ${hit["author"]}"
