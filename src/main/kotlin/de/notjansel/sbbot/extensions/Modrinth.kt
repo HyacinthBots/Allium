@@ -23,26 +23,6 @@ class Modrinth : Extension() {
             name = "modrinth"
             description = "What is Modrinth?"
             guild(TEST_SERVER_ID)
-            action {
-                respond {
-                    embed {
-                        title = "What is Modrinth?"
-                        description = """
-                            Modrinth is a relatively new modding platform where you can publish 
-                            your mods. It gained alot of popularity in the last year, especially 
-                            in the **Open Source Fabric Modding Community**. A notible modder, 
-                            who published releases to Modrinth was Jellysquid, author of Sodium, 
-                            Lithium and Phosphor, 3 of the most popular fabric mods to date.
-                            Modrinth itself gained a great userbase even because it is more
-                            friendly and appealing in general in comparison to CurseForge.
-                            Although you may miss the creator Payouts right now, they are
-                            actively working to get things, asked by the community, done for
-                            the community. Notable user-requested features were the ability
-                            to upload plugins, resource packs and modpacks
-                        """.trimIndent()
-                    }
-                }
-            }
             publicSubCommand(::UserSearchQuery) {
                 name = "user"
                 description = "Search for a User"
