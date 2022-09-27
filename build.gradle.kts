@@ -9,6 +9,7 @@ plugins {
     id("com.github.jakemarsden.git-hooks")
     id("com.github.johnrengelman.shadow")
     id("io.gitlab.arturbosch.detekt")
+    id("net.kyori.blossom") version "1.3.1"
 }
 
 group = "de.notjansel.sbbot"
@@ -18,6 +19,9 @@ version = if (System.getenv("CI") == "true") {
     "0.1.3-build.local"
 }
 
+blossom {
+    replaceToken("@version@", version)
+}
 
 repositories {
     google()
@@ -42,6 +46,7 @@ dependencies {
     implementation(libs.kx.ser)
     implementation(libs.gson)
 
+
     // Logging dependencies
     implementation(libs.groovy)
     implementation(libs.jansi)
@@ -58,6 +63,10 @@ gitHooks {
     setHooks(
         mapOf("pre-commit" to "detekt")
     )
+}
+
+tasks.processResources {
+    inputs.property("version", version)
 }
 
 tasks.withType<KotlinCompile> {

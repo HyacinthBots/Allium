@@ -6,21 +6,13 @@ import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.slash.publicSubCommand
 import com.kotlindiscord.kord.extensions.commands.converters.impl.defaultingInt
 import com.kotlindiscord.kord.extensions.commands.converters.impl.defaultingString
-import com.kotlindiscord.kord.extensions.components.components
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.types.respondEphemeral
-import dev.kord.common.annotation.KordPreview
 import de.notjansel.sbbot.TEST_SERVER_ID
 import de.notjansel.sbbot.utils.*
-import dev.kord.common.entity.ButtonStyle
-import dev.kord.common.entity.ComponentType
-import dev.kord.core.cache.data.ChatComponentData
-import dev.kord.core.entity.component.ButtonComponent
-import dev.kord.core.entity.component.Component
-import dev.kord.rest.builder.component.ButtonBuilder
-import dev.kord.rest.builder.component.MessageComponentBuilder
+import dev.kord.common.annotation.KordPreview
 import dev.kord.rest.builder.message.create.embed
 
 @OptIn(KordPreview::class)

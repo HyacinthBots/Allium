@@ -5,9 +5,7 @@ package de.notjansel.sbbot
 
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.utils.env
-import de.notjansel.sbbot.extensions.Mayor
-import de.notjansel.sbbot.extensions.Modrinth
-import de.notjansel.sbbot.extensions.Startup
+import de.notjansel.sbbot.extensions.*
 import dev.kord.common.entity.Snowflake
 
 val TEST_SERVER_ID = Snowflake(
@@ -25,6 +23,8 @@ suspend fun main() {
             add(::Mayor)
             add(::Startup)
             add(::Modrinth)
+            add(::About)
+            add(::Build)
         }
     }
     bot.start()
