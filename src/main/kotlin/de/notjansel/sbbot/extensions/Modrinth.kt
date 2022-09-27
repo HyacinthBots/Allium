@@ -80,13 +80,13 @@ class Modrinth : Extension() {
                                 }
                                 this.description = hit["description"].asString
                                 field("Latest Version", true) { hit["latest_version"].asString }
-                                field("Client/Server Side", true) { "Client: ${hit["client_side"]}\nServer: ${hit["server_side"]}" }
+                                field("Client/Server Side", true) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
                                 field("Downloads", true) { hit["downloads"].asString }
                                 field("Author", true) { hit["author"].asString }
                                 field("Last Update", true) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
                                 field("License", true) { hit["license"].asString }
                                 footer {
-                                    this.text = "Modrinth | ${hit["author"]}"
+                                    this.text = "Modrinth | ${hit["author"].asString}"
                                 }
                             }
                         }
