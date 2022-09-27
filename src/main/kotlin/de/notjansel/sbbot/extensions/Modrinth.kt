@@ -11,6 +11,7 @@ import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.types.respondEphemeral
+import dev.kord.common.annotation.KordPreview
 import de.notjansel.sbbot.TEST_SERVER_ID
 import de.notjansel.sbbot.utils.*
 import dev.kord.common.entity.ButtonStyle
@@ -22,6 +23,7 @@ import dev.kord.rest.builder.component.ButtonBuilder
 import dev.kord.rest.builder.component.MessageComponentBuilder
 import dev.kord.rest.builder.message.create.embed
 
+@OptIn(KordPreview::class)
 class Modrinth : Extension() {
     override val name = "modrinth"
     override suspend fun setup() {
