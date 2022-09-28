@@ -76,7 +76,7 @@ class Modrinth : Extension() {
                         respond {
                             embed {
                                 this.title = hit["title"].asString
-                                this.url = "https://modrinth.com/mod/${hit["slug"]}"
+                                this.url = "https://modrinth.com/mod/${hit["slug"].asString}"
                                 thumbnail {
                                     this.url = hit["icon_url"].asString
                                 }
@@ -99,7 +99,7 @@ class Modrinth : Extension() {
                             val hit: JsonObject = hits.get(i).asJsonObject
                             page {
                                 this.title = hit["title"].asString
-                                this.url = "https://modrinth.com/mod/${hit["slug"]}"
+                                this.url = "https://modrinth.com/mod/${hit["slug"].asString}"
                                 thumbnail {
                                     this.url = hit["icon_url"].asString
                                 }
