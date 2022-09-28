@@ -115,7 +115,7 @@ class Modrinth : Extension() {
                                 }
                             }
                         }
-                    }
+                    }.send()
                 }
             }
             publicSubCommand(::ModrinthSearchQuery) {
