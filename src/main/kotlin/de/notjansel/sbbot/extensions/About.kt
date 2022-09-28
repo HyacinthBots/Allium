@@ -3,8 +3,8 @@ package de.notjansel.sbbot.extensions
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
-import dev.kord.rest.builder.message.create.embed
 import de.notjansel.sbbot.utils.*
+import dev.kord.rest.builder.message.create.embed
 
 class About : Extension() {
     override val name = "about"
@@ -44,7 +44,7 @@ class About : Extension() {
                         }
                         field {
                             name = "Build"
-                            value = getBuild()
+                            value = BUILD
                         }
                     }
                 }

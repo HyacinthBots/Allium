@@ -4,7 +4,7 @@ import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
 import de.notjansel.sbbot.TEST_SERVER_CHANNEL_ID
 import de.notjansel.sbbot.TEST_SERVER_ID
-import de.notjansel.sbbot.utils.getBuild
+import de.notjansel.sbbot.utils.*
 import dev.kord.common.annotation.KordPreview
 import dev.kord.common.entity.PresenceStatus
 import dev.kord.core.behavior.getChannelOf
@@ -19,10 +19,10 @@ class Startup : Extension() {
         event<ReadyEvent> {
             action {
                 val onlineLog = kord.getGuild(TEST_SERVER_ID)?.getChannelOf<TextChannel>(TEST_SERVER_CHANNEL_ID)
-                onlineLog?.createMessage("Bot Online, current version: ${getBuild()}")
+                onlineLog?.createMessage("Bot Online, current version: $BUILD")
                 kord.editPresence {
                     status = PresenceStatus.Online
-                    streaming(getBuild(), "https://twitch.tv/notjansel")
+                    streaming(BUILD, "https://twitch.tv/notjansel")
                 }
             }
         }

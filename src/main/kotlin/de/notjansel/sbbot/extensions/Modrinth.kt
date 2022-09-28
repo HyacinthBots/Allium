@@ -1,6 +1,7 @@
 package de.notjansel.sbbot.extensions
 
 import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.slash.publicSubCommand
@@ -10,6 +11,7 @@ import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.types.respondEphemeral
+import com.kotlindiscord.kord.extensions.types.respondingPaginator
 import de.notjansel.sbbot.TEST_SERVER_ID
 import de.notjansel.sbbot.utils.*
 import dev.kord.common.annotation.KordPreview
@@ -92,7 +94,28 @@ class Modrinth : Extension() {
                         }
                         return@action
                     }
-                    respondEphemeral { content = "Paginator not implemented yet." }
+                    respondingPaginator {
+                        for ((i, _) in hits.withIndex()) {
+                            val hit: JsonObject = hits.get(i).asJsonObject
+                            page {
+                                this.title = hit["title"].asString
+                                this.url = "https://modrinth.com/mod/${hit["slug"]}"
+                                thumbnail {
+                                    this.url = hit["icon_url"].asString
+                                }
+                                this.description = hit["description"].asString
+                                field("Latest Version", true) { hit["latest_version"].asString }
+                                field("Client/Server Side", true) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
+                                field("Downloads", true) { hit["downloads"].asString }
+                                field("Author", true) { hit["author"].asString }
+                                field("Last Update", true) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
+                                field("License", true) { hit["license"].asString }
+                                footer {
+                                    this.text = "Modrinth | ${hit["author"].asString}"
+                                }
+                            }
+                        }
+                    }
                 }
             }
             publicSubCommand(::ModrinthSearchQuery) {
