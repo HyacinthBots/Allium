@@ -4,6 +4,7 @@ import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import dev.kord.rest.builder.message.create.embed
+import de.notjansel.sbbot.utils.*
 
 class About : Extension() {
     override val name = "about"
@@ -40,6 +41,10 @@ class About : Extension() {
                         field {
                             name = "Source code"
                             value = "https://github.com/NotJansel/SkyblockBot"
+                        }
+                        field {
+                            name = "Build"
+                            value = getBuild()
                         }
                     }
                 }

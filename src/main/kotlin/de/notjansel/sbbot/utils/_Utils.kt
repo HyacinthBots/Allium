@@ -17,3 +17,7 @@ suspend inline fun webRequest(url: String): HttpResponse<String> {
     }
     return response
 }
+
+fun getBuild(): String {
+    return "@version@"
+}
