@@ -7,6 +7,7 @@ import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.utils.env
 import de.notjansel.sbbot.extensions.*
 import dev.kord.common.entity.Snowflake
+import java.util.*
 
 val TEST_SERVER_ID = Snowflake(
     env("TEST_SERVER").toLong()  // Get the test server ID from the env vars or a .env file
@@ -25,6 +26,9 @@ suspend fun main() {
             add(::Modrinth)
             add(::About)
             add(::Build)
+        }
+        i18n {
+            defaultLocale = Locale.ENGLISH
         }
     }
     bot.start()

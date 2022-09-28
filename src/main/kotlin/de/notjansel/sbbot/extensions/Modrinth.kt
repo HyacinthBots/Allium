@@ -17,6 +17,7 @@ import de.notjansel.sbbot.utils.*
 import dev.kord.common.annotation.KordPreview
 import dev.kord.rest.builder.message.create.embed
 import kotlinx.datetime.Instant
+import java.util.*
 
 @OptIn(KordPreview::class)
 class Modrinth : Extension() {
@@ -115,6 +116,8 @@ class Modrinth : Extension() {
                                 }
                             }
                         }
+                        timeoutSeconds = 60
+                        locale = Locale.ENGLISH
                     }.send()
                 }
             }
