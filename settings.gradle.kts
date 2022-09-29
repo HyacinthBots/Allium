@@ -2,7 +2,7 @@ pluginManagement {
     plugins {
         // Update this in libs.version.toml when you change it here
         kotlin("jvm") version "1.7.10"
-        kotlin("plugin.serialization") version "1.7.10"
+        kotlin("plugin.serialization") version "1.7.20"
 
         // Update this in libs.version.toml when you change it here
         id("io.gitlab.arturbosch.detekt") version "1.21.0"
