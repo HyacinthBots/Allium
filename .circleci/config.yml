@@ -41,11 +41,10 @@ jobs:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
+          
       - run: gradle build
           name: Build with Gradle
           command: ./gradlew build
       
       -store-artifacts:
           path: ~/repo/build/libs/*-all.jar
-          
-      
