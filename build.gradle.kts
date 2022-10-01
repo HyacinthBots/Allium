@@ -14,7 +14,7 @@ plugins {
 
 group = "de.notjansel.sbbot"
 version = if (System.getenv("CIRCLECI") == "true") {
-    "0.1.3-build.${System.getenv("CIRCLECI_BUILD_NUM")}"
+    "0.1.3-build.${System.getenv("CIRCLE_BUILD_NUM")}"
 } else {
     "0.1.3-build.local"
 }
