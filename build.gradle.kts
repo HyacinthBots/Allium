@@ -13,8 +13,8 @@ plugins {
 }
 
 group = "de.notjansel.sbbot"
-version = if (System.getenv("CI") == "true") {
-    "0.1.3-build.${System.getenv("GITHUB_RUN_NUMBER")}"
+version = if (System.getenv("CIRCLECI") == "true") {
+    "0.1.3-build.${System.getenv("CIRCLECI_BUILD_NUM")}"
 } else {
     "0.1.3-build.local"
 }

@@ -3,6 +3,7 @@
  */
 package de.notjansel.sbbot
 
+import com.kotlindiscord.kord.extensions.DISCORD_FUCHSIA
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.utils.env
 import de.notjansel.sbbot.extensions.*
@@ -26,6 +27,12 @@ suspend fun main() {
             add(::Modrinth)
             add(::About)
             add(::Build)
+            help {
+                color {
+                    DISCORD_FUCHSIA
+                }
+                pingInReply = false
+            }
         }
         i18n {
             defaultLocale = Locale.ENGLISH
