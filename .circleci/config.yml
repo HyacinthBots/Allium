@@ -42,7 +42,7 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
           
-      - run: gradle build
+      - run:
           name: Build with Gradle
           command: ./gradlew build
       
