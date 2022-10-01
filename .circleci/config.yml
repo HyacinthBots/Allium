@@ -51,4 +51,4 @@ jobs:
           command: ./gradlew build
       
       - store-artifacts:
-          path: ~/repo/build/libs/*-all.jar
+          path: ~/repo/build/libs/
