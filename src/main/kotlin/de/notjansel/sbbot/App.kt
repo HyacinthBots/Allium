@@ -22,7 +22,7 @@ private val TOKEN = env("TOKEN")   // Get the bot' token from the env vars or a 
 suspend fun main() {
     val bot = ExtensibleBot(TOKEN) {
         extensions {
-            add(::Mayor)
+            add(::Skyblock)
             add(::Startup)
             add(::Modrinth)
             add(::About)
