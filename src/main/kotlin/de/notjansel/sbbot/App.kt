@@ -32,6 +32,7 @@ suspend fun main() {
                     DISCORD_FUCHSIA
                 }
                 pingInReply = false
+                enableBundledExtension = true
             }
         }
         i18n {

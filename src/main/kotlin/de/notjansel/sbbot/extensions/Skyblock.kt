@@ -5,6 +5,7 @@ import com.google.gson.JsonParser
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.slash.converters.impl.defaultingStringChoice
 import com.kotlindiscord.kord.extensions.commands.application.slash.group
+import com.kotlindiscord.kord.extensions.commands.application.slash.publicSubCommand
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
@@ -19,16 +20,21 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import kotlin.math.roundToInt
 
+/**
+ * Skyblock-related Commands. Gone through couple rewrites.
+ * @author NotJansel
+ * @since 0.1.2
+ */
 class Skyblock : Extension() {
     override val name = "skyblock"
     override suspend fun setup() {
         publicSlashCommand {
             name = "skyblock"
             description = "Hypixel Skyblock related Commands"
+            guild(TEST_SERVER_ID)
             group("mayor") {
                 description = "mayor related commands!"
-                guild(TEST_SERVER_ID)
-                publicSlashCommand {
+                publicSubCommand {
                     name = "current"
                     description = "Get the current Mayor"
                     guild(TEST_SERVER_ID)
@@ -56,7 +62,7 @@ class Skyblock : Extension() {
                         }
                     }
                 }
-                publicSlashCommand {
+                publicSubCommand {
                     name = "election"
                     description = "Shows the current election"
                     guild(TEST_SERVER_ID)

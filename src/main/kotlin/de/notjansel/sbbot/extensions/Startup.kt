@@ -12,6 +12,12 @@ import dev.kord.core.entity.channel.TextChannel
 import dev.kord.core.event.gateway.ReadyEvent
 import dev.kord.core.kordLogger
 
+/**
+ * Startup Functions.
+ * @author NotJansel
+ * @since 0.1.2
+ */
+
 @OptIn(KordPreview::class)
 class Startup : Extension() {
     override val name = "startup"

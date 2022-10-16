@@ -13,11 +13,7 @@ plugins {
 }
 
 group = "de.notjansel.sbbot"
-version = if (System.getenv("CIRCLECI") == "true") {
-    "0.1.3-build.${System.getenv("CIRCLE_BUILD_NUM")}"
-} else {
-    "0.1.3-build.local"
-}
+version = "0.1.3-build.local"
 
 blossom {
     replaceToken("@version@", version)

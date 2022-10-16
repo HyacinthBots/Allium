@@ -6,6 +6,12 @@ import com.kotlindiscord.kord.extensions.types.respond
 import de.notjansel.sbbot.utils.*
 import dev.kord.rest.builder.message.create.embed
 
+/**
+ * About command.
+ * Written in pure boredom in school.
+ * @author NotJansel
+ * @since 0.1.3
+ */
 class About : Extension() {
     override val name = "about"
     override suspend fun setup() {

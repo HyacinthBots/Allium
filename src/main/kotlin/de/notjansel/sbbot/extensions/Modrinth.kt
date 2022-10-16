@@ -6,7 +6,7 @@ import com.google.gson.JsonParser
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.slash.publicSubCommand
 import com.kotlindiscord.kord.extensions.commands.converters.impl.defaultingInt
-import com.kotlindiscord.kord.extensions.commands.converters.impl.defaultingString
+import com.kotlindiscord.kord.extensions.commands.converters.impl.string
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
@@ -17,6 +17,12 @@ import dev.kord.common.annotation.KordPreview
 import dev.kord.rest.builder.message.create.embed
 import kotlinx.datetime.Instant
 import java.util.*
+
+/**
+ * Modrinth Commands. Written in pure pain.
+ * @author NotJansel
+ * @since 0.1.3
+ */
 
 @OptIn(KordPreview::class)
 class Modrinth : Extension() {
@@ -58,10 +64,6 @@ class Modrinth : Extension() {
                 guild(TEST_SERVER_ID)
                 action {
                     val url = "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:mod%22]]&query=${arguments.query}"
-                    if (arguments.query == "") {
-                        respond { content = "No query was given, aborting search." }
-                        return@action
-                    }
                     val request = webRequest(url)
                     val response = JsonParser.parseString(request.body()).asJsonObject
                     val hits: JsonArray = response["hits"].asJsonArray
@@ -126,10 +128,6 @@ class Modrinth : Extension() {
                 guild(TEST_SERVER_ID)
                 action {
                     val url = "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:resourcepack%22]]&query=${arguments.query}"
-                    if (arguments.query == "") {
-                        respond { content = "No query was given, aborting search." }
-                        return@action
-                    }
                     val request = webRequest(url)
                     val response = JsonParser.parseString(request.body()).asJsonObject
                     val hits: JsonArray = response["hits"].asJsonArray
@@ -194,10 +192,6 @@ class Modrinth : Extension() {
                 guild(TEST_SERVER_ID)
                 action {
                     val url = "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:modpack%22]]&query=${arguments.query}"
-                    if (arguments.query == "") {
-                        respond { content = "No query was given, aborting search." }
-                        return@action
-                    }
                     val request = webRequest(url)
                     val response = JsonParser.parseString(request.body()).asJsonObject
                     val hits: JsonArray = response["hits"].asJsonArray
@@ -259,10 +253,9 @@ class Modrinth : Extension() {
         }
     }
     inner class ModrinthSearchQuery : Arguments() {
-        val query by defaultingString {
+        val query by string {
             name = "query"
             description = "Query to search"
-            defaultValue = ""
         }
         val limit by defaultingInt {
             name = "limit"
@@ -271,10 +264,9 @@ class Modrinth : Extension() {
         }
     }
     inner class UserSearchQuery : Arguments() {
-        val query by defaultingString {
+        val query by string {
             name = "query"
             description = "User to search up"
-            defaultValue = ""
             require(true)
         }
     }
