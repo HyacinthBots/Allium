@@ -2,7 +2,9 @@ package de.notjansel.sbbot.extensions
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import com.kotlindiscord.kord.extensions.commands.application.slash.publicSubCommand
+import com.kotlindiscord.kord.extensions.commands.Arguments
+import com.kotlindiscord.kord.extensions.commands.application.slash.converters.impl.defaultingStringChoice
+import com.kotlindiscord.kord.extensions.commands.application.slash.group
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
@@ -23,11 +25,10 @@ class Skyblock : Extension() {
         publicSlashCommand {
             name = "skyblock"
             description = "Hypixel Skyblock related Commands"
-            publicSubCommand {
-                name = "mayor"
+            group("mayor") {
                 description = "mayor related commands!"
                 guild(TEST_SERVER_ID)
-                publicSubCommand {
+                publicSlashCommand {
                     name = "current"
                     description = "Get the current Mayor"
                     guild(TEST_SERVER_ID)
@@ -55,7 +56,7 @@ class Skyblock : Extension() {
                         }
                     }
                 }
-                publicSubCommand {
+                publicSlashCommand {
                     name = "election"
                     description = "Shows the current election"
                     guild(TEST_SERVER_ID)
@@ -112,6 +113,15 @@ class Skyblock : Extension() {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    inner class MayorSelection : Arguments() {
+        val type by defaultingStringChoice {
+            autoComplete {
+                choices["current"] = "current"
+                choices["election"] = "election"
             }
         }
     }
