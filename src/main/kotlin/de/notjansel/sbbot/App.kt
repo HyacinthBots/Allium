@@ -26,6 +26,7 @@ suspend fun main() {
             add(::Modrinth)
             add(::About)
             add(::Build)
+            add(::Help)
         }
         i18n {
             defaultLocale = Locale.ENGLISH
