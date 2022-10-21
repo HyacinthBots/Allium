@@ -7,7 +7,7 @@ jansi = "2.4.0"
 kord-extensions = "1.5.5-SNAPSHOT"
 kx-ser = "1.4.0"
 logging = "3.0.2"
-logback = "1.4.1"
+logback = "1.4.4"
 gson = "2.9.1"
 
 [libraries]
