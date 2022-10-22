@@ -52,13 +52,15 @@ class Help : Extension() {
                                      }
                                  }
                              }
-                             page {
-                                 title = c.name
-                                 description = c.description
-                                 field {
-                                     name = "Arguments"
-                                     inline = true
-                                     value = c.arguments.toString()
+                             if (c.groups.values == null || c.subCommands == null) {
+                                 page {
+                                     title = c.name
+                                     description = c.description
+                                     field {
+                                         name = "Arguments"
+                                         inline = true
+                                         value = c.arguments.toString()
+                                     }
                                  }
                              }
                          }
