@@ -30,15 +30,15 @@ class Build : Extension() {
                             name = "Dependencies"
                             inline = false
                             value = """
-                                [KordEx](https://github.com/KordExtensions/kord-extensions): latest
-                                Gson: latest
-                                Jansi: latest
-                                kotlin-logging: latest
-                                logback-classic: latest
-                                kotlinx-serialization-core: latest
-                                groovy: latest
-                                detekt: latest
-                                Kotlin: latest
+                                [KordEx](https://github.com/Kord-Extensions/kord-extensions): latest snapshot
+                                [Gson](https://github.com/google/gson): latest
+                                [Jansi](https://github.com/fusesource/jansi): latest
+                                [kotlin-logging](https://github.com/MicroUtils/kotlin-logging): latest
+                                [logback-classic](https://github.com/qos-ch/logback): latest
+                                [kotlinx-serialization-core](https://github.com/Kotlin/kotlinx.serialization): latest
+                                [groovy](https://github.com/apache/groovy): latest
+                                [detekt](https://github.com/detekt/detekt): latest
+                                [Kotlin](https://github.com/JetBrains/kotlin): latest
                             """.trimIndent()
                         }
                         field {
