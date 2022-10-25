@@ -17,15 +17,6 @@ version = "0.1.3-build.local"
 
 blossom {
     replaceToken("@version@", version)
-    replaceToken("@kordex@", libs.versions.kord)
-    replaceToken("@kotlin@", libs.versions.kotlin)
-    replaceToken("@detekt@", libs.versions.detekt)
-    replaceToken("@gson@", libs.versions.gson)
-    replaceToken("@jansi@", libs.versions.jansi)
-    replaceToken("@logging@", libs.versions.logging)
-    replaceToken("@logback@", libs.versions.logback)
-    replaceToken("@kx-ser@", libs.versions.kx)
-    replaceToken("@groovy@", libs.versions.groovy)
 }
 
 repositories {

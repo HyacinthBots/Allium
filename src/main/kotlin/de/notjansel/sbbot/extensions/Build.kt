@@ -8,7 +8,7 @@ import de.notjansel.sbbot.utils.*
 import dev.kord.rest.builder.message.create.embed
 
 /**
- * Build Command, to show my monkebrain what build the bot is on and more
+ * Build Command, to show my monkebrain what build the bot is on and more.
  * @author NotJansel
  * @since 0.1.3
  */
@@ -30,15 +30,15 @@ class Build : Extension() {
                             name = "Dependencies"
                             inline = false
                             value = """
-                                KordEx: @kordex@
-                                Gson: @gson@
-                                Jansi: @jansi@
-                                kotlin-logging: @logging@
-                                logback-classic: @logback@
-                                kotlinx-serialization-core: @kx-ser@
-                                groovy: @groovy@
-                                detekt: @detekt@
-                                Kotlin: @kotlin@
+                                [KordEx](https://github.com/KordExtensions/kord-extensions): latest
+                                Gson: latest
+                                Jansi: latest
+                                kotlin-logging: latest
+                                logback-classic: latest
+                                kotlinx-serialization-core: latest
+                                groovy: latest
+                                detekt: latest
+                                Kotlin: latest
                             """.trimIndent()
                         }
                         field {
