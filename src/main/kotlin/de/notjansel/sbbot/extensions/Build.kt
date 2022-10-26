@@ -32,7 +32,7 @@ class Build : Extension() {
                             value = """
                                 [KordEx](https://github.com/Kord-Extensions/kord-extensions): latest snapshot
                                 [Gson](https://github.com/google/gson): latest
-                                [Jansi](https://github.com/fusesource/jansi): latest
+                                [jansi](https://github.com/fusesource/jansi): latest
                                 [kotlin-logging](https://github.com/MicroUtils/kotlin-logging): latest
                                 [logback-classic](https://github.com/qos-ch/logback): latest
                                 [kotlinx-serialization-core](https://github.com/Kotlin/kotlinx.serialization): latest
@@ -45,6 +45,15 @@ class Build : Extension() {
                             name = "Build"
                             inline = false
                             value = "@version@"
+                        }
+                        field {
+                            name = "Other Infos"
+                            inline = false
+                            value = """
+                                |Language: Kotlin
+                                |Buildsystem: Gradle
+                                |My mental issues because of this: alot
+                            """.trimMargin()
                         }
                     }
                 }
