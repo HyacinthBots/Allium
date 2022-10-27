@@ -36,7 +36,6 @@ class Build : Extension() {
                                 [kotlin-logging](https://github.com/MicroUtils/kotlin-logging): latest
                                 [logback-classic](https://github.com/qos-ch/logback): latest
                                 [kotlinx-serialization-core](https://github.com/Kotlin/kotlinx.serialization): latest
-                                [groovy](https://github.com/apache/groovy): latest
                                 [detekt](https://github.com/detekt/detekt): latest
                                 [Kotlin](https://github.com/JetBrains/kotlin): latest
                             """.trimIndent()

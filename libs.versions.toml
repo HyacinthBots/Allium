@@ -2,7 +2,6 @@
 detekt = "1.21.0"  # Note: Plugin versions must be updated in the settings.gradle.kts too
 kotlin = "1.7.20"  # Note: Plugin versions must be updated in the settings.gradle.kts too
 
-groovy = "4.0.6"
 jansi = "2.4.0"
 kord-extensions = "1.5.5-SNAPSHOT"
 kx-ser = "1.4.1"
@@ -12,7 +11,6 @@ gson = "2.10"
 
 [libraries]
 detekt = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-groovy = { module = "org.apache.groovy:groovy", version.ref = "groovy" }
 jansi = { module = "org.fusesource.jansi:jansi", version.ref = "jansi" }
 kord-extensions = { module = "com.kotlindiscord.kord.extensions:kord-extensions", version.ref = "kord-extensions" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
