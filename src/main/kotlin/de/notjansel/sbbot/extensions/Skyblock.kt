@@ -156,6 +156,7 @@ class Skyblock : Extension() {
         val profile by string {
             name = "profile"
             description = "Profile to get the Info from (optional)"
+            require(false)
         }
     }
 }

@@ -26,7 +26,9 @@ suspend fun main() {
             add(::Modrinth)
             add(::About)
             add(::Build)
-            add(::Help)
+            help {
+                enableBundledExtension = true
+            }
         }
         i18n {
             defaultLocale = Locale.ENGLISH
