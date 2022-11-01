@@ -46,7 +46,7 @@ class About : Extension() {
                         }
                         field {
                             name = "Source code"
-                            value = "https://github.com/NotJansel/SkyblockBot"
+                            value = "[click me](https://github.com/NotJansel/SkyblockBot)"
                         }
                         field {
                             name = "Build"

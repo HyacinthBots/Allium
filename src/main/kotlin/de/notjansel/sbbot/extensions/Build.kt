@@ -43,7 +43,7 @@ class Build : Extension() {
                         field {
                             name = "Build"
                             inline = false
-                            value = "@version@"
+                            value = BUILD
                         }
                         field {
                             name = "Other Infos"
