@@ -127,6 +127,7 @@ class Skyblock : Extension() {
                 }
             }
             group("mining") {
+                description = "Mining related commands"
                 publicSubCommand(::ForgeArgs) {
                     name = "forge"
                     description = "View your forge"
