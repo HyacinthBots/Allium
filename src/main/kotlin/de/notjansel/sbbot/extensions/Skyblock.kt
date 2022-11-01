@@ -5,6 +5,7 @@ import com.google.gson.JsonParser
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.slash.group
 import com.kotlindiscord.kord.extensions.commands.application.slash.publicSubCommand
+import com.kotlindiscord.kord.extensions.commands.converters.impl.optionalString
 import com.kotlindiscord.kord.extensions.commands.converters.impl.string
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
@@ -151,12 +152,10 @@ class Skyblock : Extension() {
         val name by string {
             name = "username"
             description = "Player's Username"
-            require(true)
         }
-        val profile by string {
+        val profile by optionalString {
             name = "profile"
             description = "Profile to get the Info from (optional)"
-            require(false)
         }
     }
 }
