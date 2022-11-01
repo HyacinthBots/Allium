@@ -1,4 +1,3 @@
-import groovyjarjarpicocli.CommandLine
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -7,14 +6,34 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
 
+    id("com.github.gmazzo.buildconfig") version "2.0.1"
     id("com.github.jakemarsden.git-hooks")
     id("com.github.johnrengelman.shadow")
     id("io.gitlab.arturbosch.detekt")
     id("net.kyori.blossom") version "1.3.1"
 }
 
+fun String.runCommand(
+        workingDir: File = File("."),
+timeoutAmount: Long = 60,
+timeoutUnit: TimeUnit = TimeUnit.SECONDS
+): String = ProcessBuilder(split("\\s(?=(?:[^'\"`]*(['\"`])[^'\"`]*\\1)*[^'\"`]*$)".toRegex()))
+    .directory(workingDir)
+    .redirectOutput(ProcessBuilder.Redirect.PIPE)
+    .redirectError(ProcessBuilder.Redirect.PIPE)
+    .start()
+    .apply { waitFor(timeoutAmount, timeoutUnit) }
+    .run {
+        val error = errorStream.bufferedReader().readText().trim()
+        if (error.isNotEmpty()) {
+            throw Exception(error)
+        }
+        inputStream.bufferedReader().readText().trim()
+    }
+
+
 group = "de.notjansel.sbbot"
-version = "0.1.3-build.local-${CommandLine("git rev-parse --short HEAD")}"
+version = "0.1.3-build.local-" + "git rev-parse --short=8 HEAD".runCommand(workingDir = rootDir)
 
 blossom {
     replaceToken("@version@", version)
