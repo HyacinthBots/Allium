@@ -3,13 +3,13 @@ package de.notjansel.sbbot.extensions
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.kotlindiscord.kord.extensions.commands.Arguments
-import com.kotlindiscord.kord.extensions.commands.application.slash.converters.impl.defaultingStringChoice
 import com.kotlindiscord.kord.extensions.commands.application.slash.group
 import com.kotlindiscord.kord.extensions.commands.application.slash.publicSubCommand
+import com.kotlindiscord.kord.extensions.commands.converters.impl.string
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
-import de.notjansel.sbbot.TEST_SERVER_ID
+import de.notjansel.sbbot.utils.*
 import dev.kord.rest.builder.message.EmbedBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -31,13 +31,11 @@ class Skyblock : Extension() {
         publicSlashCommand {
             name = "skyblock"
             description = "Hypixel Skyblock related Commands"
-            guild(TEST_SERVER_ID)
             group("mayor") {
                 description = "mayor related commands!"
                 publicSubCommand {
                     name = "current"
                     description = "Get the current Mayor"
-                    guild(TEST_SERVER_ID)
                     action {
                         val client = HttpClient.newBuilder().build()
                         val request = HttpRequest.newBuilder()
@@ -71,7 +69,6 @@ class Skyblock : Extension() {
                 publicSubCommand {
                     name = "election"
                     description = "Shows the current election"
-                    guild(TEST_SERVER_ID)
                     action {
                         val client = HttpClient.newBuilder().build()
                         val request = HttpRequest.newBuilder()
@@ -129,15 +126,33 @@ class Skyblock : Extension() {
                     }
                 }
             }
+            group("mining") {
+                publicSubCommand(::ForgeArgs) {
+                    name = "forge"
+                    description = "View your forge"
+                    action {
+                        val response = webRequest("https://sky.shiiyu.moe/api/v2/profile/${arguments.name}").body()
+                        if (arguments.profile == "") {
+                            val fulljson = JsonParser.parseString(response).asJsonObject
+                            val mojang = JsonParser.parseString(webRequest("https://api.mojang.com/users/profiles/minecraft/${arguments.name}").body()).asJsonObject
+                            val profile = fulljson[mojang["id"].asString].asJsonObject
+                            respond {
+                                content = "Username: ${mojang["name"]}\nUUID: ${mojang["id"]}\nProfile: ${profile["cute_name"]}"
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
-    inner class MayorSelection : Arguments() {
-        val type by defaultingStringChoice {
-            autoComplete {
-                choices["current"] = "current"
-                choices["election"] = "election"
-            }
+    inner class ForgeArgs : Arguments() {
+        val name by string {
+            name = "username"
+            require(true)
+        }
+        val profile by string {
+            name = "profile"
         }
     }
 }
