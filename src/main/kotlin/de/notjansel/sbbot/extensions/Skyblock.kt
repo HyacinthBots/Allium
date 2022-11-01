@@ -134,7 +134,7 @@ class Skyblock : Extension() {
                     description = "View your forge"
                     action {
                         val response = webRequest("https://sky.shiiyu.moe/api/v2/profile/${arguments.name}").body()
-                        if (arguments.profile == "") {
+                        if (arguments.profile == null) {
                             val fulljson = JsonParser.parseString(response).asJsonObject
                             val mojang = JsonParser.parseString(webRequest("https://api.mojang.com/users/profiles/minecraft/${arguments.name}").body()).asJsonObject
                             val profile = fulljson[mojang["id"].asString].asJsonObject
