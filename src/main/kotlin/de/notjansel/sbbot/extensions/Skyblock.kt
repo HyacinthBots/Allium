@@ -133,13 +133,12 @@ class Skyblock : Extension() {
                     name = "forge"
                     description = "View your forge"
                     action {
-                        val response = webRequest("https://sky.shiiyu.moe/api/v2/profile/${arguments.name}").body()
+                        // val response = webRequest("https://sky.shiiyu.moe/api/v2/profile/${arguments.name}").body()
                         if (arguments.profile == null) {
-                            val fulljson = JsonParser.parseString(response).asJsonObject
+                            // val fulljson = JsonParser.parseString(response).asJsonObject
                             val mojang = JsonParser.parseString(webRequest("https://api.mojang.com/users/profiles/minecraft/${arguments.name}").body()).asJsonObject
-                            val profile = fulljson[mojang["id"].asString].asJsonObject
                             respond {
-                                content = "Username: ${mojang["name"]}\nUUID: ${mojang["id"]}\nProfile: ${profile["cute_name"]}"
+                                content = "Username: ${mojang["name"]}\nUUID: ${mojang["id"]}"
                             }
                         }
                     }
