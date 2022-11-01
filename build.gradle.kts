@@ -6,7 +6,7 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
 
-    id("com.github.gmazzo.buildconfig") version "2.0.1"
+    id("com.github.gmazzo.buildconfig") version "2.1.0"
     id("com.github.jakemarsden.git-hooks")
     id("com.github.johnrengelman.shadow")
     id("io.gitlab.arturbosch.detekt")
