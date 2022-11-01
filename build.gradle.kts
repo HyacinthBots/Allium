@@ -1,3 +1,4 @@
+import groovyjarjarpicocli.CommandLine
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -13,7 +14,7 @@ plugins {
 }
 
 group = "de.notjansel.sbbot"
-version = "0.1.3-build.local"
+version = "0.1.3-build.local-${CommandLine("git rev-parse --short HEAD")}"
 
 blossom {
     replaceToken("@version@", version)
