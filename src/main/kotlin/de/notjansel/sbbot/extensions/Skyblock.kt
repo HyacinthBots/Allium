@@ -150,10 +150,12 @@ class Skyblock : Extension() {
     inner class ForgeArgs : Arguments() {
         val name by string {
             name = "username"
+            description = "Player's Username"
             require(true)
         }
         val profile by string {
             name = "profile"
+            description = "Profile to get the Info from (optional)"
         }
     }
 }
