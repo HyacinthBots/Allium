@@ -46,16 +46,22 @@ class Skyblock : Extension() {
                         val response = withContext(Dispatchers.IO) {
                             client.send(request, HttpResponse.BodyHandlers.ofString())
                         }
-                        val gson: JsonObject = JsonParser.parseString(response.body().replace(Regex("§[0-9a-fA-Fk-oK-OrR]"), "")).asJsonObject
+                        val gson: JsonObject = JsonParser.parseString(
+                            response.body().replace(Regex("§[0-9a-fA-Fk-oK-OrR]"), "")
+                        ).asJsonObject
                         val embed: EmbedBuilder = EmbedBuilder()
-                        embed.title = "Current mayor: ${gson["mayor"].asJsonObject.get("name").toString().replace("\"", "")}"
+                        embed.title =
+                            "Current mayor: ${gson["mayor"].asJsonObject.get("name").toString().replace("\"", "")}"
                         embed.description = "The mayor's perks are listed below."
                         val footer: EmbedBuilder.Footer = EmbedBuilder.Footer()
                         footer.text = "Last Update: "
                         embed.footer = footer
                         embed.timestamp = Instant.fromEpochMilliseconds(gson["lastUpdated"].asLong)
                         for (perk in gson["mayor"].asJsonObject.getAsJsonArray("perks")) {
-                            embed.field(perk.asJsonObject.get("name").asString, true) { perk.asJsonObject.get("description").asString }
+                            embed.field(
+                                perk.asJsonObject.get("name").asString,
+                                true
+                            ) { perk.asJsonObject.get("description").asString }
                         }
                         respond {
                             embeds.add(embed)
@@ -74,7 +80,9 @@ class Skyblock : Extension() {
                         val response = withContext(Dispatchers.IO) {
                             client.send(request, HttpResponse.BodyHandlers.ofString())
                         }
-                        val gson: JsonObject = JsonParser.parseString(response.body().replace(Regex("§[0-9a-fA-Fk-oK-OrR]"), "")).asJsonObject
+                        val gson: JsonObject = JsonParser.parseString(
+                            response.body().replace(Regex("§[0-9a-fA-Fk-oK-OrR]"), "")
+                        ).asJsonObject
                         if (!gson["success"].asBoolean) {
                             respond {
                                 content = "There was a Hypixel API Error. Please try again later."
@@ -97,7 +105,8 @@ class Skyblock : Extension() {
                         val embed: EmbedBuilder = EmbedBuilder()
                         embed.title = "Current Election"
                         var totalvotes = 0
-                        embed.description = "Here are the current Election Candidates for year ${gson["current"].asJsonObject.get("year").asInt} and their Perks:"
+                        embed.description =
+                            "Here are the current Election Candidates for year ${gson["current"].asJsonObject.get("year").asInt} and their Perks:"
                         for (mayor in gson["current"].asJsonObject.getAsJsonArray("candidates")) {
                             totalvotes += mayor.asJsonObject["votes"].asInt
                         }

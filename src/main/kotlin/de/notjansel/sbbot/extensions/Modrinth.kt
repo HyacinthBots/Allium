@@ -38,7 +38,7 @@ class Modrinth : Extension() {
                 guild(TEST_SERVER_ID)
                 action {
                     val url = "https://api.modrinth.com/v2/user/${arguments.query}"
-                    if (arguments.query ==  "") {
+                    if (arguments.query == "") {
                         respond { content = "No query was given, aborting search." }
                         return@action
                     }
@@ -63,7 +63,8 @@ class Modrinth : Extension() {
                 description = "Search for a mod/plugin"
                 guild(TEST_SERVER_ID)
                 action {
-                    val url = "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:mod%22]]&query=${arguments.query}"
+                    val url =
+                        "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:mod%22]]&query=${arguments.query}"
                     val request = webRequest(url)
                     val response = JsonParser.parseString(request.body()).asJsonObject
                     val hits: JsonArray = response["hits"].asJsonArray
@@ -84,10 +85,16 @@ class Modrinth : Extension() {
                                 }
                                 this.description = hit["description"].asString
                                 field("Latest Version", true) { hit["latest_version"].asString }
-                                field("Client/Server Side", true) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
+                                field(
+                                    "Client/Server Side",
+                                    true
+                                ) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
                                 field("Downloads", true) { hit["downloads"].asString }
                                 field("Author", true) { hit["author"].asString }
-                                field("Last Update", true) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
+                                field(
+                                    "Last Update",
+                                    true
+                                ) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
                                 field("License", true) { hit["license"].asString }
                                 footer {
                                     this.text = "Modrinth | ${hit["author"].asString}"
@@ -107,10 +114,16 @@ class Modrinth : Extension() {
                                 }
                                 this.description = hit["description"].asString
                                 field("Latest Version", true) { hit["latest_version"].asString }
-                                field("Client/Server Side", true) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
+                                field(
+                                    "Client/Server Side",
+                                    true
+                                ) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
                                 field("Downloads", true) { hit["downloads"].asString }
                                 field("Author", true) { hit["author"].asString }
-                                field("Last Update", true) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
+                                field(
+                                    "Last Update",
+                                    true
+                                ) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
                                 field("License", true) { hit["license"].asString }
                                 footer {
                                     this.text = "Modrinth | ${hit["author"].asString}"
@@ -127,7 +140,8 @@ class Modrinth : Extension() {
                 description = "Search for a resource pack"
                 guild(TEST_SERVER_ID)
                 action {
-                    val url = "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:resourcepack%22]]&query=${arguments.query}"
+                    val url =
+                        "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:resourcepack%22]]&query=${arguments.query}"
                     val request = webRequest(url)
                     val response = JsonParser.parseString(request.body()).asJsonObject
                     val hits: JsonArray = response["hits"].asJsonArray
@@ -148,10 +162,16 @@ class Modrinth : Extension() {
                                 }
                                 this.description = hit["description"].asString
                                 field("Latest Version", true) { hit["latest_version"].asString }
-                                field("Client/Server Side", true) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
+                                field(
+                                    "Client/Server Side",
+                                    true
+                                ) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
                                 field("Downloads", true) { hit["downloads"].asString }
                                 field("Author", true) { hit["author"].asString }
-                                field("Last Update", true) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
+                                field(
+                                    "Last Update",
+                                    true
+                                ) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
                                 field("License", true) { hit["license"].asString }
                                 footer {
                                     this.text = "Modrinth | ${hit["author"].asString}"
@@ -171,10 +191,16 @@ class Modrinth : Extension() {
                                 }
                                 this.description = hit["description"].asString
                                 field("Latest Version", true) { hit["latest_version"].asString }
-                                field("Client/Server Side", true) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
+                                field(
+                                    "Client/Server Side",
+                                    true
+                                ) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
                                 field("Downloads", true) { hit["downloads"].asString }
                                 field("Author", true) { hit["author"].asString }
-                                field("Last Update", true) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
+                                field(
+                                    "Last Update",
+                                    true
+                                ) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
                                 field("License", true) { hit["license"].asString }
                                 footer {
                                     this.text = "Modrinth | ${hit["author"].asString}"
@@ -191,7 +217,8 @@ class Modrinth : Extension() {
                 description = "Search for a Modpack"
                 guild(TEST_SERVER_ID)
                 action {
-                    val url = "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:modpack%22]]&query=${arguments.query}"
+                    val url =
+                        "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:modpack%22]]&query=${arguments.query}"
                     val request = webRequest(url)
                     val response = JsonParser.parseString(request.body()).asJsonObject
                     val hits: JsonArray = response["hits"].asJsonArray
@@ -212,10 +239,16 @@ class Modrinth : Extension() {
                                 }
                                 this.description = hit["description"].asString
                                 field("Latest Version", true) { hit["latest_version"].asString }
-                                field("Client/Server Side", true) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
+                                field(
+                                    "Client/Server Side",
+                                    true
+                                ) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
                                 field("Downloads", true) { hit["downloads"].asString }
                                 field("Author", true) { hit["author"].asString }
-                                field("Last Update", true) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
+                                field(
+                                    "Last Update",
+                                    true
+                                ) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
                                 field("License", true) { hit["license"].asString }
                                 footer {
                                     this.text = "Modrinth | ${hit["author"].asString}"
@@ -235,10 +268,16 @@ class Modrinth : Extension() {
                                 }
                                 this.description = hit["description"].asString
                                 field("Latest Version", true) { hit["latest_version"].asString }
-                                field("Client/Server Side", true) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
+                                field(
+                                    "Client/Server Side",
+                                    true
+                                ) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
                                 field("Downloads", true) { hit["downloads"].asString }
                                 field("Author", true) { hit["author"].asString }
-                                field("Last Update", true) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
+                                field(
+                                    "Last Update",
+                                    true
+                                ) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
                                 field("License", true) { hit["license"].asString }
                                 footer {
                                     this.text = "Modrinth | ${hit["author"].asString}"
@@ -252,6 +291,7 @@ class Modrinth : Extension() {
             }
         }
     }
+
     inner class ModrinthSearchQuery : Arguments() {
         val query by string {
             name = "query"
@@ -263,6 +303,7 @@ class Modrinth : Extension() {
             defaultValue = 5
         }
     }
+
     inner class UserSearchQuery : Arguments() {
         val query by string {
             name = "query"

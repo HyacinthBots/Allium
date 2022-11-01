@@ -14,9 +14,9 @@ plugins {
 }
 
 fun String.runCommand(
-        workingDir: File = File("."),
-timeoutAmount: Long = 60,
-timeoutUnit: TimeUnit = TimeUnit.SECONDS
+    workingDir: File = File("."),
+    timeoutAmount: Long = 60,
+    timeoutUnit: TimeUnit = TimeUnit.SECONDS
 ): String = ProcessBuilder(split("\\s(?=(?:[^'\"`]*(['\"`])[^'\"`]*\\1)*[^'\"`]*$)".toRegex()))
     .directory(workingDir)
     .redirectOutput(ProcessBuilder.Redirect.PIPE)
