@@ -10,6 +10,7 @@ import com.kotlindiscord.kord.extensions.commands.converters.impl.string
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
+import com.kotlindiscord.kord.extensions.types.respondingPaginator
 import de.notjansel.sbbot.utils.*
 import dev.kord.rest.builder.message.EmbedBuilder
 import kotlinx.coroutines.Dispatchers
@@ -133,12 +134,23 @@ class Skyblock : Extension() {
                     name = "forge"
                     description = "View your forge"
                     action {
-                        // val response = webRequest("https://sky.shiiyu.moe/api/v2/profile/${arguments.name}").body()
+                        val response = webRequest("https://sky.shiiyu.moe/api/v2/profile/${arguments.name}").body()
                         if (arguments.profile == null) {
-                            // val fulljson = JsonParser.parseString(response).asJsonObject
+                            val fulljson = JsonParser.parseString(response).asJsonObject
                             val mojang = JsonParser.parseString(webRequest("https://api.mojang.com/users/profiles/minecraft/${arguments.name}").body()).asJsonObject
-                            respond {
-                                content = "Username: ${mojang["name"].asString}\nUUID: ${mojang["id"].asString}"
+                            val processes = fulljson["profiles"].asJsonObject[mojang["id"].asString].asJsonObject["data"].asJsonObject["mining"].asJsonObject["forge"].asJsonObject["processes"].asJsonArray
+                            if (processes.isEmpty) {
+                                respond {
+                                    content = "No Forge processes found."
+                                }
+                            }
+                            respondingPaginator {
+                                for (e in processes) {
+                                    page {
+                                        title = e.asJsonObject["name"].asString
+                                        description = "Finished <t:${e.asJsonObject["timeFinished"].asLong}>"
+                                    }
+                                }
                             }
                         }
                     }
