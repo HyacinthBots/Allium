@@ -138,7 +138,7 @@ class Skyblock : Extension() {
                             // val fulljson = JsonParser.parseString(response).asJsonObject
                             val mojang = JsonParser.parseString(webRequest("https://api.mojang.com/users/profiles/minecraft/${arguments.name}").body()).asJsonObject
                             respond {
-                                content = "Username: ${mojang["name"]}\nUUID: ${mojang["id"]}"
+                                content = "Username: ${mojang["name"].asString}\nUUID: ${mojang["id"].asString}"
                             }
                         }
                     }
