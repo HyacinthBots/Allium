@@ -143,6 +143,7 @@ class Skyblock : Extension() {
                                 respond {
                                     content = "No Forge processes found."
                                 }
+                                return@action
                             }
                             respondingPaginator {
                                 for (e in processes) {
