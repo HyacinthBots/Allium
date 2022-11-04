@@ -6,6 +6,7 @@ package de.notjansel.sbbot
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.utils.env
 import de.notjansel.sbbot.extensions.*
+import dev.kord.common.Color
 import dev.kord.common.entity.Snowflake
 import java.util.*
 
@@ -28,6 +29,9 @@ suspend fun main() {
             add(::Build)
             help {
                 enableBundledExtension = true
+                color {
+                    Color(69420727)
+                }
             }
         }
         i18n {
