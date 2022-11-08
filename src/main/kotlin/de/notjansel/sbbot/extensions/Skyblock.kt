@@ -138,7 +138,7 @@ class Skyblock : Extension() {
                         if (arguments.profile == null) {
                             val fulljson = JsonParser.parseString(response).asJsonObject
                             val mojang = JsonParser.parseString(webRequest("https://api.mojang.com/users/profiles/minecraft/${arguments.name}").body()).asJsonObject
-                            val processes = fulljson["profiles." + mojang["id"].asString + ".data.mining.forge"].asJsonObject.getAsJsonArray("processes")
+                            val processes = fulljson["profiles." + mojang["id"].asString + ".data.mining.forge"].asJsonObject.get("processes").asJsonArray
                             if (processes.isEmpty) {
                                 respond {
                                     content = "No Forge processes found."
