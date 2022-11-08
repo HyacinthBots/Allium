@@ -161,7 +161,7 @@ class Skyblock : Extension() {
                                 for (process in processes) {
                                     page {
                                         title = process.asJsonObject["name"].asString
-                                        description = "Finished <t:${process.asJsonObject["timeFinished"].asLong}>"
+                                        description = "Finished <t:${process.asJsonObject["timeFinished"].asLong / 1000}>"
                                     }
                                 }
                             }.send()
