@@ -141,11 +141,19 @@ class Skyblock : Extension() {
                             withContext(Dispatchers.IO) {
                                 File("./logs/latest.log").bufferedWriter().append(fulljson.toString() + "\n")
                             }
-                            val mojang = JsonParser.parseString(webRequest("https://api.mojang.com/users/profiles/minecraft/${arguments.name}").body()).asJsonObject
+                            val mojang = JsonParser.parseString(
+                                webRequest("https://api.mojang.com/users/profiles/minecraft/${arguments.name}").body()
+                            ).asJsonObject
                             withContext(Dispatchers.IO) {
                                 File("./logs/latest.log").bufferedWriter().append(mojang.toString() + "\n")
                             }
-                            val processes = fulljson["profiles." + mojang["id"].asString.trim('"') + ".data.mining.forge"].asJsonObject.get("processes").asJsonArray
+                            val processes = fulljson["profiles"]
+                                .asJsonObject[mojang["id"].asString]
+                                .asJsonObject["data"]
+                                .asJsonObject["mining"]
+                                .asJsonObject["forge"]
+                                .asJsonObject["processes"]
+                                .asJsonArray
                             withContext(Dispatchers.IO) {
                                 File("./logs/latest.log").bufferedWriter().append(processes.toString() + "\n")
                             }
