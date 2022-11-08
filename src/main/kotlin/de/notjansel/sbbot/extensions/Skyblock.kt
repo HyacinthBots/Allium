@@ -11,7 +11,7 @@ import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.types.respondingPaginator
-import de.notjansel.sbbot.utils.*
+import de.notjansel.sbbot.utils.webRequest
 import dev.kord.rest.builder.message.EmbedBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -138,11 +138,17 @@ class Skyblock : Extension() {
                         val response = webRequest("https://sky.shiiyu.moe/api/v2/profile/${arguments.name}").body()
                         if (arguments.profile == null) {
                             val fulljson = JsonParser.parseString(response).asJsonObject
-                            File("./logs/latest.log").writeText(fulljson.toString() + "\n")
+                            withContext(Dispatchers.IO) {
+                                File("./logs/latest.log").bufferedWriter().append(fulljson.toString() + "\n")
+                            }
                             val mojang = JsonParser.parseString(webRequest("https://api.mojang.com/users/profiles/minecraft/${arguments.name}").body()).asJsonObject
-                            File("./logs/latest.log").writeText(mojang.toString() + "\n")
+                            withContext(Dispatchers.IO) {
+                                File("./logs/latest.log").bufferedWriter().append(mojang.toString() + "\n")
+                            }
                             val processes = fulljson["profiles." + mojang["id"].asString + ".data.mining.forge"].asJsonObject.get("processes").asJsonArray
-                            File("./logs/latest.log").writeText(processes.toString() + "\n")
+                            withContext(Dispatchers.IO) {
+                                File("./logs/latest.log").bufferedWriter().append(processes.toString() + "\n")
+                            }
                             if (processes.isEmpty) {
                                 respond {
                                     content = "No Forge processes found."
