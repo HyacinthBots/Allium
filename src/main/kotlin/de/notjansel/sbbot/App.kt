@@ -30,6 +30,7 @@ suspend fun main() {
         }
     } else {
         withContext(Dispatchers.IO) {
+            File("./logs/").createNewFile()
             File("./logs/latest.log").createNewFile()
         }
     }
