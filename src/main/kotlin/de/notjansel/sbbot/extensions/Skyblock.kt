@@ -145,7 +145,7 @@ class Skyblock : Extension() {
                             withContext(Dispatchers.IO) {
                                 File("./logs/latest.log").bufferedWriter().append(mojang.toString() + "\n")
                             }
-                            val processes = fulljson["profiles." + mojang["id"].asString + ".data.mining.forge"].asJsonObject.get("processes").asJsonArray
+                            val processes = fulljson["profiles." + mojang["id"].asString.trim('"') + ".data.mining.forge"].asJsonObject.get("processes").asJsonArray
                             withContext(Dispatchers.IO) {
                                 File("./logs/latest.log").bufferedWriter().append(processes.toString() + "\n")
                             }
