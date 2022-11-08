@@ -23,11 +23,6 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import kotlin.math.roundToInt
 
-/**
- * Skyblock-related Commands. Gone through couple rewrites.
- * @author NotJansel
- * @since 0.1.2
- */
 class Skyblock : Extension() {
     override val name = "skyblock"
     override suspend fun setup() {
@@ -147,13 +142,12 @@ class Skyblock : Extension() {
                             withContext(Dispatchers.IO) {
                                 File("./logs/latest.log").bufferedWriter().append(mojang.toString() + "\n")
                             }
-                            val processes = fulljson["profiles"]
-                                .asJsonObject[mojang["id"].asString]
-                                .asJsonObject["data"]
-                                .asJsonObject["mining"]
-                                .asJsonObject["forge"]
-                                .asJsonObject["processes"]
-                                .asJsonArray
+                            val profiles = fulljson["profiles"].asJsonObject
+                            val profile = profiles[mojang["id"].asString].asJsonObject
+                            val data = profile["data"].asJsonObject
+                            val mining = data["mining"].asJsonObject
+                            val forge = mining["forge"].asJsonObject
+                            val processes = forge["processes"].asJsonArray
                             withContext(Dispatchers.IO) {
                                 File("./logs/latest.log").bufferedWriter().append(processes.toString() + "\n")
                             }
