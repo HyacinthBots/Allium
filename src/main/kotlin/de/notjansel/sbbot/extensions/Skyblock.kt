@@ -164,7 +164,7 @@ class Skyblock : Extension() {
                                         description = "Finished <t:${process.asJsonObject["timeFinished"].asLong}>"
                                     }
                                 }
-                            }
+                            }.send()
                         }
                     }
                 }
