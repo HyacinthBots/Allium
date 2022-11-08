@@ -16,6 +16,7 @@ import dev.kord.rest.builder.message.EmbedBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Instant
+import java.io.File
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -137,8 +138,11 @@ class Skyblock : Extension() {
                         val response = webRequest("https://sky.shiiyu.moe/api/v2/profile/${arguments.name}").body()
                         if (arguments.profile == null) {
                             val fulljson = JsonParser.parseString(response).asJsonObject
+                            File("./logs/latest.log").writeText(fulljson.toString() + "\n")
                             val mojang = JsonParser.parseString(webRequest("https://api.mojang.com/users/profiles/minecraft/${arguments.name}").body()).asJsonObject
+                            File("./logs/latest.log").writeText(mojang.toString() + "\n")
                             val processes = fulljson["profiles." + mojang["id"].asString + ".data.mining.forge"].asJsonObject.get("processes").asJsonArray
+                            File("./logs/latest.log").writeText(processes.toString() + "\n")
                             if (processes.isEmpty) {
                                 respond {
                                     content = "No Forge processes found."

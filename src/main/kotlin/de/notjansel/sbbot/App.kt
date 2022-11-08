@@ -8,6 +8,9 @@ import com.kotlindiscord.kord.extensions.utils.env
 import de.notjansel.sbbot.extensions.*
 import dev.kord.common.Color
 import dev.kord.common.entity.Snowflake
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.File
 import java.util.*
 
 val TEST_SERVER_ID = Snowflake(
@@ -20,6 +23,16 @@ val TEST_SERVER_CHANNEL_ID = Snowflake(
 
 private val TOKEN = env("TOKEN")   // Get the bot' token from the env vars or a .env file
 suspend fun main() {
+    if (File("./logs/latest.log").exists()) {
+        File("./logs/latest.log").renameTo(File("./logs/log-${File("./logs/").listFiles()?.size}"))
+        withContext(Dispatchers.IO) {
+            File("./logs/latest.log").createNewFile()
+        }
+    } else {
+        withContext(Dispatchers.IO) {
+            File("./logs/latest.log").createNewFile()
+        }
+    }
     val bot = ExtensibleBot(TOKEN) {
         extensions {
             add(::Skyblock)
