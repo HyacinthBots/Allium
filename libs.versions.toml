@@ -1,6 +1,6 @@
 [versions]
 detekt = "1.21.0"  # Note: Plugin versions must be updated in the settings.gradle.kts too
-kotlin = "1.7.20"  # Note: Plugin versions must be updated in the settings.gradle.kts too
+kotlin = "1.7.21"  # Note: Plugin versions must be updated in the settings.gradle.kts too
 
 jansi = "2.4.0"
 kord-extensions = "1.5.5-SNAPSHOT"
