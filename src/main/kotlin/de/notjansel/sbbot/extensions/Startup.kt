@@ -24,7 +24,7 @@ class Startup : Extension() {
     override suspend fun setup() {
         event<ReadyEvent> {
             action {
-                val onlineLog = kord.getGuild(TEST_SERVER_ID)?.getChannelOf<TextChannel>(TEST_SERVER_CHANNEL_ID)
+                val onlineLog = kord.getGuildOrNull(TEST_SERVER_ID)?.getChannelOf<TextChannel>(TEST_SERVER_CHANNEL_ID)
                 onlineLog?.createMessage("Bot Online, current version: $BUILD")
                 kord.editPresence {
                     status = PresenceStatus.Online

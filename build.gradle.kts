@@ -52,6 +52,26 @@ repositories {
         name = "Kotlin Discord"
         url = uri("https://maven.kotlindiscord.com/repository/maven-public/")
     }
+
+    maven {
+        name = "FabricMC"
+        url = uri("https://maven.fabricmc.net/")
+    }
+
+    maven {
+        name = "JitPack"
+        url = uri("https://jitpack.io")
+    }
+
+    maven {
+        name = "QuiltMC (Releases)"
+        url = uri("https://maven.quiltmc.org/repository/release/")
+    }
+
+    maven {
+        name = "QuiltMC (Snapshots)"
+        url = uri("https://maven.quiltmc.org/repository/snapshot/")
+    }
 }
 
 dependencies {
@@ -61,6 +81,7 @@ dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.kx.ser)
     implementation(libs.gson)
+    implementation(libs.kord.extensions.mappings)
 
 
     // Logging dependencies

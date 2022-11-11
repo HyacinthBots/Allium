@@ -4,6 +4,7 @@
 package de.notjansel.sbbot
 
 import com.kotlindiscord.kord.extensions.ExtensibleBot
+import com.kotlindiscord.kord.extensions.modules.extra.mappings.extMappings
 import com.kotlindiscord.kord.extensions.utils.env
 import de.notjansel.sbbot.extensions.*
 import dev.kord.common.Color
@@ -47,6 +48,7 @@ suspend fun main() {
                     Color(69420727)
                 }
             }
+            extMappings {  }
         }
         i18n {
             defaultLocale = Locale.ENGLISH

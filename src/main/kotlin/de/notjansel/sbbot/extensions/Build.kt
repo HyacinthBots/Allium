@@ -28,6 +28,7 @@ class Build : Extension() {
                             inline = false
                             value = """
                                 [KordEx](https://github.com/Kord-Extensions/kord-extensions): latest snapshot
+                                [KordEx Mappings Extension](https://github.com/Kord-Extensions/kord-extensions/tree/develop/extra-modules/extra-mappings): latest
                                 [Gson](https://github.com/google/gson): latest
                                 [jansi](https://github.com/fusesource/jansi): latest
                                 [kotlin-logging](https://github.com/MicroUtils/kotlin-logging): latest

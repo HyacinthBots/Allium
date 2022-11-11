@@ -4,6 +4,7 @@ kotlin = "1.7.21"  # Note: Plugin versions must be updated in the settings.gradl
 
 jansi = "2.4.0"
 kord-extensions = "1.5.5-SNAPSHOT"
+kord-extensions-mappings = "1.5.2-RC1"
 kx-ser = "1.4.1"
 logging = "3.0.4"
 logback = "1.4.4"
@@ -13,6 +14,7 @@ gson = "2.10"
 detekt = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 jansi = { module = "org.fusesource.jansi:jansi", version.ref = "jansi" }
 kord-extensions = { module = "com.kotlindiscord.kord.extensions:kord-extensions", version.ref = "kord-extensions" }
+kord-extensions-mappings = { module = "com.kotlindiscord.kord.extensions:extra-mappings", version.ref = "kord-extensions-mappings"}
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 logging = { module = "io.github.microutils:kotlin-logging", version.ref = "logging" }

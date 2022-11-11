@@ -16,7 +16,6 @@ import dev.kord.rest.builder.message.EmbedBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Instant
-import java.io.File
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -133,24 +132,15 @@ class Skyblock : Extension() {
                         val response = webRequest("https://sky.shiiyu.moe/api/v2/profile/${arguments.name}").body()
                         if (arguments.profile == null) {
                             val fulljson = JsonParser.parseString(response).asJsonObject
-                            withContext(Dispatchers.IO) {
-                                File("./logs/latest.log").bufferedWriter().append(fulljson.toString() + "\n")
-                            }
                             val mojang = JsonParser.parseString(
                                 webRequest("https://api.mojang.com/users/profiles/minecraft/${arguments.name}").body()
                             ).asJsonObject
-                            withContext(Dispatchers.IO) {
-                                File("./logs/latest.log").bufferedWriter().append(mojang.toString() + "\n")
-                            }
                             val profiles = fulljson["profiles"].asJsonObject
                             val profile = profiles[mojang["id"].asString].asJsonObject
                             val data = profile["data"].asJsonObject
                             val mining = data["mining"].asJsonObject
                             val forge = mining["forge"].asJsonObject
                             val processes = forge["processes"].asJsonArray
-                            withContext(Dispatchers.IO) {
-                                File("./logs/latest.log").bufferedWriter().append(processes.toString() + "\n")
-                            }
                             if (processes.isEmpty) {
                                 respond {
                                     content = "No Forge processes found."
