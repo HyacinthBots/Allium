@@ -1,7 +1,6 @@
-# SkyblockBot
+# Allium
 
-This is a funny little project for me, maybe it will grow into something bigger.
-
-Please note that Issues are disabled until I may accept Issues when really needed (or this bot gains some popularity)
+This is a Minecraft-focused bot for Minecraft Modding etc.
+Features are in the Documentation which will be added later.
 
 Cheers~<br>Jansel

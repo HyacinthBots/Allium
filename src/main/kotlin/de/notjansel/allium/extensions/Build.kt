@@ -1,9 +1,9 @@
-package de.notjansel.sbbot.extensions
+package de.notjansel.allium.extensions
 
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
-import de.notjansel.sbbot.utils.*
+import de.notjansel.allium.utils.*
 import dev.kord.rest.builder.message.create.embed
 
 /**

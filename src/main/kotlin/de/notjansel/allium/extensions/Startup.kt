@@ -1,10 +1,10 @@
-package de.notjansel.sbbot.extensions
+package de.notjansel.allium.extensions
 
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
-import de.notjansel.sbbot.TEST_SERVER_CHANNEL_ID
-import de.notjansel.sbbot.TEST_SERVER_ID
-import de.notjansel.sbbot.utils.*
+import de.notjansel.allium.TEST_SERVER_CHANNEL_ID
+import de.notjansel.allium.TEST_SERVER_ID
+import de.notjansel.allium.utils.*
 import dev.kord.common.annotation.KordPreview
 import dev.kord.common.entity.PresenceStatus
 import dev.kord.core.behavior.getChannelOf

@@ -1,4 +1,4 @@
-package de.notjansel.sbbot.extensions
+package de.notjansel.allium.extensions
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -11,7 +11,7 @@ import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.types.respondingPaginator
-import de.notjansel.sbbot.utils.*
+import de.notjansel.allium.utils.*
 import dev.kord.common.annotation.KordPreview
 import dev.kord.rest.builder.message.create.embed
 import kotlinx.datetime.Instant

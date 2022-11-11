@@ -12,7 +12,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "SkyblockBot"
+rootProject.name = "Allium"
 
 enableFeaturePreview("VERSION_CATALOGS")
 

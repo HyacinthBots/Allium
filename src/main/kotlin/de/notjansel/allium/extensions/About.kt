@@ -1,9 +1,9 @@
-package de.notjansel.sbbot.extensions
+package de.notjansel.allium.extensions
 
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
-import de.notjansel.sbbot.utils.*
+import de.notjansel.allium.utils.*
 import dev.kord.rest.builder.message.create.embed
 
 /**
@@ -26,14 +26,7 @@ class About : Extension() {
                             name = "General Information"
                             inline = false
                             value = """
-                                Hello! I am SkyblockBot, a bot developed as a fun project by Jansel.
-                                I am open Source available on GitHub, to show complete transparency.
-                                I was done as a Project to replace the mayor feature from SkyHelper,
-                                which has some locked behind a requirement (100 Members respectively).
-                                Jansel didn't want to have this requirementwall to prevent him from 
-                                using that feature, so he coded his own. I also have some utility-
-                                commands, such as the modrinth commandgroup, which lets you search
-                                for projects published on modrinth.
+                                Hello! I am Allium, a Minecraft modding focused bot.
                             """.trimIndent()
                         }
                         field {
@@ -46,7 +39,7 @@ class About : Extension() {
                         }
                         field {
                             name = "Source code"
-                            value = "[click me](https://github.com/NotJansel/SkyblockBot)"
+                            value = "[click me](https://github.com/NotJansel/Allium)"
                         }
                         field {
                             name = "Build"

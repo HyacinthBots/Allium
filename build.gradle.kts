@@ -32,7 +32,7 @@ fun String.runCommand(
     }
 
 
-group = "de.notjansel.sbbot"
+group = "de.notjansel.allium"
 version = "0.1.3-build.local-" + "git rev-parse --short=8 HEAD".runCommand(workingDir = rootDir)
 
 blossom {
@@ -92,7 +92,7 @@ dependencies {
 
 application {
     // This is deprecated, but the Shadow plugin requires it
-    mainClassName = "de.notjansel.sbbot.AppKt"
+    mainClassName = "de.notjansel.allium.AppKt"
 }
 
 gitHooks {
@@ -115,7 +115,7 @@ tasks.withType<KotlinCompile> {
 tasks.jar {
     manifest {
         attributes(
-            "Main-Class" to "de.notjansel.sbbot.AppKt"
+            "Main-Class" to "de.notjansel.allium.AppKt"
         )
     }
 }

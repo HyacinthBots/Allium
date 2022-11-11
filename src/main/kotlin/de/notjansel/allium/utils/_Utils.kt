@@ -1,4 +1,4 @@
-package de.notjansel.sbbot.utils
+package de.notjansel.allium.utils
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
