@@ -20,4 +20,4 @@ logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 logging = { module = "io.github.microutils:kotlin-logging", version.ref = "logging" }
 kx-ser = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kx-ser" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson"}
-groovy = { module="org.apache.groovy:groovy", version.ref = "groovy"}
+groovy = { module="org.codehaus.groovy:groovy", version.ref = "groovy"}
