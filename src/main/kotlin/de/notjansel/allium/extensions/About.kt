@@ -21,7 +21,7 @@ class About : Extension() {
             action {
                 respond {
                     embed {
-                        title = "Skyblock Bot"
+                        title = "Allium"
                         field {
                             name = "General Information"
                             inline = false

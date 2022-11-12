@@ -27,15 +27,16 @@ class Build : Extension() {
                             name = "Dependencies"
                             inline = false
                             value = """
-                                [KordEx](https://github.com/Kord-Extensions/kord-extensions): latest snapshot
-                                [KordEx Mappings Extension](https://github.com/Kord-Extensions/kord-extensions/tree/develop/extra-modules/extra-mappings): latest
-                                [Gson](https://github.com/google/gson): latest
-                                [jansi](https://github.com/fusesource/jansi): latest
-                                [kotlin-logging](https://github.com/MicroUtils/kotlin-logging): latest
-                                [logback-classic](https://github.com/qos-ch/logback): latest
-                                [kotlinx-serialization-core](https://github.com/Kotlin/kotlinx.serialization): latest
-                                [detekt](https://github.com/detekt/detekt): latest
-                                [Kotlin](https://github.com/JetBrains/kotlin): latest
+                                [KordEx](https://github.com/Kord-Extensions/kord-extensions): 1.5.5-20221107.093708-35
+                                [KordEx Mappings Extension](https://github.com/Kord-Extensions/kord-extensions/tree/develop/extra-modules/extra-mappings): 1.5.5-20221107.093708-35
+                                [Gson](https://github.com/google/gson): 2.10
+                                [jansi](https://github.com/fusesource/jansi): 2.4.0
+                                [kotlin-logging](https://github.com/MicroUtils/kotlin-logging): 2.1.23
+                                [logback-classic](https://github.com/qos-ch/logback): 1.2.8
+                                [kotlinx-serialization-core](https://github.com/Kotlin/kotlinx.serialization): 1.4.1
+                                [detekt](https://github.com/detekt/detekt): 1.21.0
+                                [Kotlin](https://github.com/JetBrains/kotlin): 1.7.21
+                                [groovy](https://github.com/apache/groovy): 3.0.8
                             """.trimIndent()
                         }
                         field {
@@ -50,6 +51,7 @@ class Build : Extension() {
                                 |Language: Kotlin
                                 |Buildsystem: Gradle
                                 |My mental issues because of this: alot
+                                |Some dependencies cannot be updated yet due to logging issues
                             """.trimMargin()
                         }
                     }
