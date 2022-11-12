@@ -6,7 +6,7 @@ jansi = "2.4.0"
 kord-extensions = "1.5.5-20221107.093708-35"
 kx-ser = "1.4.1"
 logging = "3.0.4"
-logback = "1.4.4"
+logback = "1.2.8"
 gson = "2.10"
 groovy = "4.0.6"
 
