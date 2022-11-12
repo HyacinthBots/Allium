@@ -8,7 +8,7 @@ kx-ser = "1.4.1"
 logging = "2.1.23" # DON'T REMOVE OR UPDATE
 logback = "1.2.8" # DON'T REMOVE OR UPDATE
 gson = "2.10"
-groovy = "3.0.8" # DON'T REMOVE OR UPDATE
+groovy = "3.0.13" # DON'T REMOVE OR UPDATE
 
 [libraries]
 detekt = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
