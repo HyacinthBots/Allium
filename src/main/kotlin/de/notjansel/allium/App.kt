@@ -7,7 +7,6 @@ import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.modules.extra.mappings.extMappings
 import com.kotlindiscord.kord.extensions.utils.env
 import de.notjansel.allium.extensions.*
-import dev.kord.common.Color
 import dev.kord.common.entity.Snowflake
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -41,12 +40,6 @@ suspend fun main() {
             add(::Modrinth)
             add(::About)
             add(::Build)
-            help {
-                enableBundledExtension = true
-                color {
-                    Color(69420727)
-                }
-            }
             extMappings {  }
         }
         i18n {
