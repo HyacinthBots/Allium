@@ -39,7 +39,6 @@ suspend fun main() {
             add(::Startup)
             add(::Modrinth)
             add(::About)
-            add(::Build)
             extMappings {  }
         }
         i18n {

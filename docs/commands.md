@@ -1,11 +1,11 @@
 # Commands
-Commands are a important part of Bots. That's also what Allium makes use of, and not a small portion of it too.
+Commands are an important part of Bots. That's also what Allium makes use of, and not a small portion of it too.
 
 This Document shall help if you ever need help with Commands.
 
 ## Modrinth Commands
 The Modrinth Extension is a fairly useful one. It contains Commands to search Modrinth Projects or Users.
-The User Search is a bit more strict as it tries to get a valid response.
+The User Search is a bit stricter as it tries to get a valid response.
 
 Info: Arguments in ``<>`` are mandatory, while arguments in ``()`` are optional
 
