@@ -1,6 +1,8 @@
 # Allium
 
 This is a Minecraft-focused bot for Minecraft Modding etc.
-Features are in the Documentation which will be added later.
+
+Commands: [click](https://github.com/NotJansel/Allium/tree/root/docs/commands.md)
+Privacy Policy: [click](https://github.com/NotJansel/Allium/tree/root/docs/privacy-policy.md)
 
 Cheers~<br>Jansel
