@@ -45,6 +45,12 @@ The about command is a command to see information about the bot. Also contains t
 
 ---
 
+## Mapping Commands
+
+This Bot also has the associated mapping commands from the [KordEx Mappings Extension](https://github.com/Kord-Extensions/kord-extensions/tree/root/extra-modules/extra-mappings)
+
 ---
 
-### More commandsto come...
+---
+
+### More commands to come...
