@@ -23,20 +23,6 @@ Info: Arguments in ``<>`` are mandatory, while arguments in ``()`` are optional
 
 ---
 
-``/modrinth modpack <query> (limit)``
-
-- Query: Modpack to search. Returns a paginator when multiple results are found.
-- Limit: Limits the amount of results in the paginator. Default: 5
-
----
-
-``/modrinth resourcepack <query> (limit)``
-
-- Query: Resource Pack to search. Returns a paginator when multiple results are found.
-- Limit: Limits the amount of results in the paginator. Default: 5
-
----
-
 ---
 
 ## About Command
