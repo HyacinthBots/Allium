@@ -1,6 +1,7 @@
 package org.hyacinthbots.allium.extensions
 
 import com.google.gson.JsonArray
+import com.google.gson.JsonNull
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.kotlindiscord.kord.extensions.commands.Arguments
@@ -47,14 +48,14 @@ class Modrinth : Extension() {
                     respond {
                         embed {
                             title = (
-                                if (user["name"].asString != null) {
+                                if (user["name"] != JsonNull.INSTANCE) {
                                 user["name"].asString
                             } else {
                                 user["username"].asString
                             }
                             ).toString()
                             description = (
-                                if (user["bio"].asString != null) {
+                                if (user["bio"] != JsonNull.INSTANCE) {
                                 user["bio"].asString
                             } else {
                                 "No bio set."
