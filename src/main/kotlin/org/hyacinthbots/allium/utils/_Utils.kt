@@ -1,4 +1,4 @@
-package de.notjansel.allium.utils
+package org.hyacinthbots.allium.utils
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
