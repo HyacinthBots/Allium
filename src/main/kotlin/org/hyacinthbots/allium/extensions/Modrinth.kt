@@ -1,4 +1,4 @@
-package de.notjansel.allium.extensions
+package org.hyacinthbots.allium.extensions
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -11,10 +11,10 @@ import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.types.respondingPaginator
-import de.notjansel.allium.utils.*
 import dev.kord.common.annotation.KordPreview
 import dev.kord.rest.builder.message.create.embed
 import kotlinx.datetime.Instant
+import org.hyacinthbots.allium.utils.*
 import java.util.*
 
 /**
