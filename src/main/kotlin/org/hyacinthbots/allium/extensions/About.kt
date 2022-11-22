@@ -30,7 +30,7 @@ class About : Extension() {
                             """.trimIndent()
                         }
                         field {
-                            name = "Birthday"
+                            name = "Birthday (initial date of idea)"
                             value = "September 6th, 2022"
                         }
                         field {

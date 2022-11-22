@@ -46,8 +46,20 @@ class Modrinth : Extension() {
                     val user = JsonParser.parseString(request.body()).asJsonObject
                     respond {
                         embed {
-                            title = user["name"].asString
-                            description = user["bio"].asString
+                            title = (
+                                if (user["name"].asString != null) {
+                                user["name"].asString
+                            } else {
+                                user["username"].asString
+                            }
+                            ).toString()
+                            description = (
+                                if (user["bio"].asString != null) {
+                                user["bio"].asString
+                            } else {
+                                "No bio set."
+                            }
+                            ).toString()
                             thumbnail {
                                 this.url = user["avatar_url"].asString
                             }

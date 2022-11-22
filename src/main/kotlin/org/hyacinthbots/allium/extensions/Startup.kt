@@ -6,8 +6,9 @@ import dev.kord.common.annotation.KordPreview
 import dev.kord.common.entity.PresenceStatus
 import dev.kord.core.behavior.getChannelOf
 import dev.kord.core.entity.channel.TextChannel
-import dev.kord.core.event.gateway.ReadyEvent
+import dev.kord.core.event.gateway.*
 import dev.kord.core.kordLogger
+import kotlinx.coroutines.flow.count
 import org.hyacinthbots.allium.TEST_SERVER_CHANNEL_ID
 import org.hyacinthbots.allium.TEST_SERVER_ID
 import org.hyacinthbots.allium.utils.*
@@ -28,11 +29,11 @@ class Startup : Extension() {
                 onlineLog?.createMessage("Bot Online, current version: $BUILD")
                 kord.editPresence {
                     status = PresenceStatus.Online
-                    playing(BUILD)
+                    watching("${kord.guilds.count()} Servers")
                 }
             }
         }
-        event<dev.kord.core.event.gateway.DisconnectEvent> {
+        event<DisconnectEvent> {
             action { kordLogger.info("Bot Disconnected.") }
         }
     }
