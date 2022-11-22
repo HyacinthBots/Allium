@@ -32,9 +32,9 @@ fun String.runCommand(
     }
 
 
-group = "org.hyacinthbots.allium"
-//version = "0.2.2-build.local-" + "git rev-parse --short=8 HEAD".runCommand(workingDir = rootDir)
-version = "0.2.1"
+group = "de.notjansel.allium"
+//version = "0.1.3-build.local-" + "git rev-parse --short=8 HEAD".runCommand(workingDir = rootDir)
+version = "0.2.0"
 
 blossom {
     replaceToken("@version@", version)
@@ -94,7 +94,7 @@ dependencies {
 
 application {
     // This is deprecated, but the Shadow plugin requires it
-    mainClassName = "org.hyacinthbots.allium.AppKt"
+    mainClassName = "de.notjansel.allium.AppKt"
 }
 
 gitHooks {
@@ -117,7 +117,7 @@ tasks.withType<KotlinCompile> {
 tasks.jar {
     manifest {
         attributes(
-            "Main-Class" to "org.hyacinthbots.allium.AppKt"
+            "Main-Class" to "de.notjansel.allium.AppKt"
         )
     }
 }

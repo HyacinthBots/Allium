@@ -1,16 +1,16 @@
-package org.hyacinthbots.allium.extensions
+package de.notjansel.allium.extensions
 
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
+import de.notjansel.allium.TEST_SERVER_CHANNEL_ID
+import de.notjansel.allium.TEST_SERVER_ID
+import de.notjansel.allium.utils.*
 import dev.kord.common.annotation.KordPreview
 import dev.kord.common.entity.PresenceStatus
 import dev.kord.core.behavior.getChannelOf
 import dev.kord.core.entity.channel.TextChannel
 import dev.kord.core.event.gateway.ReadyEvent
 import dev.kord.core.kordLogger
-import org.hyacinthbots.allium.TEST_SERVER_CHANNEL_ID
-import org.hyacinthbots.allium.TEST_SERVER_ID
-import org.hyacinthbots.allium.utils.*
 
 /**
  * Startup Functions.

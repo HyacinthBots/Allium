@@ -1,10 +1,10 @@
-package org.hyacinthbots.allium.extensions
+package de.notjansel.allium.extensions
 
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
+import de.notjansel.allium.utils.*
 import dev.kord.rest.builder.message.create.embed
-import org.hyacinthbots.allium.utils.*
 
 /**
  * About command.
@@ -39,7 +39,7 @@ class About : Extension() {
                         }
                         field {
                             name = "Source code"
-                            value = "[click me](https://github.com/HyacinthBots/Allium)"
+                            value = "[click me](https://github.com/NotJansel/Allium)"
                         }
                         field {
                             name = "Build"

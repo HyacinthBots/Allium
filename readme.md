@@ -3,9 +3,9 @@
 This is a Minecraft-focused bot for Minecraft Modding etc.
 
 ### Commands
-[click here](https://github.com/HyacinthBots/Allium/tree/root/docs/commands.md)
+[click here](https://github.com/NotJansel/Allium/tree/root/docs/commands.md)
 ### Privacy Policy
-[click here](https://github.com/HyacinthBots/Allium/tree/root/docs/privacy-policy.md)
+[click here](https://github.com/NotJansel/Allium/tree/root/docs/privacy-policy.md)
 ### Terms of Service 
 [click here](https://github.com/HyacinthBots/.github/blob/main/terms-of-service.md)
 ### Invite to your own Server
