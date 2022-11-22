@@ -60,7 +60,7 @@ class Modrinth : Extension() {
                 description = "Search for a mod/plugin"
                 action {
                     val url =
-                        "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:mod%22]]&query=${arguments.query}"
+                        "https://api.modrinth.com/v2/search?limit=${arguments.limit}&query=${arguments.query}"
                     val request = webRequest(url)
                     val response = JsonParser.parseString(request.body()).asJsonObject
                     val hits: JsonArray = response["hits"].asJsonArray
@@ -75,7 +75,7 @@ class Modrinth : Extension() {
                         respond {
                             embed {
                                 this.title = hit["title"].asString
-                                this.url = "https://modrinth.com/mod/${hit["slug"].asString}"
+                                this.url = "https://modrinth.com/project/${hit["slug"].asString}"
                                 thumbnail {
                                     this.url = hit["icon_url"].asString
                                 }
@@ -104,159 +104,7 @@ class Modrinth : Extension() {
                             val hit: JsonObject = hits.get(i).asJsonObject
                             page {
                                 this.title = hit["title"].asString
-                                this.url = "https://modrinth.com/mod/${hit["slug"].asString}"
-                                thumbnail {
-                                    this.url = hit["icon_url"].asString
-                                }
-                                this.description = hit["description"].asString
-                                field("Latest Version", true) { hit["latest_version"].asString }
-                                field(
-                                    "Client/Server Side",
-                                    true
-                                ) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
-                                field("Downloads", true) { hit["downloads"].asString }
-                                field("Author", true) { hit["author"].asString }
-                                field(
-                                    "Last Update",
-                                    true
-                                ) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
-                                field("License", true) { hit["license"].asString }
-                                footer {
-                                    this.text = "Modrinth | ${hit["author"].asString}"
-                                }
-                            }
-                        }
-                        timeoutSeconds = 60
-                        locale = Locale.ENGLISH
-                    }.send()
-                }
-            }
-            publicSubCommand(::ModrinthSearchQuery) {
-                name = "resourcepack"
-                description = "Search for a resource pack"
-                action {
-                    val url =
-                        "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:resourcepack%22]]&query=${arguments.query}"
-                    val request = webRequest(url)
-                    val response = JsonParser.parseString(request.body()).asJsonObject
-                    val hits: JsonArray = response["hits"].asJsonArray
-                    if (hits.isEmpty) {
-                        respond {
-                            content = "No results found."
-                        }
-                        return@action
-                    }
-                    if (response["total_hits"].asInt == 1) {
-                        val hit = hits.get(0).asJsonObject
-                        respond {
-                            embed {
-                                this.title = hit["title"].asString
-                                this.url = "https://modrinth.com/resourcepack/${hit["slug"].asString}"
-                                thumbnail {
-                                    this.url = hit["icon_url"].asString
-                                }
-                                this.description = hit["description"].asString
-                                field("Latest Version", true) { hit["latest_version"].asString }
-                                field(
-                                    "Client/Server Side",
-                                    true
-                                ) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
-                                field("Downloads", true) { hit["downloads"].asString }
-                                field("Author", true) { hit["author"].asString }
-                                field(
-                                    "Last Update",
-                                    true
-                                ) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
-                                field("License", true) { hit["license"].asString }
-                                footer {
-                                    this.text = "Modrinth | ${hit["author"].asString}"
-                                }
-                            }
-                        }
-                        return@action
-                    }
-                    respondingPaginator {
-                        for ((i, _) in hits.withIndex()) {
-                            val hit: JsonObject = hits.get(i).asJsonObject
-                            page {
-                                this.title = hit["title"].asString
-                                this.url = "https://modrinth.com/mod/${hit["slug"].asString}"
-                                thumbnail {
-                                    this.url = hit["icon_url"].asString
-                                }
-                                this.description = hit["description"].asString
-                                field("Latest Version", true) { hit["latest_version"].asString }
-                                field(
-                                    "Client/Server Side",
-                                    true
-                                ) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
-                                field("Downloads", true) { hit["downloads"].asString }
-                                field("Author", true) { hit["author"].asString }
-                                field(
-                                    "Last Update",
-                                    true
-                                ) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
-                                field("License", true) { hit["license"].asString }
-                                footer {
-                                    this.text = "Modrinth | ${hit["author"].asString}"
-                                }
-                            }
-                        }
-                        timeoutSeconds = 60
-                        locale = Locale.ENGLISH
-                    }.send()
-                }
-            }
-            publicSubCommand(::ModrinthSearchQuery) {
-                name = "modpack"
-                description = "Search for a Modpack"
-                action {
-                    val url =
-                        "https://api.modrinth.com/v2/search?limit=${arguments.limit}&facets=[[%22project_type:modpack%22]]&query=${arguments.query}"
-                    val request = webRequest(url)
-                    val response = JsonParser.parseString(request.body()).asJsonObject
-                    val hits: JsonArray = response["hits"].asJsonArray
-                    if (hits.isEmpty) {
-                        respond {
-                            content = "No results found."
-                        }
-                        return@action
-                    }
-                    if (response["total_hits"].asInt == 1) {
-                        val hit = hits.get(0).asJsonObject
-                        respond {
-                            embed {
-                                this.title = hit["title"].asString
-                                this.url = "https://modrinth.com/mod/${hit["slug"].asString}"
-                                thumbnail {
-                                    this.url = hit["icon_url"].asString
-                                }
-                                this.description = hit["description"].asString
-                                field("Latest Version", true) { hit["latest_version"].asString }
-                                field(
-                                    "Client/Server Side",
-                                    true
-                                ) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
-                                field("Downloads", true) { hit["downloads"].asString }
-                                field("Author", true) { hit["author"].asString }
-                                field(
-                                    "Last Update",
-                                    true
-                                ) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
-                                field("License", true) { hit["license"].asString }
-                                footer {
-                                    this.text = "Modrinth | ${hit["author"].asString}"
-                                }
-                            }
-                        }
-                        return@action
-                    }
-                    respondingPaginator {
-                        for ((i, _) in hits.withIndex()) {
-                            val hit: JsonObject = hits.get(i).asJsonObject
-                            page {
-                                this.title = hit["title"].asString
-                                this.url = "https://modrinth.com/modpack/${hit["slug"].asString}"
+                                this.url = "https://modrinth.com/project/${hit["slug"].asString}"
                                 thumbnail {
                                     this.url = hit["icon_url"].asString
                                 }
