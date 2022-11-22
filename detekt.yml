@@ -248,7 +248,7 @@ formatting:
     active: true
     autoCorrect: true
   Filename:
-    active: true
+    active: false
   FinalNewline:
     active: true
     autoCorrect: true
