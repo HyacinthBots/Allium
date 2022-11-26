@@ -93,8 +93,8 @@ class Modrinth : Extension() {
                             m.addAll(loaders)
                         }
                         var strLoaders = ""
-                        m.forEach {
-                            strLoaders += this.toString() + "\n"
+                        for (entry in m) {
+                            strLoaders += entry + "\n"
                         }
                         strLoaders.dropLast(2)
                         respond {
