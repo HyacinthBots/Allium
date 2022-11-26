@@ -69,7 +69,7 @@ class Modrinth : Extension() {
                 description = "Search for a mod/plugin"
                 action {
                     val url =
-                        "https://api.modrinth.com/v2/search?limit=${arguments.limit}&query=${arguments.query}"
+                        "https://api.modrinth.com/v2/search?limit=${arguments.limit}&query=${arguments.query.replace(" ", "%20")}"
                     val request = webRequest(url)
                     val response = JsonParser.parseString(request.body()).asJsonObject
                     val hits: JsonArray = response["hits"].asJsonArray
