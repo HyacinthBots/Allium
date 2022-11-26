@@ -38,6 +38,13 @@ class About : Extension() {
                             value = "Jansel, StonkDragon (mental help)"
                         }
                         field {
+                            name = "Contributors"
+                            value = """[Jansel](https://github.com/NotJansel),
+                                    |[StonkDragon](https://github.com/StonkDragon),
+                                    |[triphora](https://github.com/triphora)
+                                    """.trimMargin()
+                        }
+                        field {
                             name = "Source code"
                             value = "[click me](https://github.com/HyacinthBots/Allium)"
                         }
