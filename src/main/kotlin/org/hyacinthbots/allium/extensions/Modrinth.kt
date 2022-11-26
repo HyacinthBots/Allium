@@ -17,6 +17,8 @@ import dev.kord.rest.builder.message.create.embed
 import kotlinx.datetime.Instant
 import org.hyacinthbots.allium.utils.*
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 
 /**
  * Modrinth Commands. Written in pure pain.
@@ -79,6 +81,22 @@ class Modrinth : Extension() {
                     }
                     if (response["total_hits"].asInt == 1) {
                         val hit = hits.get(0).asJsonObject
+                        val versionsreq = webRequest("https://api.modrinth.com/v2/project/${hit["slug"].asString}/versions")
+                        val versionsres = JsonParser.parseString(versionsreq.body()).asJsonArray
+                        var m: MutableSet<String> = HashSet()
+                        for ((index, vers_hit) in versionsres.withIndex()) {
+                            index.toString() // leave this as else this doesn't work (please I don't want to count up manually)
+                            var loaders = ArrayList<String>()
+                            for (loader in vers_hit.asJsonObject.getAsJsonArray("loaders")) {
+                                loaders.add(loader.asString)
+                            }
+                            m.addAll(loaders)
+                        }
+                        var strLoaders = ""
+                        m.forEach {
+                            strLoaders += this.toString() + "\n"
+                        }
+                        strLoaders.dropLast(2)
                         respond {
                             embed {
                                 this.title = hit["title"].asString
@@ -99,6 +117,7 @@ class Modrinth : Extension() {
                                     true
                                 ) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
                                 field("License", true) { hit["license"].asString }
+                                field("Loaders", true) { strLoaders }
                                 footer {
                                     this.text = "Modrinth | ${hit["author"].asString}"
                                 }
@@ -109,6 +128,22 @@ class Modrinth : Extension() {
                     respondingPaginator {
                         for ((i, _) in hits.withIndex()) {
                             val hit: JsonObject = hits.get(i).asJsonObject
+                            val versionsreq = webRequest("https://api.modrinth.com/v2/project/${hit["slug"].asString}/versions")
+                            val versionsres = JsonParser.parseString(versionsreq.body()).asJsonArray
+                            var m: MutableSet<String> = HashSet()
+                            for ((index, vers_hit) in versionsres.withIndex()) {
+                                index.toString() // leave this as else this doesn't work (please I don't want to count up manually)
+                                var loaders = ArrayList<String>()
+                                for (loader in vers_hit.asJsonObject.getAsJsonArray("loaders")) {
+                                    loaders.add(loader.asString)
+                                }
+                                m.addAll(loaders)
+                            }
+                            var strLoaders = ""
+                            m.forEach {
+                                strLoaders += this.toString() + "\n"
+                            }
+                            strLoaders.dropLast(2)
                             page {
                                 this.title = hit["title"].asString
                                 this.url = "https://modrinth.com/project/${hit["slug"].asString}"
@@ -128,6 +163,7 @@ class Modrinth : Extension() {
                                     true
                                 ) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
                                 field("License", true) { hit["license"].asString }
+                                field("Loaders", true) { strLoaders }
                                 footer {
                                     this.text = "Modrinth | ${hit["author"].asString}"
                                 }
