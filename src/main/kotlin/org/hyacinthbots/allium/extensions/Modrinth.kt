@@ -82,7 +82,7 @@ class Modrinth : Extension() {
                     if (response["total_hits"].asInt == 1) {
                         val hit = hits.get(0).asJsonObject
                         val versionsreq = webRequest("https://api.modrinth.com/v2/project/${hit["slug"].asString}/version")
-                        val versionsres = JsonParser.parseString(versionsreq.body()).asJsonObject.asJsonArray
+                        val versionsres = JsonParser.parseString(versionsreq.body()).asJsonArray
                         var m: MutableSet<String> = HashSet()
                         for ((index, vers_hit) in versionsres.withIndex()) {
                             index.toString() // leave this as else this doesn't work (please I don't want to count up manually)
@@ -129,7 +129,7 @@ class Modrinth : Extension() {
                         for ((i, _) in hits.withIndex()) {
                             val hit: JsonObject = hits.get(i).asJsonObject
                             val versionsreq = webRequest("https://api.modrinth.com/v2/project/${hit["slug"].asString}/version")
-                            val versionsres = JsonParser.parseString(versionsreq.body()).asJsonObject.asJsonArray
+                            val versionsres = JsonParser.parseString(versionsreq.body()).asJsonArray
                             var m: MutableSet<String> = HashSet()
                             for ((index, vers_hit) in versionsres.withIndex()) {
                                 index.toString() // leave this as else this doesn't work (please I don't want to count up manually)
