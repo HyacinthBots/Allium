@@ -33,8 +33,8 @@ fun String.runCommand(
 
 
 group = "org.hyacinthbots.allium"
-version = "0.2.3-build.local-" + "git rev-parse --short=8 HEAD".runCommand(workingDir = rootDir)
-//version = "0.2.2"
+//version = "0.2.4-build.local-" + "git rev-parse --short=8 HEAD".runCommand(workingDir = rootDir)
+version = "0.2.3"
 
 blossom {
     replaceToken("@version@", version)
