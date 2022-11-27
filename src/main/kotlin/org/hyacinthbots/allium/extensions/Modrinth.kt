@@ -126,7 +126,8 @@ class Modrinth : Extension() {
         }
         var strLoaders = ""
         for (entry in m) {
-            strLoaders += entry + "\n"
+            val formattedEntry = entry[0].uppercase() + entry.drop(1)
+            strLoaders += formattedEntry + "\n"
         }
         strLoaders.dropLast(2)
 
