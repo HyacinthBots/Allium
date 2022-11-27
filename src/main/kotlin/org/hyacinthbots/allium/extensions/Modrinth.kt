@@ -103,7 +103,7 @@ class Modrinth : Extension() {
                                     embedContents(hit, strLoaders)
                                 }
                             }
-                            timeoutSeconds = 300
+                            timeoutSeconds = 180
                             locale = Locale.ENGLISH
                         }.send()
                     }
