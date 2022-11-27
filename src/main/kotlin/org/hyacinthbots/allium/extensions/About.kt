@@ -42,6 +42,7 @@ class About : Extension() {
                             value = """[Jansel](https://github.com/NotJansel),
                                     |[StonkDragon](https://github.com/StonkDragon),
                                     |[triphora](https://github.com/triphora)
+                                    |[NoComment](https://github.com/NoComment1105)
                                     """.trimMargin()
                         }
                         field {

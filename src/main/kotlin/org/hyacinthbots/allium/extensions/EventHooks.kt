@@ -6,10 +6,10 @@ import dev.kord.core.behavior.getChannelOf
 import dev.kord.core.entity.channel.GuildMessageChannel
 import dev.kord.core.event.gateway.DisconnectEvent
 import dev.kord.core.event.gateway.ReadyEvent
-import org.hyacinthbots.allium.splashes
 import org.hyacinthbots.allium.utils.BUILD
 import org.hyacinthbots.allium.utils.TEST_SERVER_CHANNEL_ID
 import org.hyacinthbots.allium.utils.TEST_SERVER_ID
+import org.hyacinthbots.allium.utils.getRandomSplash
 
 /**
  * Startup Functions.
@@ -25,10 +25,8 @@ class EventHooks : Extension() {
                     kord.getGuildOrNull(TEST_SERVER_ID)?.getChannelOf<GuildMessageChannel>(TEST_SERVER_CHANNEL_ID)
                 onlineLog?.createMessage("Bot Online, current version: $BUILD")
 
-                val entries = splashes.count()
-                val entry = (0 until entries).random()
                 kord.editPresence {
-                    playing(splashes.get(entry).asString)
+                    playing(getRandomSplash())
                 }
             }
         }
