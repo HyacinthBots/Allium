@@ -12,7 +12,7 @@ import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.types.respondingPaginator
-import dev.kord.common.annotation.KordPreview
+import dev.kord.rest.builder.message.EmbedBuilder
 import dev.kord.rest.builder.message.create.embed
 import kotlinx.datetime.Instant
 import org.hyacinthbots.allium.utils.*
@@ -25,14 +25,13 @@ import kotlin.collections.HashSet
  * @author NotJansel
  * @since 0.1.3
  */
-
-@OptIn(KordPreview::class)
 class Modrinth : Extension() {
     override val name = "modrinth"
     override suspend fun setup() {
         publicSlashCommand {
             name = "modrinth"
             description = "What is Modrinth?"
+
             publicSubCommand(::UserSearchQuery) {
                 name = "user"
                 description = "Search for a User"
@@ -64,12 +63,15 @@ class Modrinth : Extension() {
                     }
                 }
             }
+
             publicSubCommand(::ModrinthSearchQuery) {
                 name = "project"
                 description = "Search for a mod/plugin"
                 action {
                     val url =
-                        "https://api.modrinth.com/v2/search?limit=${arguments.limit}&query=${arguments.query.replace(" ", "%20")}"
+                        "https://api.modrinth.com/v2/search?limit=${arguments.limit}&query=${
+                            arguments.query.replace(" ", "%20")
+                        }"
                     val request = webRequest(url)
                     val response = JsonParser.parseString(request.body()).asJsonObject
                     val hits: JsonArray = response["hits"].asJsonArray
@@ -81,99 +83,78 @@ class Modrinth : Extension() {
                     }
                     if (response["total_hits"].asInt == 1) {
                         val hit = hits.get(0).asJsonObject
-                        val versionsreq = webRequest("https://api.modrinth.com/v2/project/${hit["slug"].asString}/version")
-                        val versionsres = JsonParser.parseString(versionsreq.body()).asJsonArray
-                        var m: MutableSet<String> = HashSet()
-                        for ((index, vers_hit) in versionsres.withIndex()) {
-                            index.toString() // leave this as else this doesn't work (please I don't want to count up manually)
-                            var loaders = ArrayList<String>()
-                            for (loader in vers_hit.asJsonObject.getAsJsonArray("loaders")) {
-                                loaders.add(loader.asString)
-                            }
-                            m.addAll(loaders)
-                        }
-                        var strLoaders = ""
-                        for (entry in m) {
-                            strLoaders += entry + "\n"
-                        }
-                        strLoaders.dropLast(2)
+
+                        val strLoaders = getProjectLoaders(hit)
+
                         respond {
                             embed {
-                                this.title = hit["title"].asString
-                                this.url = "https://modrinth.com/project/${hit["slug"].asString}"
-                                thumbnail {
-                                    this.url = hit["icon_url"].asString
-                                }
-                                this.description = hit["description"].asString
-                                field("Latest Version", true) { hit["latest_version"].asString }
-                                field(
-                                    "Client/Server Side",
-                                    true
-                                ) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
-                                field("Downloads", true) { hit["downloads"].asString }
-                                field("Author", true) { hit["author"].asString }
-                                field(
-                                    "Last Update",
-                                    true
-                                ) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
-                                field("License", true) { hit["license"].asString }
-                                field("Loaders", true) { strLoaders }
-                                footer {
-                                    this.text = "Modrinth | ${hit["author"].asString}"
-                                }
+                                embedContents(hit, strLoaders)
                             }
                         }
                         return@action
+                    } else {
+                        respondingPaginator {
+                            for ((i, _) in hits.withIndex()) {
+                                val hit: JsonObject = hits.get(i).asJsonObject
+
+                                val strLoaders = getProjectLoaders(hit)
+
+                                page {
+                                    embedContents(hit, strLoaders)
+                                }
+                            }
+                            timeoutSeconds = 300
+                            locale = Locale.ENGLISH
+                        }.send()
                     }
-                    respondingPaginator {
-                        for ((i, _) in hits.withIndex()) {
-                            val hit: JsonObject = hits.get(i).asJsonObject
-                            val versionsreq = webRequest("https://api.modrinth.com/v2/project/${hit["slug"].asString}/version")
-                            val versionsres = JsonParser.parseString(versionsreq.body()).asJsonArray
-                            var m: MutableSet<String> = HashSet()
-                            for ((index, vers_hit) in versionsres.withIndex()) {
-                                index.toString() // leave this as else this doesn't work (please I don't want to count up manually)
-                                var loaders = ArrayList<String>()
-                                for (loader in vers_hit.asJsonObject.getAsJsonArray("loaders")) {
-                                    loaders.add(loader.asString)
-                                }
-                                m.addAll(loaders)
-                            }
-                            var strLoaders = ""
-                            for (entry in m) {
-                                strLoaders += entry + "\n"
-                            }
-                            strLoaders.dropLast(2)
-                            page {
-                                this.title = hit["title"].asString
-                                this.url = "https://modrinth.com/project/${hit["slug"].asString}"
-                                thumbnail {
-                                    this.url = hit["icon_url"].asString
-                                }
-                                this.description = hit["description"].asString
-                                field("Latest Version", true) { hit["latest_version"].asString }
-                                field(
-                                    "Client/Server Side",
-                                    true
-                                ) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
-                                field("Downloads", true) { hit["downloads"].asString }
-                                field("Author", true) { hit["author"].asString }
-                                field(
-                                    "Last Update",
-                                    true
-                                ) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
-                                field("License", true) { hit["license"].asString }
-                                field("Loaders", true) { strLoaders }
-                                footer {
-                                    this.text = "Modrinth | ${hit["author"].asString}"
-                                }
-                            }
-                        }
-                        timeoutSeconds = 60
-                        locale = Locale.ENGLISH
-                    }.send()
                 }
             }
+        }
+    }
+
+    private suspend inline fun getProjectLoaders(hit: JsonObject): String {
+        val versionsreq = webRequest("https://api.modrinth.com/v2/project/${hit["slug"].asString}/version")
+        val versionsres = JsonParser.parseString(versionsreq.body()).asJsonArray
+        val m: MutableSet<String> = HashSet()
+        for ((index, vers_hit) in versionsres.withIndex()) {
+            index.toString() // leave this as else this doesn't work (please I don't want to count up manually)
+            val loaders = ArrayList<String>()
+            for (loader in vers_hit.asJsonObject.getAsJsonArray("loaders")) {
+                loaders.add(loader.asString)
+            }
+            m.addAll(loaders)
+        }
+        var strLoaders = ""
+        for (entry in m) {
+            strLoaders += entry + "\n"
+        }
+        strLoaders.dropLast(2)
+
+        return strLoaders
+    }
+
+    private fun EmbedBuilder.embedContents(hit: JsonObject, strLoaders: String) {
+        this.title = hit["title"].asString
+        this.url = "https://modrinth.com/project/${hit["slug"].asString}"
+        thumbnail {
+            this.url = hit["icon_url"].asString
+        }
+        this.description = hit["description"].asString
+        field("Latest Version", true) { hit["latest_version"].asString }
+        field(
+            "Client/Server Side",
+            true
+        ) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
+        field("Downloads", true) { hit["downloads"].asString }
+        field("Author", true) { hit["author"].asString }
+        field(
+            "Last Update",
+            true
+        ) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
+        field("License", true) { hit["license"].asString }
+        field("Loaders", true) { strLoaders }
+        footer {
+            this.text = "Modrinth | ${hit["author"].asString}"
         }
     }
 
@@ -193,7 +174,6 @@ class Modrinth : Extension() {
         val query by string {
             name = "query"
             description = "User to search up"
-            require(true)
         }
     }
 }
