@@ -1,19 +1,18 @@
 [versions]
 detekt = "1.22.0"  # Note: Plugin versions must be updated in the settings.gradle.kts too
-kotlin = "1.7.21"  # Note: Plugin versions must be updated in the settings.gradle.kts too
 
 jansi = "2.4.0"
-kord-extensions = "1.5.5-20221107.093708-35"
+kord-extensions = "1.5.5-20221126.235557-39"
 kx-ser = "1.4.1"
 logging = "2.1.23" # DON'T REMOVE OR UPDATE
 logback = "1.2.8" # DON'T REMOVE OR UPDATE
 gson = "2.10"
-groovy = "3.0.8" # DON'T REMOVE OR UPDATE
+groovy = "3.0.10" # DON'T REMOVE OR UPDATE
 
 [libraries]
 detekt = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 jansi = { module = "org.fusesource.jansi:jansi", version.ref = "jansi" }
-kord-extensions = { module = "com.kotlindiscord.kord.extensions:kord-extensions", version.ref = "kord-extensions" }
+kord-extensions-core = { module = "com.kotlindiscord.kord.extensions:kord-extensions", version.ref = "kord-extensions" }
 kord-extensions-mappings = { module = "com.kotlindiscord.kord.extensions:extra-mappings", version.ref = "kord-extensions"}
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }

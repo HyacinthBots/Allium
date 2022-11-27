@@ -7,23 +7,16 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonParser
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.modules.extra.mappings.extMappings
-import com.kotlindiscord.kord.extensions.utils.env
-import dev.kord.common.entity.Snowflake
 import me.shedaniel.linkie.utils.readText
-import org.hyacinthbots.allium.extensions.*
+import org.hyacinthbots.allium.extensions.About
+import org.hyacinthbots.allium.extensions.EventHooks
+import org.hyacinthbots.allium.extensions.Modrinth
+import org.hyacinthbots.allium.extensions.PresenceUpdater
+import org.hyacinthbots.allium.utils.TOKEN
 import java.util.*
-
-val TEST_SERVER_ID = Snowflake(
-    env("TEST_SERVER").toLong()  // Get the test server ID from the env vars or a .env file
-)
-
-val TEST_SERVER_CHANNEL_ID = Snowflake(
-    env("TEST_CHANNEL").toLong() // Get the test channel ID from the env vars or a .env file
-)
 
 var splashes = JsonArray()
 
-private val TOKEN = env("TOKEN")   // Get the bot' token from the env vars or a .env file
 suspend fun main() {
     splashes = JsonParser.parseString({}.javaClass.getResource("/splashes.json")?.readText()).asJsonObject.getAsJsonArray("splashes")
     val bot = ExtensibleBot(TOKEN) {

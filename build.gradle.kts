@@ -35,6 +35,8 @@ fun String.runCommand(
 group = "org.hyacinthbots.allium"
 //version = "0.2.4-build.local-" + "git rev-parse --short=8 HEAD".runCommand(workingDir = rootDir)
 version = "0.2.3"
+// The current LTS Java version
+val javaVersion = 17
 
 blossom {
     replaceToken("@version@", version)
@@ -78,11 +80,11 @@ repositories {
 dependencies {
     detektPlugins(libs.detekt)
 
-    implementation(libs.kord.extensions)
+    implementation(libs.kord.extensions.core)
+    implementation(libs.kord.extensions.mappings)
     implementation(libs.kotlin.stdlib)
     implementation(libs.kx.ser)
     implementation(libs.gson)
-    implementation(libs.kord.extensions.mappings)
 
 
     // Logging dependencies
@@ -93,8 +95,7 @@ dependencies {
 }
 
 application {
-    // This is deprecated, but the Shadow plugin requires it
-    mainClassName = "org.hyacinthbots.allium.AppKt"
+    mainClass.set("org.hyacinthbots.allium.AppKt")
 }
 
 gitHooks {
@@ -103,29 +104,42 @@ gitHooks {
     )
 }
 
-tasks.processResources {
-    inputs.property("version", version)
-}
+tasks {
+    processResources {
+        inputs.property("version", version)
+    }
 
-tasks.withType<KotlinCompile> {
-    // Current LTS version of Java
-    kotlinOptions.jvmTarget = "17"
+    withType<KotlinCompile> {
+        kotlinOptions {
+            jvmTarget = javaVersion.toString()
+            languageVersion = "1.7" // The current major revision of Kotlin
+            incremental = true
+            freeCompilerArgs = listOf("-opt-in=kotlin.RequiresOptIn")
+        }
+    }
 
-    kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
-}
+    jar {
+        manifest {
+            attributes(
+                "Main-Class" to "org.hyacinthbots.allium.AppKt"
+            )
+        }
+    }
 
-tasks.jar {
-    manifest {
-        attributes(
-            "Main-Class" to "org.hyacinthbots.allium.AppKt"
-        )
+    wrapper {
+        /*
+        Update gradle by changing `gradleVersion` below to the new version,
+        then run `./gradlew wrapper` twice to update the scripts properly.
+         */
+        gradleVersion = "7.6"
+        distributionType = Wrapper.DistributionType.BIN
     }
 }
 
 java {
     // Current LTS version of Java
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.toVersion(javaVersion)
+    targetCompatibility = JavaVersion.toVersion(javaVersion)
 }
 
 detekt {
