@@ -53,6 +53,10 @@ class About : Extension() {
                             name = "Build"
                             value = BUILD
                         }
+                        field {
+                            name = "Next update?"
+                            value = "In 3-5 business days."
+                        }
                     }
                 }
             }
