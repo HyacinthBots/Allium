@@ -33,8 +33,8 @@ fun String.runCommand(
 
 
 group = "org.hyacinthbots.allium"
-//version = "0.2.5-build.local-" + "git rev-parse --short=8 HEAD".runCommand(workingDir = rootDir)
-version = "0.2.4"
+version = "0.2.5-build.local-" + "git rev-parse --short=8 HEAD".runCommand(workingDir = rootDir)
+//version = "0.2.4"
 // The current LTS Java version
 val javaVersion = 17
 
