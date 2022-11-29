@@ -2,6 +2,7 @@ package org.hyacinthbots.allium.utils
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.hyacinthbots.allium.splashes
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -16,6 +17,12 @@ suspend inline fun webRequest(url: String): HttpResponse<String> {
         client.send(request, HttpResponse.BodyHandlers.ofString())
     }
     return response
+}
+
+fun getRandomSplash(): String {
+    val entries = splashes.count()
+    val entry = (0 until entries).random()
+    return splashes.get(entry).asString
 }
 
 const val BUILD: String = "@version@"

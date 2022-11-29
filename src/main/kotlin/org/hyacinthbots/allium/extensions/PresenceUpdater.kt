@@ -3,7 +3,7 @@ package org.hyacinthbots.allium.extensions
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.utils.scheduling.Scheduler
 import com.kotlindiscord.kord.extensions.utils.scheduling.Task
-import org.hyacinthbots.allium.splashes
+import org.hyacinthbots.allium.utils.getRandomSplash
 import kotlin.time.Duration.Companion.minutes
 
 class PresenceUpdater : Extension() {
@@ -18,10 +18,8 @@ class PresenceUpdater : Extension() {
     }
 
     private suspend fun updatePresence() {
-        val entries = splashes.count()
-        val entry = (0 until entries).random()
         kord.editPresence {
-            playing(splashes.get(entry).asString)
+            playing(getRandomSplash())
         }
     }
 }
