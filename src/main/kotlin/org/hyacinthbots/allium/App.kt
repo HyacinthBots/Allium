@@ -16,9 +16,11 @@ import org.hyacinthbots.allium.utils.TOKEN
 import java.util.*
 
 var splashes = JsonArray()
+var updatemessages = JsonArray()
 
 suspend fun main() {
     splashes = JsonParser.parseString({}.javaClass.getResource("/splashes.json")?.readText()).asJsonObject.getAsJsonArray("splashes")
+    updatemessages = JsonParser.parseString({}.javaClass.getResource("/updatemessages.json")?.readText()).asJsonArray
     val bot = ExtensibleBot(TOKEN) {
         extensions {
             add(::EventHooks)
