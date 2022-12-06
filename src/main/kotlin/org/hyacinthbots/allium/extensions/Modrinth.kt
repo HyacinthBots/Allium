@@ -42,7 +42,6 @@ class Modrinth : Extension() {
         publicSlashCommand {
             name = "modrinth"
             description = "What is Modrinth?"
-            searchModrinth("", 0) // detekt cries
             publicSubCommand(::UserSearchQuery) {
                 name = "user"
                 description = "Search for a User"
@@ -254,6 +253,7 @@ class Modrinth : Extension() {
         return licenses
     }
 
+/*
     private suspend fun searchModrinth(query: String, limit: Int): SearchResponseData {
         val route = "https://modrinth.com/v2/search?query=$query&limit=$limit"
 
@@ -265,7 +265,7 @@ class Modrinth : Extension() {
         val json = Json { ignoreUnknownKeys = true }
         return json.decodeFromString(response)
     }
-
+*/
     private suspend fun searchModrinthAdvanced(currentFilter: SearchData): SearchResponseData {
         val route = "https://api.modrinth.com/v2/search?limit=5"
 
