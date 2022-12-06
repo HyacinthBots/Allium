@@ -1,8 +1,6 @@
 package org.hyacinthbots.allium.extensions
 
-import com.google.gson.JsonArray
 import com.google.gson.JsonNull
-import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.slash.publicSubCommand
@@ -78,39 +76,19 @@ class Modrinth : Extension() {
                 name = "project"
                 description = "Search for a mod/plugin"
                 action {
-                    val url =
-                        "https://api.modrinth.com/v2/search?limit=${arguments.limit}&query=${
-                            arguments.query.replace(" ", "%20")
-                        }"
-                    val request = webRequest(url)
-                    val response = JsonParser.parseString(request.body()).asJsonObject
-                    val hits: JsonArray = response["hits"].asJsonArray
-                    if (hits.isEmpty) {
-                        respond {
-                            content = "No results found."
-                        }
-                        return@action
-                    }
-                    if (response["total_hits"].asInt == 1) {
-                        val hit = hits.get(0).asJsonObject
-
-                        val strLoaders = getProjectLoaders(hit["slug"].asString)
-
+                    val response = searchModrinth(arguments.query, arguments.limit)
+                    if (response.hits.count() == 1) {
                         respond {
                             embed {
-                                embedContents(hit, strLoaders)
+                                embedContents(response.hits[0])
                             }
                         }
                         return@action
                     } else {
                         respondingPaginator {
-                            for ((i, _) in hits.withIndex()) {
-                                val hit: JsonObject = hits.get(i).asJsonObject
-
-                                val strLoaders = getProjectLoaders(hit["slug"].asString)
-
+                            for ((i, _) in response.hits.withIndex()) {
                                 page {
-                                    embedContents(hit, strLoaders)
+                                    embedContents(response.hits[i])
                                 }
                             }
                             timeoutSeconds = 180
@@ -211,28 +189,28 @@ class Modrinth : Extension() {
         return strLoaders
     }
 
-    private fun EmbedBuilder.embedContents(hit: JsonObject, strLoaders: String) {
-        this.title = hit["title"].asString
-        this.url = "https://modrinth.com/project/${hit["slug"].asString}"
+    private suspend fun EmbedBuilder.embedContents(data: ProjectData) {
+        this.title = data.title
+        this.url = "https://modrinth.com/project/${data.slug}"
         thumbnail {
-            this.url = hit["icon_url"].asString
+            this.url = data.iconURL.toString()
         }
-        this.description = hit["description"].asString
-        field("Latest Version", true) { hit["latest_version"].asString }
+        this.description = data.description
+        field("Latest Version", true) { data.latestVersion }
         field(
             "Client/Server Side",
             true
-        ) { "Client: ${hit["client_side"].asString}\nServer: ${hit["server_side"].asString}" }
-        field("Downloads", true) { hit["downloads"].asString }
-        field("Author", true) { hit["author"].asString }
+        ) { "Client: ${data.clientSide}\nServer: ${data.serverSide}" }
+        field("Downloads", true) { data.downloads.toString() }
+        field("Author", true) { data.author }
         field(
             "Last Update",
             true
-        ) { "<t:${Instant.parse(hit["date_modified"].asString).epochSeconds}>" }
-        field("License", true) { hit["license"].asString }
-        field("Loaders", true) { strLoaders }
+        ) { "<t:${Instant.parse(data.dateModified).epochSeconds}>" }
+        field("License", true) { data.license.toString() }
+        field("Loaders", true) { getProjectLoaders(data.slug) }
         footer {
-            this.text = "Modrinth | ${hit["author"].asString}"
+            this.text = "Modrinth | ${data.author}"
         }
     }
 
@@ -253,7 +231,6 @@ class Modrinth : Extension() {
         return licenses
     }
 
-/*
     private suspend fun searchModrinth(query: String, limit: Int): SearchResponseData {
         val route = "https://modrinth.com/v2/search?query=$query&limit=$limit"
 
@@ -265,7 +242,7 @@ class Modrinth : Extension() {
         val json = Json { ignoreUnknownKeys = true }
         return json.decodeFromString(response)
     }
-*/
+
     private suspend fun searchModrinthAdvanced(currentFilter: SearchData): SearchResponseData {
         val route = "https://api.modrinth.com/v2/search?limit=5"
 
@@ -428,11 +405,14 @@ class Modrinth : Extension() {
         val title: String,
         val description: String,
         val categories: MutableList<String>,
+        val author: String,
         @SerialName("client_side") val clientSide: String,
         @SerialName("server_side") val serverSide: String,
         @SerialName("source_url") val sourceURL: String? = null,
         @SerialName("discord_url") val discordURL: String? = null,
         @SerialName("project_type") val projectType: String,
+        @SerialName("latest_version") val latestVersion: String,
+        @SerialName("date_modified") val dateModified: String,
         val downloads: Int,
         @SerialName("icon_url") val iconURL: String?,
         val license: String?
