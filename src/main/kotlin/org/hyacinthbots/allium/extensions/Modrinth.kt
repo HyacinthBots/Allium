@@ -13,6 +13,7 @@ import com.kotlindiscord.kord.extensions.components.ephemeralSelectMenu
 import com.kotlindiscord.kord.extensions.components.menus.EphemeralSelectMenuContext
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
+import com.kotlindiscord.kord.extensions.types.editingPaginator
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.types.respondingPaginator
 import dev.kord.rest.builder.message.EmbedBuilder
@@ -41,7 +42,7 @@ class Modrinth : Extension() {
         publicSlashCommand {
             name = "modrinth"
             description = "What is Modrinth?"
-
+            searchModrinth("", 0) // detekt cries
             publicSubCommand(::UserSearchQuery) {
                 name = "user"
                 description = "Search for a User"
@@ -94,7 +95,7 @@ class Modrinth : Extension() {
                     if (response["total_hits"].asInt == 1) {
                         val hit = hits.get(0).asJsonObject
 
-                        val strLoaders = getProjectLoaders(hit)
+                        val strLoaders = getProjectLoaders(hit["slug"].asString)
 
                         respond {
                             embed {
@@ -107,7 +108,7 @@ class Modrinth : Extension() {
                             for ((i, _) in hits.withIndex()) {
                                 val hit: JsonObject = hits.get(i).asJsonObject
 
-                                val strLoaders = getProjectLoaders(hit)
+                                val strLoaders = getProjectLoaders(hit["slug"].asString)
 
                                 page {
                                     embedContents(hit, strLoaders)
@@ -189,8 +190,8 @@ class Modrinth : Extension() {
         }
     }
 
-    private suspend inline fun getProjectLoaders(hit: JsonObject): String {
-        val versionsreq = webRequest("https://api.modrinth.com/v2/project/${hit["slug"].asString}/version")
+    private suspend inline fun getProjectLoaders(name: String): String {
+        val versionsreq = webRequest("https://api.modrinth.com/v2/project/$name/version")
         val versionsres = JsonParser.parseString(versionsreq.body()).asJsonArray
         val m: MutableSet<String> = HashSet()
         for ((index, vers_hit) in versionsres.withIndex()) {
@@ -243,7 +244,7 @@ class Modrinth : Extension() {
         client.close()
 
         val json = Json { ignoreUnknownKeys = true }
-        val stringResponseArray = json.decodeFromString<List<Modrinth.LicenseData>>(response)
+        val stringResponseArray = json.decodeFromString<List<LicenseData>>(response)
 
         val licenses = mutableListOf<String>()
         stringResponseArray.forEach {
@@ -253,7 +254,19 @@ class Modrinth : Extension() {
         return licenses
     }
 
-    private suspend fun searchModrinth(currentFilter: Modrinth.SearchData) {
+    private suspend fun searchModrinth(query: String, limit: Int): SearchResponseData {
+        val route = "https://modrinth.com/v2/search?query=$query&limit=$limit"
+
+        val client = HttpClient()
+        val response = client.request(route)
+            .readBytes().decodeToString()
+        client.close()
+
+        val json = Json { ignoreUnknownKeys = true }
+        return json.decodeFromString(response)
+    }
+
+    private suspend fun searchModrinthAdvanced(currentFilter: SearchData): SearchResponseData {
         val route = "https://api.modrinth.com/v2/search?limit=5"
 
         val client = HttpClient()
@@ -262,18 +275,19 @@ class Modrinth : Extension() {
         client.close()
 
         val json = Json { ignoreUnknownKeys = true }
-        val decodedResponse = json.decodeFromString<Modrinth.SearchResponseData>(response)
+        val decodedResponse = json.decodeFromString<SearchResponseData>(response)
 
         // for detekt
         println(decodedResponse)
         println(currentFilter)
+        return decodedResponse
     }
 
     private suspend fun EphemeralSelectMenuContext.createFilterMenu(
         filterType: String,
         filterOptions: MutableList<String>,
-        currentFilter: Modrinth.SearchData
-    ): Modrinth.SearchData {
+        currentFilter: SearchData
+    ): SearchData {
         respond {
             components {
                 ephemeralSelectMenu {
@@ -286,8 +300,27 @@ class Modrinth : Extension() {
                         this.selected.forEach {
                             currentFilter.facets[it] = filterType
                         }
-                        searchModrinth(currentFilter)
-                        // todo this is where the paginator needs to be updated
+                        val data = searchModrinthAdvanced(currentFilter)
+                        respond {
+                            editingPaginator {
+                                for (hit in data.hits) {
+                                    page {
+                                        this.title = hit.title
+                                        this.description = hit.description
+                                        thumbnail {
+                                            this.url = hit.iconURL.toString()
+                                        }
+                                        field {
+                                            this.name = "Loaders"
+                                            this.value = getProjectLoaders(hit.slug)
+                                        }
+                                        field {
+                                            this.name = ""
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -302,7 +335,7 @@ class Modrinth : Extension() {
         client.close()
 
         val json = Json { ignoreUnknownKeys = true }
-        val stringResponseArray = json.decodeFromString<List<Modrinth.CategoryData>>(response)
+        val stringResponseArray = json.decodeFromString<List<CategoryData>>(response)
 
         val modCategories = mutableListOf<String>()
         stringResponseArray.forEach {
@@ -320,7 +353,7 @@ class Modrinth : Extension() {
         client.close()
 
         val json = Json { ignoreUnknownKeys = true }
-        val stringResponseArray = json.decodeFromString<List<Modrinth.LoaderData>>(response)
+        val stringResponseArray = json.decodeFromString<List<LoaderData>>(response)
 
         val modLoaders = mutableListOf<String>()
         stringResponseArray.forEach {
@@ -338,7 +371,7 @@ class Modrinth : Extension() {
         client.close()
 
         val json = Json { ignoreUnknownKeys = true }
-        val stringResponseArray = json.decodeFromString<List<Modrinth.VersionData>>(response)
+        val stringResponseArray = json.decodeFromString<List<VersionData>>(response)
 
         val minecraftVersions = mutableListOf<String>()
         stringResponseArray.forEach {
