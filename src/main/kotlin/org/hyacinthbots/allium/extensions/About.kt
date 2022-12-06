@@ -71,11 +71,11 @@ class About : Extension() {
                             this.label = "Invite"
                             this.url = "https://discord.com/api/oauth2/authorize?client_id=1013045351852298280&permissions=347136&scope=bot%20applications.commands"
                         }
-                        linkButton {
+                        linkButton(1) {
                             this.label = "Terms of Service"
                             this.url = "https://github.com/HyacinthBots/.github/blob/main/terms-of-service.md"
                         }
-                        linkButton {
+                        linkButton(1) {
                             this.label = "Privacy Policy"
                             this.url = "https://github.com/HyacinthBots/Allium/tree/root/docs/privacy-policy.md"
                         }
