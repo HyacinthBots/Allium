@@ -25,7 +25,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import net.irisshaders.lilybot.extensions.util.Modrinth
 import org.hyacinthbots.allium.utils.*
 import java.util.*
 import kotlin.collections.ArrayList

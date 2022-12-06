@@ -20,7 +20,7 @@ var updatemessages = JsonArray()
 
 suspend fun main() {
     splashes = JsonParser.parseString({}.javaClass.getResource("/splashes.json")?.readText()).asJsonObject.getAsJsonArray("splashes")
-    updatemessages = JsonParser.parseString({}.javaClass.getResource("/updatemessages.json")?.readText()).asJsonArray
+    updatemessages = JsonParser.parseString({}.javaClass.getResource("/updatemessages.json")?.readText()).asJsonObject.getAsJsonArray("messages")
     val bot = ExtensibleBot(TOKEN) {
         extensions {
             add(::EventHooks)
