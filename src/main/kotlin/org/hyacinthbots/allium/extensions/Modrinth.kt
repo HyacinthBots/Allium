@@ -232,7 +232,7 @@ class Modrinth : Extension() {
     }
 
     private suspend fun searchModrinth(query: String, limit: Int): SearchResponseData {
-        val route = "https://modrinth.com/v2/search?query=$query&limit=$limit"
+        val route = "https://api.modrinth.com/v2/search?query=$query&limit=$limit"
 
         val client = HttpClient()
         val response = client.request(route)
