@@ -26,6 +26,14 @@ This Repository is open for contributions of all kinds! Although please make sur
 - [jansi](https://github.com/fusesource/jansi)
 - [kotlinx-serialization (Core)](https://github.com/Kotlin/kotlinx.serialization)
 
+### Statistics
+![GitHub](https://img.shields.io/github/license/HyacinthBots/Allium?label=License&style=for-the-badge) ![GitHub repo size](https://img.shields.io/github/repo-size/HyacinthBots/Allium?label=Repository%20Size&style=for-the-badge)
+
+![GitHub issues](https://img.shields.io/github/issues/HyacinthBots/Allium?label=Issues&style=for-the-badge) ![GitHub pull requests](https://img.shields.io/github/issues-pr/HyacinthBots/Allium?label=Pull%20Requests&style=for-the-badge)
+
+![GitHub commits since latest release](https://img.shields.io/github/commits-since/HyacinthBots/Allium/latest/develop?include_prereleases&style=for-the-badge) ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/w/HyacinthBots/Allium/develop?style=for-the-badge)
+
+
 ### Thankful people
 - CarbonGhost for the Banner and Icon
 
