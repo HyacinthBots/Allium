@@ -11,3 +11,9 @@ val TEST_SERVER_CHANNEL_ID = Snowflake(env("TEST_CHANNEL"))
 
 /** Get the bots token from the env vars or a .env file. */
 val TOKEN = env("TOKEN")
+
+/** Get the time the bot was built on. */
+const val BUILDTIME = "@buildTime@"
+
+/** Get the build revision. */
+const val BUILD = "@version@"

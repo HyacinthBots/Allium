@@ -59,7 +59,7 @@ class About : Extension() {
                         }
                         field {
                             name = "This build was created on:"
-                            value = "<t:@builtTime@>"
+                            value = "<t:$BUILDTIME>"
                         }
                         field {
                             name = "Next update?"

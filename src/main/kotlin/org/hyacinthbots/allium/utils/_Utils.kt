@@ -31,5 +31,3 @@ fun getRandomUpdateMessage(): String {
     val entry = (0 until entries).random()
     return updatemessages.get(entry).asString
 }
-
-const val BUILD: String = "@version@"
