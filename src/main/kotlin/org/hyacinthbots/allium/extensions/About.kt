@@ -7,7 +7,6 @@ import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import dev.kord.rest.builder.message.create.embed
 import kotlinx.coroutines.flow.count
-import org.hyacinthbots.allium.updatemessages
 import org.hyacinthbots.allium.utils.*
 
 /**

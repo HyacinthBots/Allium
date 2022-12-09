@@ -85,7 +85,6 @@ dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.kx.ser)
     implementation(libs.gson)
-    implementation(libs.doc.gen)
 
     // Logging dependencies
     implementation(libs.jansi)
