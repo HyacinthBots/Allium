@@ -3,6 +3,7 @@ detekt = "1.22.0"  # Note: Plugin versions must be updated in the settings.gradl
 
 jansi = "2.4.0"
 kord-extensions = "1.5.5-20221126.235557-39"
+doc-gen = "main-SNAPSHOT"
 kx-ser = "1.4.1"
 logging = "2.1.23" # DON'T REMOVE OR UPDATE
 logback = "1.2.8" # DON'T REMOVE OR UPDATE
@@ -20,3 +21,4 @@ logging = { module = "io.github.microutils:kotlin-logging", version.ref = "loggi
 kx-ser = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kx-ser" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson"}
 groovy = { module="org.codehaus.groovy:groovy", version.ref = "groovy"}
+doc-gen = { module="com.github.HyacinthBots:doc-generator", version.ref = "doc-gen"}
