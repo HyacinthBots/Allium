@@ -58,6 +58,10 @@ class About : Extension() {
                             value = BUILD
                         }
                         field {
+                            name = "This build was created on:"
+                            value = "<t:@builtTime@>"
+                        }
+                        field {
                             name = "Next update?"
                             value = getRandomUpdateMessage()
                         }
