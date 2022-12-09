@@ -9,6 +9,7 @@ import com.kotlindiscord.kord.extensions.commands.converters.impl.string
 import com.kotlindiscord.kord.extensions.components.components
 import com.kotlindiscord.kord.extensions.components.ephemeralSelectMenu
 import com.kotlindiscord.kord.extensions.components.menus.EphemeralSelectMenuContext
+import com.kotlindiscord.kord.extensions.components.publicButton
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.editingPaginator
@@ -44,6 +45,7 @@ class Modrinth : Extension() {
                 name = "user"
                 description = "Search for a User"
                 action {
+                    arguments.query.replace(" ", "%20")
                     val url = "https://api.modrinth.com/v2/user/${arguments.query}"
                     if (arguments.query == "") {
                         respond { content = "No query was given, aborting search." }
@@ -76,6 +78,7 @@ class Modrinth : Extension() {
                 name = "project"
                 description = "Search for a mod/plugin"
                 action {
+                    arguments.query.replace(" ", "%20")
                     val response = searchModrinth(arguments.query, arguments.limit)
                     if (response.hits.count() == 1) {
                         respond {
@@ -102,7 +105,8 @@ class Modrinth : Extension() {
                 name = "advanced"
                 description = "Advanced search"
                 action {
-                    var searchFilters = Modrinth.SearchData(arguments.query, mutableMapOf(Pair("", "")))
+                    arguments.query.replace(" ", "%20")
+                    var searchFilters = SearchData(arguments.query, mutableMapOf(Pair("", "")))
 
                     respond {
                         content = "Use the menu below to narrow your search"
@@ -158,6 +162,19 @@ class Modrinth : Extension() {
                                             searchFilters
                                         )
                                     }
+                                }
+                            }
+                            publicButton(1) {
+                                label = "Search with your selections"
+                                action {
+                                    val results = searchModrinthAdvanced(searchFilters)
+                                    respondingPaginator {
+                                        for (data in results.hits) {
+                                            page {
+                                                embedContents(data)
+                                            }
+                                        }
+                                    }.send()
                                 }
                             }
                         }
