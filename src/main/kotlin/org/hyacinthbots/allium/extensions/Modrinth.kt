@@ -292,19 +292,19 @@ class Modrinth : Extension() {
                 }
                 route += "],"
             }
-            if (currentFilter.facets.containsValue("loader")) {
+            if (currentFilter.facets.containsValue("category") || currentFilter.facets.containsValue("loader")) {
                 route += "["
-                val loaders = currentFilter.facets.filterValues { it == "loader" }
-                for (loader in loaders) {
-                    route += "\"loader:${loader.key}\","
+                if (currentFilter.facets.containsValue("category")) {
+                    val categories = currentFilter.facets.filterValues { it == "category" }
+                    for (category in categories) {
+                        route += "\"categories:${category.key}\","
+                    }
                 }
-                route += "],"
-            }
-            if (currentFilter.facets.containsValue("category")) {
-                route += "["
-                val categories = currentFilter.facets.filterValues { it == "category" }
-                for (category in categories) {
-                    route += "\"category:${category.key}\","
+                if (currentFilter.facets.containsValue("loader")) {
+                    val loaders = currentFilter.facets.filterValues { it == "loader" }
+                    for (loader in loaders) {
+                        route += "\"categories:${loader.key}\","
+                    }
                 }
                 route += "],"
             }

@@ -64,7 +64,7 @@ comments:
     active: false
 
 complexity:
-  active: true
+  active: false
   ComplexCondition:
     active: true
     threshold: 10
@@ -75,7 +75,7 @@ complexity:
     includePrivateDeclarations: false
   ComplexMethod:
     active: false
-    threshold: 15
+    threshold: 20
     ignoreSingleWhenExpression: false
     ignoreSimpleWhenEntries: false
     ignoreNestingFunctions: false
