@@ -12,7 +12,6 @@ import com.kotlindiscord.kord.extensions.components.menus.EphemeralSelectMenuCon
 import com.kotlindiscord.kord.extensions.components.publicButton
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
-import com.kotlindiscord.kord.extensions.types.editingPaginator
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.types.respondingPaginator
 import dev.kord.rest.builder.message.EmbedBuilder
@@ -261,7 +260,7 @@ class Modrinth : Extension() {
     }
 
     private suspend fun searchModrinthAdvanced(currentFilter: SearchData): SearchResponseData {
-        val route = "https://api.modrinth.com/v2/search?limit=5"
+        val route = "https://api.modrinth.com/v2/search?limit=5&query=${currentFilter.query}"
 
         val client = HttpClient()
         val response = client.request(route)
@@ -294,26 +293,8 @@ class Modrinth : Extension() {
                         this.selected.forEach {
                             currentFilter.facets[it] = filterType
                         }
-                        val data = searchModrinthAdvanced(currentFilter)
                         respond {
-                            editingPaginator {
-                                for (hit in data.hits) {
-                                    page {
-                                        this.title = hit.title
-                                        this.description = hit.description
-                                        thumbnail {
-                                            this.url = hit.iconURL.toString()
-                                        }
-                                        field {
-                                            this.name = "Loaders"
-                                            this.value = getProjectLoaders(hit.slug)
-                                        }
-                                        field {
-                                            this.name = ""
-                                        }
-                                    }
-                                }
-                            }.send()
+                            content = "Filter adjusted."
                         }
                     }
                 }
