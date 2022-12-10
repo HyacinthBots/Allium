@@ -12,6 +12,7 @@ import com.kotlindiscord.kord.extensions.components.menus.EphemeralSelectMenuCon
 import com.kotlindiscord.kord.extensions.components.publicButton
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
+import com.kotlindiscord.kord.extensions.types.editingPaginator
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.types.respondingPaginator
 import dev.kord.rest.builder.message.EmbedBuilder
@@ -164,7 +165,7 @@ class Modrinth : Extension() {
                                 label = "Search with your selections"
                                 action {
                                     val results = searchModrinthAdvanced(searchFilters)
-                                    respondingPaginator {
+                                    editingPaginator {
                                         for (data in results.hits) {
                                             page {
                                                 embedContents(data)
@@ -267,7 +268,6 @@ class Modrinth : Extension() {
                 for (version in versions) {
                     route += "\"versions:${version.key}\","
                 }
-                route.removeSuffix(",")
                 route += "],"
             }
             if (currentFilter.facets.containsValue("license")) {
@@ -276,7 +276,6 @@ class Modrinth : Extension() {
                 for (license in licenses) {
                     route += "\"license:${license.key}\","
                 }
-                route.removeSuffix(",")
                 route += "],"
             }
             if (currentFilter.facets.containsValue("environment")) {
@@ -285,7 +284,6 @@ class Modrinth : Extension() {
                 for (environment in environments) {
                     route += "\"environment:${environment.key}\","
                 }
-                route.removeSuffix(",")
                 route += "],"
             }
             if (currentFilter.facets.containsValue("loader")) {
@@ -294,7 +292,6 @@ class Modrinth : Extension() {
                 for (loader in loaders) {
                     route += "\"loader:${loader.key}\","
                 }
-                route.removeSuffix(",")
                 route += "],"
             }
             if (currentFilter.facets.containsValue("category")) {
@@ -303,11 +300,10 @@ class Modrinth : Extension() {
                 for (category in categories) {
                     route += "\"category:${category.key}\","
                 }
-                route.removeSuffix(",")
                 route += "],"
             }
-            route.removeSuffix(",")
             route += "]"
+            route.replace(",]", "]")
         }
         println(route)
         val client = HttpClient()
