@@ -323,9 +323,15 @@ class Modrinth : Extension() {
         println(route)
         println(replacedroute)
         println(encodedURL)
-        val response = webRequest(encodedURL).toString()
+        val client = HttpClient()
+        val response = client.request(encodedURL)
+        println(response.headers)
+        val body = response.readBytes().decodeToString()
+        println()
+        client.close()
+
         val json = Json { ignoreUnknownKeys = true }
-        return json.decodeFromString(response)
+        return json.decodeFromString(body)
     }
 
     private suspend fun EphemeralSelectMenuContext.createFilterMenu(
