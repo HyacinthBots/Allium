@@ -19,18 +19,20 @@ import com.kotlindiscord.kord.extensions.types.respondingPaginator
 import dev.kord.rest.builder.message.EmbedBuilder
 import dev.kord.rest.builder.message.create.embed
 import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
+import io.ktor.util.reflect.*
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.hyacinthbots.allium.utils.*
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashSet
 
 /**
  * Modrinth Commands. Written in pure pain.
@@ -39,6 +41,13 @@ import kotlin.collections.HashSet
  */
 class Modrinth : Extension() {
     override val name = "modrinth"
+
+    private val client = HttpClient(CIO) {
+        install(ContentNegotiation) {
+            json(Json { ignoreUnknownKeys = true })
+        }
+    }
+
     override suspend fun setup() {
         publicSlashCommand {
             name = "modrinth"
@@ -62,12 +71,12 @@ class Modrinth : Extension() {
                         embed {
                             title = user["username"].asString
                             description = (
-                                if (user["bio"] != JsonNull.INSTANCE) {
-                                user["bio"].asString
-                                } else {
-                                "No bio set."
-                                }
-                            ).toString()
+                                    if (user["bio"] != JsonNull.INSTANCE) {
+                                        user["bio"].asString
+                                    } else {
+                                        "No bio set."
+                                    }
+                                    ).toString()
                             thumbnail {
                                 this.url = user["avatar_url"].asString
                             }
@@ -136,28 +145,32 @@ class Modrinth : Extension() {
                                     when (this.selected[0]) {
                                         "category" -> searchFilters = createFilterMenu(
                                             "category",
-                                            getModCategories(),
+                                            getModCategories().toMutableList(),
                                             searchFilters
                                         )
+
                                         "environment" -> searchFilters = createFilterMenu(
                                             "environment",
                                             mutableListOf("server", "client"),
                                             searchFilters
                                         )
+
                                         "loader" -> searchFilters = createFilterMenu(
                                             "loader",
-                                            getModLoaders(),
+                                            getModLoaders().toMutableList(),
                                             searchFilters
                                         )
+
                                         "version" -> searchFilters = createFilterMenu(
                                             "version",
                                             // only use 25 results due to limit of select menus
-                                            getMinecraftVersions().subList(0, 24),
+                                            getMinecraftVersions().take(25).toMutableList(),
                                             searchFilters
                                         )
+
                                         "license" -> searchFilters = createFilterMenu(
                                             "license",
-                                            getLicenses(),
+                                            getLicenses().toMutableList(),
                                             searchFilters
                                         )
                                     }
@@ -186,31 +199,9 @@ class Modrinth : Extension() {
         }
     }
 
-    private suspend inline fun getProjectLoaders(name: String): String {
-        val versionsreq = webRequest("https://api.modrinth.com/v2/project/$name/version")
-        val versionsres = JsonParser.parseString(versionsreq.body()).asJsonArray
-        val m: MutableSet<String> = HashSet()
-        for ((index, vers_hit) in versionsres.withIndex()) {
-            index.toString() // leave this as else this doesn't work (please I don't want to count up manually)
-            val loaders = ArrayList<String>()
-            for (loader in vers_hit.asJsonObject.getAsJsonArray("loaders")) {
-                loaders.add(loader.asString)
-            }
-            m.addAll(loaders)
-        }
-        var strLoaders = ""
-        for (entry in m) {
-            val formattedEntry = entry[0].uppercase() + entry.drop(1)
-            strLoaders += formattedEntry + "\n"
-        }
-        strLoaders.dropLast(2)
-
-        return strLoaders
-    }
-
     private suspend fun EmbedBuilder.embedContents(data: ProjectData) {
         this.title = data.title
-        this.url = "https://modrinth.com/project/${data.slug}"
+        this.url = URLBuilder(MODRINTH_FRONTEND_ENDPOINT).appendPathSegments("project", data.slug).buildString()
         thumbnail {
             this.url = data.iconURL.toString()
         }
@@ -227,112 +218,94 @@ class Modrinth : Extension() {
             true
         ) { "<t:${Instant.parse(data.dateModified).epochSeconds}>" }
         field("License", true) { data.license.toString() }
-        field("Loaders", true) { getProjectLoaders(data.slug) }
+        field("Loaders", true) { getProjectLoaders(data.slug).joinToString("\n") }
         footer {
             this.text = "Modrinth | ${data.author}"
         }
     }
 
-    private suspend fun getLicenses(): MutableList<String> {
-        val client = HttpClient()
-        val response = client.request("https://api.modrinth.com/v2/tag/license")
-            .readBytes().decodeToString()
-        client.close()
+    private suspend fun getLicenses(): List<String> {
+        val response = client.get(MODRINTH_ENDPOINT) { url { path("v2/tag/license") } }
+        val licenses: List<LicenseData> = response.body()
+        return licenses.stream().map { it.short }.toList()
+    }
 
-        val json = Json { ignoreUnknownKeys = true }
-        val stringResponseArray = json.decodeFromString<List<LicenseData>>(response)
+    private suspend fun getModCategories(): List<String> {
+        val response = client.get(MODRINTH_ENDPOINT) { url { path("v2/tag/category") } }
+        val categories: List<CategoryData> = response.body()
+        return categories.stream().filter { it.projectType == "mod" }.map { it.name }.toList()
+    }
 
-        val licenses = mutableListOf<String>()
-        stringResponseArray.forEach {
-            licenses.add(it.short)
-            println(it.short)
-        }
-        return licenses
+    private suspend fun getModLoaders(): List<String> {
+        val response = client.get(MODRINTH_ENDPOINT) { url { path("v2/tag/loader") } }
+        val loaders: List<LoaderData> = response.body()
+        return loaders.stream().filter { "mod" in it.supportedProjectTypes }.map { it.name }.toList()
+    }
+
+    private suspend fun getMinecraftVersions(): List<String> {
+        val response = client.get(MODRINTH_ENDPOINT) { url { path("v2/tag/game_version") } }
+        val versions: List<VersionData> = response.body()
+        return versions.stream().filter { it.versionType == "release" }.map { it.version }.toList()
+    }
+
+    private suspend inline fun getProjectLoaders(name: String): List<String> {
+        val response = client.get(MODRINTH_ENDPOINT) { url { appendPathSegments("v2", "project", name, "version") } }
+        val versions: List<ProjectVersionData> = response.body()
+        return versions.stream()
+            .flatMap { it.loaders.stream() }.distinct()  // collect all loaders distinctly
+            .map { it[0].uppercase() + it.drop(1) }      // Make first character uppercase
+            .toList()
     }
 
     private suspend fun searchModrinth(query: String, limit: Int): SearchResponseData {
-        val route = "https://api.modrinth.com/v2/search?query=$query&limit=$limit"
-
-        val client = HttpClient()
-        val response = client.request(route)
-            .readBytes().decodeToString()
-        client.close()
-
-        val json = Json { ignoreUnknownKeys = true }
-        return json.decodeFromString(response)
+        return client.get(MODRINTH_ENDPOINT) {
+            url {
+                path("v2/search")
+                parameter("query", query)
+                parameter("limit", limit)
+            }
+        }.body()
     }
 
     private suspend fun searchModrinthAdvanced(currentFilter: SearchData): SearchResponseData {
-        var route = "https://api.modrinth.com/v2/search?limit=5&query=${currentFilter.query.encodeURLPath()}"
-        var replacedroute = ""
-        currentFilter.facets.remove("", "")
-        if (currentFilter.facets.isNotEmpty()) {
-            route += "&facets=["
-            if (currentFilter.facets.containsValue("version")) {
-                route += "["
-                val versions = currentFilter.facets.filterValues { it == "version" }
-                for (version in versions) {
-                    route += "\"versions:${version.key}\","
+        val groups = mutableListOf<List<Facet>>()
+        println(currentFilter.facets)
+        groups.add(currentFilter.facets.filterValues { it == "version" }.map { Facet("versions", it.key) })
+        groups.add(currentFilter.facets.filterValues { it == "license" }.map { Facet("license", it.key) })
+        groups.add(
+            currentFilter.facets.filterValues { it == "environment" }.map {
+                if (it.key == "client") {
+                    Facet("client_side", "required")
+                } else {
+                    Facet("server_side", "required")
                 }
-                route += "],"
             }
-            if (currentFilter.facets.containsValue("license")) {
-                route += "["
-                val licenses = currentFilter.facets.filterValues { it == "license" }
-                for (license in licenses) {
-                    route += "\"license:${license.key}\","
-                }
-                route += "],"
-            }
-            if (currentFilter.facets.containsValue("environment")) {
-                route += "["
-                val environments = currentFilter.facets.filterValues { it == "environment" }
-                for (environment in environments) {
-                    if (environment.key == "client") {
-                        route += "\"client_side:required\","
-                    }
-                    if (environment.key == "server") {
-                        route += "\"server_side:required\","
-                    }
-                }
-                route += "],"
-            }
-            if (currentFilter.facets.containsValue("category") || currentFilter.facets.containsValue("loader")) {
-                route += "["
-                if (currentFilter.facets.containsValue("category")) {
-                    val categories = currentFilter.facets.filterValues { it == "category" }
-                    for (category in categories) {
-                        route += "\"categories:${category.key}\","
-                    }
-                }
-                if (currentFilter.facets.containsValue("loader")) {
-                    val loaders = currentFilter.facets.filterValues { it == "loader" }
-                    for (loader in loaders) {
-                        route += "\"categories:${loader.key}\","
-                    }
-                }
-                route += "],"
-            }
-            route += "]"
-            replacedroute = route.replace(",]", "]")
-        }
-        if (replacedroute == "") {
-            replacedroute = route
-        }
-        val encodedURL = replacedroute.encodeURLPathPart()
-        println(route)
-        println(replacedroute)
-        println(encodedURL)
-        val client = HttpClient()
-        val response = client.request(replacedroute)
-        println(response.headers)
-        val body = response.readBytes()
-        println(body)
-        println()
-        client.close()
+        )
+        groups.add(
+            currentFilter.facets.filterValues { it == "category" || it == "loader" }
+                .map { Facet("categories", it.key) }
+        )
 
-        val json = Json { ignoreUnknownKeys = true }
-        return json.decodeFromString(body.toString())
+        // ugly facet string builder
+        val facetString = "[${                  // outer groups begin
+            groups
+                .filter { it.isNotEmpty() }     // get rid of empty facet groups
+                .joinToString(",") { group ->   // join facet groups with ,
+                    "[${                        // inner group facets begin
+                        group
+                            .joinToString(",")  // join facets inside of groups with ,
+                    }]"                         // inner group facets end
+                }
+        }]"                                     // outer groups end
+
+        return client.get(MODRINTH_ENDPOINT) {
+            url {
+                path("v2/search")
+                parameter("query", currentFilter.query)
+                parameter("limit", 5)
+                encodedParameters.append("facets", facetString)
+            }
+        }.body()
     }
 
     private suspend fun EphemeralSelectMenuContext.createFilterMenu(
@@ -362,58 +335,9 @@ class Modrinth : Extension() {
         return currentFilter // return it so any other functions called can access it
     }
 
-    private suspend fun getModCategories(): MutableList<String> {
-        val client = HttpClient()
-        val response = client.request("https://api.modrinth.com/v2/tag/category")
-            .readBytes().decodeToString()
-        client.close()
-
-        val json = Json { ignoreUnknownKeys = true }
-        val stringResponseArray = json.decodeFromString<List<CategoryData>>(response)
-
-        val modCategories = mutableListOf<String>()
-        stringResponseArray.forEach {
-            if (it.projectType == "mod") {
-                modCategories.add(it.name)
-            }
-        }
-        return modCategories
-    }
-
-    private suspend fun getModLoaders(): MutableList<String> {
-        val client = HttpClient()
-        val response = client.request("https://api.modrinth.com/v2/tag/loader")
-            .readBytes().decodeToString()
-        client.close()
-
-        val json = Json { ignoreUnknownKeys = true }
-        val stringResponseArray = json.decodeFromString<List<LoaderData>>(response)
-
-        val modLoaders = mutableListOf<String>()
-        stringResponseArray.forEach {
-            if ("mod" in it.supportedProjectTypes) {
-                modLoaders.add(it.name)
-            }
-        }
-        return modLoaders
-    }
-
-    private suspend fun getMinecraftVersions(): MutableList<String> {
-        val client = HttpClient()
-        val response = client.request("https://api.modrinth.com/v2/tag/game_version")
-            .readBytes().decodeToString()
-        client.close()
-
-        val json = Json { ignoreUnknownKeys = true }
-        val stringResponseArray = json.decodeFromString<List<VersionData>>(response)
-
-        val minecraftVersions = mutableListOf<String>()
-        stringResponseArray.forEach {
-            if (it.versionType == "release") {
-                minecraftVersions.add(it.version)
-            }
-        }
-        return minecraftVersions
+    companion object {
+        const val MODRINTH_ENDPOINT = "https://api.modrinth.com/"
+        const val MODRINTH_FRONTEND_ENDPOINT = "https://modrinth.com/"
     }
 
     inner class ModrinthSearchQuery : Arguments() {
@@ -476,6 +400,12 @@ class Modrinth : Extension() {
     )
 
     @Serializable
+    data class ProjectVersionData(
+        val name: String,
+        val loaders: List<String>
+    )
+
+    @Serializable
     data class CategoryData(
         val icon: String,
         val name: String,
@@ -502,4 +432,11 @@ class Modrinth : Extension() {
         val short: String,
         val name: String
     )
+
+    data class Facet(
+        val key: String,
+        val value: String
+    ) {
+        override fun toString(): String = "%22$key:$value%22"  // I am so sorry about this
+    }
 }
