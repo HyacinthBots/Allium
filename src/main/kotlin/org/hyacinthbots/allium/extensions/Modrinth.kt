@@ -259,7 +259,7 @@ class Modrinth : Extension() {
 
     private suspend fun searchModrinthAdvanced(currentFilter: SearchData): SearchResponseData {
         var route = "https://api.modrinth.com/v2/search?limit=5&query=${currentFilter.query}"
-        lateinit var replacedroute: String
+        var replacedroute = ""
         currentFilter.facets.remove("", "")
         if (currentFilter.facets.isNotEmpty()) {
             route += "&facets=["
@@ -311,7 +311,7 @@ class Modrinth : Extension() {
             route += "]"
             replacedroute = route.replace(",]", "]")
         }
-        if (replacedroute.isEmpty()) {
+        if (replacedroute == "") {
             replacedroute = route
         }
         println(route)
