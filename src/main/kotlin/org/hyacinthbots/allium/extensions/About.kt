@@ -47,6 +47,7 @@ class About : Extension() {
                                     |[StonkDragon](https://github.com/StonkDragon)
                                     |[triphora](https://github.com/triphora)
                                     |[NoComment](https://github.com/NoComment1105)
+                                    |[Scrumplex](https://github.com/Scrumplex)
                                     """.trimMargin()
                         }
                         field {
