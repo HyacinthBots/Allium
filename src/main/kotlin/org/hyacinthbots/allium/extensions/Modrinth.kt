@@ -309,7 +309,7 @@ class Modrinth : Extension() {
             route.dropLast(1)
             route += "]"
         }
-
+        println(route)
         val client = HttpClient()
         val response = client.request(route)
             .readBytes().decodeToString()
