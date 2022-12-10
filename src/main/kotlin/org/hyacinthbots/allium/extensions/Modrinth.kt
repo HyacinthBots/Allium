@@ -321,12 +321,7 @@ class Modrinth : Extension() {
         println(response)
 
         val json = Json { ignoreUnknownKeys = true }
-        val decodedResponse = json.decodeFromString<SearchResponseData>(response)
-
-        // for detekt
-        println(decodedResponse)
-        println(currentFilter)
-        return decodedResponse
+        return json.decodeFromString(response)
     }
 
     private suspend fun EphemeralSelectMenuContext.createFilterMenu(
