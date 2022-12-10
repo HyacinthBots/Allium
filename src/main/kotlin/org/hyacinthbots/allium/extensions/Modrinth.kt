@@ -267,7 +267,7 @@ class Modrinth : Extension() {
                 for (version in versions) {
                     route += "\"versions:${version.key}\","
                 }
-                route.dropLast(2)
+                route.removeSuffix(",")
                 route += "],"
             }
             if (currentFilter.facets.containsValue("license")) {
@@ -276,7 +276,7 @@ class Modrinth : Extension() {
                 for (license in licenses) {
                     route += "\"license:${license.key}\","
                 }
-                route.dropLast(2)
+                route.removeSuffix(",")
                 route += "],"
             }
             if (currentFilter.facets.containsValue("environment")) {
@@ -285,7 +285,7 @@ class Modrinth : Extension() {
                 for (environment in environments) {
                     route += "\"environment:${environment.key}\","
                 }
-                route.dropLast(2)
+                route.removeSuffix(",")
                 route += "],"
             }
             if (currentFilter.facets.containsValue("loader")) {
@@ -294,7 +294,7 @@ class Modrinth : Extension() {
                 for (loader in loaders) {
                     route += "\"loader:${loader.key}\","
                 }
-                route.dropLast(2)
+                route.removeSuffix(",")
                 route += "],"
             }
             if (currentFilter.facets.containsValue("category")) {
@@ -303,10 +303,10 @@ class Modrinth : Extension() {
                 for (category in categories) {
                     route += "\"category:${category.key}\","
                 }
-                route.dropLast(2)
+                route.removeSuffix(",")
                 route += "],"
             }
-            route.dropLast(2)
+            route.removeSuffix(",")
             route += "]"
         }
         println(route)
