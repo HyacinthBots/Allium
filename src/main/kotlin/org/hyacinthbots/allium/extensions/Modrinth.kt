@@ -313,7 +313,7 @@ class Modrinth : Extension() {
                                         }
                                     }
                                 }
-                            }
+                            }.send()
                         }
                     }
                 }
