@@ -327,6 +327,7 @@ class Modrinth : Extension() {
         val response = client.request(encodedURL)
         println(response.headers)
         val body = response.readBytes().decodeToString()
+        println(body)
         println()
         client.close()
 
