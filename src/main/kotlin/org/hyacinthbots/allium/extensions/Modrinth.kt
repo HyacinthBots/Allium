@@ -286,7 +286,7 @@ class Modrinth : Extension() {
                     if (environment.key == "client") {
                         route += "\"client_side:required\","
                     }
-                    if (environment.key == "client") {
+                    if (environment.key == "server") {
                         route += "\"server_side:required\","
                     }
                 }
