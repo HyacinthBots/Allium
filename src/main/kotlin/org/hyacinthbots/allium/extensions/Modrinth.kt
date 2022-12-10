@@ -319,10 +319,12 @@ class Modrinth : Extension() {
         if (replacedroute == "") {
             replacedroute = route
         }
+        val encodedURL = replacedroute.encodeURLPath()
         println(route)
         println(replacedroute)
+        println(encodedURL)
         val client = HttpClient()
-        val response = client.request(replacedroute.encodeURLPath())
+        val response = client.request(encodedURL)
             .readBytes().decodeToString()
         client.close()
 
