@@ -263,7 +263,7 @@ class Modrinth : Extension() {
     }
 
     private suspend fun searchModrinthAdvanced(currentFilter: SearchData): SearchResponseData {
-        var route = "https://api.modrinth.com/v2/search?limit=5&query=${currentFilter.query}"
+        var route = "https://api.modrinth.com/v2/search?limit=5&query=${currentFilter.query.encodeURLPath()}"
         var replacedroute = ""
         currentFilter.facets.remove("", "")
         if (currentFilter.facets.isNotEmpty()) {
@@ -319,12 +319,12 @@ class Modrinth : Extension() {
         if (replacedroute == "") {
             replacedroute = route
         }
-        val encodedURL = replacedroute.encodeURLPath()
+        val encodedURL = replacedroute.encodeURLPathPart()
         println(route)
         println(replacedroute)
         println(encodedURL)
         val client = HttpClient()
-        val response = client.request(encodedURL)
+        val response = client.request(replacedroute)
         println(response.headers)
         val body = response.readBytes()
         println(body)
