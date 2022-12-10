@@ -326,13 +326,13 @@ class Modrinth : Extension() {
         val client = HttpClient()
         val response = client.request(encodedURL)
         println(response.headers)
-        val body = response.readBytes().decodeToString()
+        val body = response.readBytes()
         println(body)
         println()
         client.close()
 
         val json = Json { ignoreUnknownKeys = true }
-        return json.decodeFromString(body)
+        return json.decodeFromString(body.toString())
     }
 
     private suspend fun EphemeralSelectMenuContext.createFilterMenu(
