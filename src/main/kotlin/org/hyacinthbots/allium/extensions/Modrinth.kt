@@ -284,10 +284,10 @@ class Modrinth : Extension() {
                 val environments = currentFilter.facets.filterValues { it == "environment" }
                 for (environment in environments) {
                     if (environment.key == "client") {
-                        route += "\"client_side:required,"
+                        route += "\"client_side:required\","
                     }
                     if (environment.key == "client") {
-                        route += "\"server_side:required,"
+                        route += "\"server_side:required\","
                     }
                 }
                 route += "],"
