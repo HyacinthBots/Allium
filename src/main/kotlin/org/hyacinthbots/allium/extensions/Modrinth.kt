@@ -323,11 +323,7 @@ class Modrinth : Extension() {
         println(route)
         println(replacedroute)
         println(encodedURL)
-        val client = HttpClient()
-        val response = client.request(encodedURL)
-            .readBytes().decodeToString()
-        client.close()
-
+        val response = webRequest(encodedURL).toString()
         val json = Json { ignoreUnknownKeys = true }
         return json.decodeFromString(response)
     }
