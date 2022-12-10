@@ -128,9 +128,6 @@ class Modrinth : Extension() {
                                 option("Edit license filter", "license") {
                                     description = "Change which license(s) you want to limit your search to"
                                 }
-                                option("Edit project type filter", "type") {
-                                    description = "Change which project type(s) you want to limit your search to"
-                                }
 
                                 action {
                                     when (this.selected[0]) {
@@ -260,7 +257,58 @@ class Modrinth : Extension() {
     }
 
     private suspend fun searchModrinthAdvanced(currentFilter: SearchData): SearchResponseData {
-        val route = "https://api.modrinth.com/v2/search?limit=5&query=${currentFilter.query}"
+        var route = "https://api.modrinth.com/v2/search?limit=5&query=${currentFilter.query}"
+        currentFilter.facets.remove("", "")
+        if (currentFilter.facets.isNotEmpty()) {
+            route += "&facets=["
+            if (currentFilter.facets.containsValue("version")) {
+                route += "["
+                val versions = currentFilter.facets.filterValues { it == "version" }
+                for (version in versions) {
+                    route += "\"versions:${version.key}\","
+                }
+                route.dropLast(1)
+                route += "],"
+            }
+            if (currentFilter.facets.containsValue("license")) {
+                route += "["
+                val licenses = currentFilter.facets.filterValues { it == "license" }
+                for (license in licenses) {
+                    route += "\"license:${license.key}\","
+                }
+                route.dropLast(1)
+                route += "],"
+            }
+            if (currentFilter.facets.containsValue("environment")) {
+                route += "["
+                val environments = currentFilter.facets.filterValues { it == "environment" }
+                for (environment in environments) {
+                    route += "\"environment:${environment.key}\","
+                }
+                route.dropLast(1)
+                route += "],"
+            }
+            if (currentFilter.facets.containsValue("loader")) {
+                route += "["
+                val loaders = currentFilter.facets.filterValues { it == "loader" }
+                for (loader in loaders) {
+                    route += "\"loader:${loader.key}\","
+                }
+                route.dropLast(1)
+                route += "],"
+            }
+            if (currentFilter.facets.containsValue("category")) {
+                route += "["
+                val categories = currentFilter.facets.filterValues { it == "category" }
+                for (category in categories) {
+                    route += "\"category:${category.key}\","
+                }
+                route.dropLast(1)
+                route += "],"
+            }
+            route.dropLast(1)
+            route += "]"
+        }
 
         val client = HttpClient()
         val response = client.request(route)
