@@ -318,6 +318,8 @@ class Modrinth : Extension() {
             .readBytes().decodeToString()
         client.close()
 
+        println(response)
+
         val json = Json { ignoreUnknownKeys = true }
         val decodedResponse = json.decodeFromString<SearchResponseData>(response)
 
