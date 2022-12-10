@@ -313,10 +313,7 @@ class Modrinth : Extension() {
         }
         println(route)
         println(replacedroute)
-        val client = HttpClient()
-        val response = client.request(replacedroute)
-            .readBytes().decodeToString()
-        client.close()
+        val response = webRequest(replacedroute).toString()
 
         println(response)
 
