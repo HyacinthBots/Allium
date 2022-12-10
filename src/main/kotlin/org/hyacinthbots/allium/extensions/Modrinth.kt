@@ -12,6 +12,7 @@ import com.kotlindiscord.kord.extensions.components.menus.EphemeralSelectMenuCon
 import com.kotlindiscord.kord.extensions.components.publicButton
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
+import com.kotlindiscord.kord.extensions.types.edit
 import com.kotlindiscord.kord.extensions.types.editingPaginator
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.types.respondingPaginator
@@ -20,6 +21,7 @@ import dev.kord.rest.builder.message.create.embed
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
+import io.ktor.http.*
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -165,6 +167,9 @@ class Modrinth : Extension() {
                                 label = "Search with your selections"
                                 action {
                                     val results = searchModrinthAdvanced(searchFilters)
+                                    edit {
+                                        content = "Here is your Problem"
+                                    }
                                     editingPaginator {
                                         for (data in results.hits) {
                                             page {
@@ -317,7 +322,7 @@ class Modrinth : Extension() {
         println(route)
         println(replacedroute)
         val client = HttpClient()
-        val response = client.request(replacedroute)
+        val response = client.request(replacedroute.encodeURLPath())
             .readBytes().decodeToString()
         client.close()
 
