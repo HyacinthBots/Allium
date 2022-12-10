@@ -311,11 +311,15 @@ class Modrinth : Extension() {
             route += "]"
             replacedroute = route.replace(",]", "]")
         }
+        if (replacedroute.isEmpty()) {
+            replacedroute = route
+        }
         println(route)
         println(replacedroute)
-        val response = webRequest(replacedroute).toString()
-
-        println(response)
+        val client = HttpClient()
+        val response = client.request(replacedroute)
+            .readBytes().decodeToString()
+        client.close()
 
         val json = Json { ignoreUnknownKeys = true }
         return json.decodeFromString(response)
