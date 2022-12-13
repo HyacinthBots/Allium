@@ -400,6 +400,19 @@ class Modrinth : Extension() {
     )
 
     @Serializable
+    data class UserData(
+        val username: String,
+        val name: String?,
+        val email: String?,
+        val bio: String?,
+        val id: String,
+        @SerialName("github_id") val githubId: Int,
+        @SerialName("avatar_url") val avatarUrl: String,
+        val created: String,
+        val role: String
+    )
+
+    @Serializable
     data class ProjectVersionData(
         val name: String,
         val loaders: List<String>
