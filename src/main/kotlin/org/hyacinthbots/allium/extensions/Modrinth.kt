@@ -1,7 +1,5 @@
 package org.hyacinthbots.allium.extensions
 
-import com.google.gson.JsonNull
-import com.google.gson.JsonParser
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.slash.publicSubCommand
 import com.kotlindiscord.kord.extensions.commands.converters.impl.defaultingInt
@@ -56,30 +54,22 @@ class Modrinth : Extension() {
                 name = "user"
                 description = "Search for a User"
                 action {
-                    arguments.query.replace(" ", "%20")
-                    val url = "https://api.modrinth.com/v2/user/${arguments.query}"
                     if (arguments.query == "") {
                         respond { content = "No query was given, aborting search." }
                         return@action
                     }
-                    val request = webRequest(url)
-                    if (request.statusCode() == 404) {
-                        respond { content = "No user found under query ${arguments.query}." }
+                    lateinit var response: UserData
+                    try {
+                        response = searchModrinthUser(arguments)
+                    } catch (e: NoTransformationFoundException) {
+                        respond {
+                            content = "No User found or bad response."
+                        }
+                        return@action
                     }
-                    val user = JsonParser.parseString(request.body()).asJsonObject
                     respond {
                         embed {
-                            title = user["username"].asString
-                            description = (
-                                    if (user["bio"] != JsonNull.INSTANCE) {
-                                        user["bio"].asString
-                                    } else {
-                                        "No bio set."
-                                    }
-                                    ).toString()
-                            thumbnail {
-                                this.url = user["avatar_url"].asString
-                            }
+                            embedUser(response)
                         }
                     }
                 }
@@ -94,7 +84,7 @@ class Modrinth : Extension() {
                     if (response.hits.count() == 1) {
                         respond {
                             embed {
-                                embedContents(response.hits[0])
+                                embedProject(response.hits[0])
                             }
                         }
                         return@action
@@ -102,7 +92,7 @@ class Modrinth : Extension() {
                         respondingPaginator {
                             for ((i, _) in response.hits.withIndex()) {
                                 page {
-                                    embedContents(response.hits[i])
+                                    embedProject(response.hits[i])
                                 }
                             }
                             timeoutSeconds = 180
@@ -186,7 +176,7 @@ class Modrinth : Extension() {
                                     editingPaginator {
                                         for (data in results.hits) {
                                             page {
-                                                embedContents(data)
+                                                embedProject(data)
                                             }
                                         }
                                     }.send()
@@ -199,7 +189,16 @@ class Modrinth : Extension() {
         }
     }
 
-    private suspend fun EmbedBuilder.embedContents(data: ProjectData) {
+    private fun EmbedBuilder.embedUser(user: UserData) {
+        this.title = user.name ?: user.username
+        this.description = user.bio ?: "No bio set."
+        this.url = URLBuilder(MODRINTH_FRONTEND_ENDPOINT + "/user/" + user.username).buildString()
+        this.thumbnail {
+            this.url = user.avatarUrl
+        }
+    }
+
+    private suspend fun EmbedBuilder.embedProject(data: ProjectData) {
         this.title = data.title
         this.url = URLBuilder(MODRINTH_FRONTEND_ENDPOINT).appendPathSegments("project", data.slug).buildString()
         thumbnail {
@@ -255,6 +254,14 @@ class Modrinth : Extension() {
             .flatMap { it.loaders.stream() }.distinct()  // collect all loaders distinctly
             .map { it[0].uppercase() + it.drop(1) }      // Make first character uppercase
             .toList()
+    }
+
+    private suspend fun searchModrinthUser(arguments: UserSearchQuery): UserData {
+        return client.get(MODRINTH_ENDPOINT) {
+            url {
+                path("/v2/user/${arguments.query}")
+            }
+        }.body()
     }
 
     private suspend fun searchModrinth(query: String, limit: Int): SearchResponseData {
