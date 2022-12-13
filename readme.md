@@ -25,6 +25,7 @@ This Repository is open for contributions of all kinds! Although please make sur
 - [kotlin logging](https://github.com/MicroUtils/kotlin-logging)
 - [jansi](https://github.com/fusesource/jansi)
 - [kotlinx-serialization (Core)](https://github.com/Kotlin/kotlinx.serialization)
+- [ktor](https://ktor.io/)
 
 ### Statistics
 ![GitHub](https://img.shields.io/github/license/HyacinthBots/Allium?label=License&style=for-the-badge) ![GitHub repo size](https://img.shields.io/github/repo-size/HyacinthBots/Allium?label=Repository%20Size&style=for-the-badge)

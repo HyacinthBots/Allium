@@ -259,7 +259,7 @@ class Modrinth : Extension() {
     private suspend fun searchModrinthUser(arguments: UserSearchQuery): UserData {
         return client.get(MODRINTH_ENDPOINT) {
             url {
-                path("/v2/user/${arguments.query}")
+                path("v2/user/${arguments.query}")
             }
         }.body()
     }
