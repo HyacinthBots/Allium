@@ -44,6 +44,7 @@ class Modrinth : Extension() {
         install(ContentNegotiation) {
             json(Json { ignoreUnknownKeys = true })
         }
+        parseHeaderValue("User-Agent: hyacinthbots/allium/$BUILD (github@notjansel.de)")
     }
 
     override suspend fun setup() {
@@ -192,7 +193,7 @@ class Modrinth : Extension() {
     private fun EmbedBuilder.embedUser(user: UserData) {
         this.title = user.name ?: user.username
         this.description = user.bio ?: "No bio set."
-        this.url = URLBuilder(MODRINTH_FRONTEND_ENDPOINT + "/user/" + user.username).buildString()
+        this.url = URLBuilder(MODRINTH_FRONTEND_ENDPOINT + "user/" + user.username).buildString()
         this.thumbnail {
             this.url = user.avatarUrl
         }

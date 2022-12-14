@@ -85,6 +85,7 @@ dependencies {
 
     implementation(libs.kord.extensions.core)
     implementation(libs.kord.extensions.mappings)
+    implementation(libs.kord.extensions.pluralkit)
     implementation(libs.kotlin.stdlib)
     implementation(libs.kx.ser)
     implementation(libs.gson)
