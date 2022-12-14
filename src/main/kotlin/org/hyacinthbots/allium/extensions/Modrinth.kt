@@ -19,6 +19,7 @@ import dev.kord.rest.builder.message.create.embed
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -44,7 +45,9 @@ class Modrinth : Extension() {
         install(ContentNegotiation) {
             json(Json { ignoreUnknownKeys = true })
         }
-        parseHeaderValue("User-Agent: hyacinthbots/allium/$BUILD (github@notjansel.de)")
+        install(UserAgent) {
+            agent = "hyacinthbots/allium/$BUILD (github@notjansel.de)"
+        }
     }
 
     override suspend fun setup() {
