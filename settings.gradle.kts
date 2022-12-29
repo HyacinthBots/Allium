@@ -14,8 +14,6 @@ pluginManagement {
 
 rootProject.name = "Allium"
 
-enableFeaturePreview("VERSION_CATALOGS")
-
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
