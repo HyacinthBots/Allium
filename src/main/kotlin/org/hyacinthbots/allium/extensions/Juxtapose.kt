@@ -50,6 +50,7 @@ class Juxtapose : Extension() {
                     client.post("https://juxtapose.knightlab.com/juxtapose/create") {
                         this.setBody {
                             "{images:[{\"src\":\"${arguments.leftImage.url}\", },{}]}"
+                            attributes
                         }
                     }
                 }
