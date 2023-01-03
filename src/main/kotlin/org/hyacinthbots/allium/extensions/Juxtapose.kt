@@ -8,15 +8,20 @@ import com.kotlindiscord.kord.extensions.commands.converters.impl.optionalString
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respondEphemeral
+import com.soywiz.korio.dynamic.KDynamic.Companion.set
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.hyacinthbots.allium.utils.BUILD
+
+var vertical: Boolean? = false
 
 class Juxtapose : Extension() {
     val allowedContentTypes: Array<String> = arrayOf("image/jpeg", "image/png", "image/webp")
@@ -47,11 +52,23 @@ class Juxtapose : Extension() {
                         }
                         return@action
                     }
-                    client.post("https://juxtapose.knightlab.com/juxtapose/create") {
+                    vertical = arguments.isVertical
+                    val leftImage = Image(arguments.leftImage.url, arguments.leftLabel)
+                    val rightImage = Image(arguments.rightImage.url, arguments.rightLabel)
+                    val images: ArrayList<Image> = ArrayList()
+                    images[0] = leftImage
+                    images[1] = rightImage
+                    val vert = if (vertical == true) { "vertical" } else { "horizontal" }
+                    val options = Options(mode = vert)
+                    val json = PostJSON(images, options)
+                    val response: HttpResponse = client.post("https://juxtapose.knightlab.com/juxtapose/create") {
+                        contentType(ContentType.Application.Json)
                         this.setBody {
-                            "{images:[{\"src\":\"${arguments.leftImage.url}\", },{}]}"
-                            attributes
+                            json
                         }
+                    }
+                    if (response.status != HttpStatusCode.OK) {
+                        respondEphemeral { content = "The request failed with code ${response.status.value}." }
                     }
                 }
             }
@@ -82,14 +99,25 @@ class Juxtapose : Extension() {
     }
 
     @Serializable
-    data class postjson(
-        val images: MutableList<image>
+    data class PostJSON(
+        val images: List<Image>,
+        val options: Options
     )
 
     @Serializable
-    data class image(
+    data class Image(
         val src: String,
-        val label: String,
+        val label: String?,
         val credit: String = ""
+    )
+
+    @Serializable
+    data class Options(
+        val animate: Boolean = true,
+        val showLabels: Boolean = true,
+        val showCredits: Boolean = true,
+        val makeResponsive: Boolean = true,
+        val mode: String,
+        val startingPosition: Int = 50
     )
 }
