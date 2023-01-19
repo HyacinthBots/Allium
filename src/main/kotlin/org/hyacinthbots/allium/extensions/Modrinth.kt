@@ -319,7 +319,7 @@ class Modrinth : Extension() {
         }.body()
     }
 
-    private suspend fun EphemeralSelectMenuContext.createFilterMenu(
+    private suspend fun EphemeralSelectMenuContext<*>.createFilterMenu(
         filterType: String,
         filterOptions: MutableList<String>,
         currentFilter: SearchData
