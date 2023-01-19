@@ -5,10 +5,7 @@ import com.google.gson.JsonParser
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.modules.extra.mappings.extMappings
 import me.shedaniel.linkie.utils.readText
-import org.hyacinthbots.allium.extensions.About
-import org.hyacinthbots.allium.extensions.EventHooks
-import org.hyacinthbots.allium.extensions.Modrinth
-import org.hyacinthbots.allium.extensions.PresenceUpdater
+import org.hyacinthbots.allium.extensions.*
 import org.hyacinthbots.allium.utils.TOKEN
 import java.util.*
 
@@ -24,6 +21,7 @@ suspend fun main() {
             add(::Modrinth)
             add(::About)
             add(::PresenceUpdater)
+            add(::StatusPing)
             extMappings {  }
         }
         i18n {
