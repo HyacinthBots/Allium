@@ -8,16 +8,18 @@ logging = "2.1.23" # DON'T REMOVE OR UPDATE
 logback = "1.2.8" # DON'T REMOVE OR UPDATE
 gson = "2.10"
 groovy = "3.0.10" # DON'T REMOVE OR UPDATE
+doc-gen = "0.1.1-legacy-klogging"
 
 [libraries]
 detekt = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 jansi = { module = "org.fusesource.jansi:jansi", version.ref = "jansi" }
 kord-extensions-core = { module = "com.kotlindiscord.kord.extensions:kord-extensions", version.ref = "kord-extensions" }
-kord-extensions-mappings = { module = "com.kotlindiscord.kord.extensions:extra-mappings", version.ref = "kord-extensions"}
-kord-extensions-pluralkit = { module = "com.kotlindiscord.kord.extensions:extra-pluralkit", version.ref = "kord-extensions"}
+kord-extensions-mappings = { module = "com.kotlindiscord.kord.extensions:extra-mappings", version.ref = "kord-extensions" }
+kord-extensions-pluralkit = { module = "com.kotlindiscord.kord.extensions:extra-pluralkit", version.ref = "kord-extensions" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 logging = { module = "io.github.microutils:kotlin-logging", version.ref = "logging" }
 kx-ser = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kx-ser" }
-gson = { module = "com.google.code.gson:gson", version.ref = "gson"}
-groovy = { module="org.codehaus.groovy:groovy", version.ref = "groovy"}
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+groovy = { module="org.codehaus.groovy:groovy", version.ref = "groovy" }
+doc-gen = { module="org.hyacinthbots:doc-generator", version.ref = "doc-gen" }

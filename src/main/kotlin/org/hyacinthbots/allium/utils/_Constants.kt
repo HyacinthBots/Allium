@@ -17,3 +17,5 @@ const val BUILDTIME = "@buildTime@"
 
 /** Get the build revision. */
 const val BUILD = "@version@"
+
+val ENVIRONMENT = env("ENVIRONMENT")
