@@ -1,6 +1,6 @@
 pluginManagement {
     plugins {
-        val kotlinVersion = "1.7.21"
+        val kotlinVersion = "1.8.0"
         kotlin("jvm") version kotlinVersion
         kotlin("plugin.serialization") version kotlinVersion
 
@@ -13,8 +13,6 @@ pluginManagement {
 }
 
 rootProject.name = "Allium"
-
-enableFeaturePreview("VERSION_CATALOGS")
 
 dependencyResolutionManagement {
     versionCatalogs {
