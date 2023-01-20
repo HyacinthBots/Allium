@@ -27,6 +27,7 @@ suspend fun main() {
             add(::About)
             add(::PresenceUpdater)
             add(::StatusPing)
+            add(::Juxtapose)
             extMappings {  }
         }
         i18n {
