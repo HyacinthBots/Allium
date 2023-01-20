@@ -5,17 +5,9 @@ import com.google.gson.JsonParser
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.modules.extra.mappings.extMappings
 import me.shedaniel.linkie.utils.readText
-import org.hyacinthbots.allium.extensions.About
-import org.hyacinthbots.allium.extensions.EventHooks
-import org.hyacinthbots.allium.extensions.Modrinth
-import org.hyacinthbots.allium.extensions.PresenceUpdater
-import org.hyacinthbots.allium.utils.ENVIRONMENT
+import org.hyacinthbots.allium.extensions.*
 import org.hyacinthbots.allium.utils.TOKEN
-import org.hyacinthbots.docgenerator.docsGenerator
-import org.hyacinthbots.docgenerator.enums.CommandTypes
-import org.hyacinthbots.docgenerator.enums.SupportedFileFormat
 import java.util.*
-import kotlin.io.path.Path
 
 var splashes = JsonArray()
 var updatemessages = JsonArray()
@@ -29,17 +21,11 @@ suspend fun main() {
             add(::Modrinth)
             add(::About)
             add(::PresenceUpdater)
+            add(::StatusPing)
             extMappings {  }
         }
         i18n {
             defaultLocale = Locale.ENGLISH
-        }
-        docsGenerator {
-            enabled = true
-            commandTypes = CommandTypes.ALL
-            environment = ENVIRONMENT
-            fileFormat = SupportedFileFormat.MARKDOWN
-            filePath = Path("./docs/commands.md")
         }
     }
     bot.start()
