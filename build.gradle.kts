@@ -34,7 +34,7 @@ fun String.runCommand(
 
 
 group = "org.hyacinthbots.allium"
-version = "0.4-build.local-" + "git rev-parse --short=8 HEAD".runCommand(workingDir = rootDir) + "-" + "git branch --show-current".runCommand(workingDir = rootDir)
+version = "0.4-build.local-" + "git rev-parse --short=8 HEAD".runCommand(workingDir = rootDir) + "-" + "git branch --show-current".runCommand(workingDir = rootDir).replace("/", ".")
 var buildTime = Date().time / 1000
 //version = "0.3.3"
 // The current LTS Java version
@@ -135,7 +135,7 @@ tasks {
         Update gradle by changing `gradleVersion` below to the new version,
         then run `./gradlew wrapper` twice to update the scripts properly.
          */
-        gradleVersion = "8.0-rc-1"
+        gradleVersion = "8.0-rc-2"
         distributionType = Wrapper.DistributionType.BIN
     }
 }
