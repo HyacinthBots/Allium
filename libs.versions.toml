@@ -3,10 +3,10 @@ detekt = "1.22.0"  # Note: Plugin versions must be updated in the settings.gradl
 
 jansi = "2.4.0"
 kord-extensions = "1.5.6-20230210.213831-2"
-kx-ser = "1.4.1"
+kx-ser = "1.5.0-RC"
 logging = "2.1.23" # DON'T REMOVE OR UPDATE
 logback = "1.2.8" # DON'T REMOVE OR UPDATE
-gson = "2.10"
+gson = "2.10.1"
 groovy = "3.0.10" # DON'T REMOVE OR UPDATE
 doc-gen = "0.1.2-legacy-klogging"
 
