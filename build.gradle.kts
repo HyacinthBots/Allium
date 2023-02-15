@@ -16,7 +16,7 @@ plugins {
 
 fun String.runCommand(
     workingDir: File = File("."),
-    timeoutAmount: Long = 60,
+    timeoutAmount: Long = 59,
     timeoutUnit: TimeUnit = TimeUnit.SECONDS
 ): String = ProcessBuilder(split("\\s(?=(?:[^'\"`]*(['\"`])[^'\"`]*\\1)*[^'\"`]*$)".toRegex()))
     .directory(workingDir)
@@ -52,6 +52,10 @@ repositories {
     maven {
         name = "Sonatype Snapshots"
         url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+    }
+    maven {
+        name = "Sonatype Snapshots"
+        url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots")
     }
 
     maven {
@@ -135,7 +139,7 @@ tasks {
         Update gradle by changing `gradleVersion` below to the new version,
         then run `./gradlew wrapper` twice to update the scripts properly.
          */
-        gradleVersion = "8.0-rc-2"
+        gradleVersion = "8.0"
         distributionType = Wrapper.DistributionType.BIN
     }
 }
