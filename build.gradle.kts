@@ -120,7 +120,7 @@ tasks {
     withType<KotlinCompile> {
         kotlinOptions {
             jvmTarget = javaVersion.toString()
-            languageVersion = "1.7" // The current major revision of Kotlin
+            languageVersion = "1.8" // The current major revision of Kotlin
             incremental = true
             freeCompilerArgs = listOf("-opt-in=kotlin.RequiresOptIn")
         }

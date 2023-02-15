@@ -1,5 +1,5 @@
 # Roadmap for upcoming features
 
-- juxtapose integration
+- juxtapose integration (on hold)
 - log uploading
 - database integration

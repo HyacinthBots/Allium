@@ -38,8 +38,8 @@ class About : Extension() {
                             value = "September 6th, 2022"
                         }
                         field {
-                            name = "Developers"
-                            value = "Jansel, StonkDragon (mental help)"
+                            name = " Main Developers"
+                            value = "Jansel"
                         }
                         field {
                             name = "Contributors"

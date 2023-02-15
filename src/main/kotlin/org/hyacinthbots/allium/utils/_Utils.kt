@@ -1,24 +1,7 @@
 package org.hyacinthbots.allium.utils
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.hyacinthbots.allium.splashes
 import org.hyacinthbots.allium.updatemessages
-import java.net.URI
-import java.net.http.HttpClient
-import java.net.http.HttpRequest
-import java.net.http.HttpResponse
-
-suspend inline fun webRequest(url: String): HttpResponse<String> {
-    val client = HttpClient.newBuilder().build()
-    val request = HttpRequest.newBuilder()
-        .uri(URI(url))
-        .build()
-    val response = withContext(Dispatchers.IO) {
-        client.send(request, HttpResponse.BodyHandlers.ofString())
-    }
-    return response
-}
 
 fun getRandomSplash(): String {
     val entries = splashes.count()
