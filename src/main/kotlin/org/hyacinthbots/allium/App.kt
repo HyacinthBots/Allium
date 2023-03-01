@@ -47,6 +47,7 @@ suspend fun main() {
             environment = ENVIRONMENT
             useBuiltinCommandList = true
             commandTypes = CommandTypes.ALL
+            botName = "Allium"
         }
     }
     bot.start()
