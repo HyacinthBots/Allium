@@ -8,7 +8,6 @@ import com.kotlindiscord.kord.extensions.components.components
 import com.kotlindiscord.kord.extensions.components.ephemeralButton
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
-import com.kotlindiscord.kord.extensions.modules.extra.pluralkit.events.PKMessageCreateEvent
 import com.kotlindiscord.kord.extensions.sentry.tag
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.utils.download
@@ -21,6 +20,7 @@ import dev.kord.core.behavior.channel.createMessage
 import dev.kord.core.behavior.edit
 import dev.kord.core.entity.Message
 import dev.kord.core.entity.channel.MessageChannel
+import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.rest.builder.message.create.embed
 import dev.kord.rest.builder.message.modify.actionRow
 import dev.kord.rest.builder.message.modify.embed
@@ -31,6 +31,7 @@ import io.ktor.client.request.setBody
 import io.ktor.client.statement.readBytes
 import io.ktor.http.Parameters
 import kotlinx.datetime.Clock
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.hyacinthbots.allium.utils.botHasChannelPerms
@@ -46,7 +47,7 @@ class LogUploading : Extension() {
     private val logFileExtensions = setOf("log", "gz", "txt")
 
     override suspend fun setup() {
-        event<PKMessageCreateEvent> {
+        event<MessageCreateEvent> {
             check {
                 anyGuild()
                 failIf {
@@ -60,8 +61,8 @@ class LogUploading : Extension() {
             }
             action {
                 val eventMessage = event.message.asMessageOrNull() // Get the message
-                var uploadChannel = eventMessage.channel.asChannelOrNull()
-                val eventMember = event.member ?: event.author
+                val uploadChannel = eventMessage.channel.asChannelOrNull()
+                val eventMember = event.member
 
                 eventMessage.attachments.forEach { attachment ->
                     val attachmentFileName = attachment.filename
@@ -131,13 +132,13 @@ class LogUploading : Extension() {
                                                 // Delete the confirmation and proceed to upload
                                                 confirmationMessage!!.delete()
 
-                                                val uploadMessage = uploadChannel!!.createEmbed {
+                                                val uploadMessage = uploadChannel.createEmbed {
                                                     title = "Uploading `$attachmentFileName` to mclo.gs..."
                                                     footer {
                                                         text =
-                                                            "Uploaded by ${eventMessage.author?.tag ?: eventMember.asUserOrNull()?.tag}"
+                                                            "Uploaded by ${eventMessage.author?.tag ?: eventMember.asUserOrNull().tag}"
                                                         icon = eventMessage.author?.avatar?.url
-                                                            ?: eventMember.asUserOrNull()?.avatar?.url
+                                                            ?: eventMember.asUserOrNull().avatar?.url
                                                     }
                                                     timestamp = Clock.System.now()
                                                     color = DISCORD_PINK
@@ -151,9 +152,9 @@ class LogUploading : Extension() {
                                                             title = "`$attachmentFileName` uploaded to mclo.gs"
                                                             footer {
                                                                 text =
-                                                                    "Uploaded by ${eventMessage.author?.tag ?: eventMember.asUserOrNull()?.tag}"
+                                                                    "Uploaded by ${eventMessage.author?.tag ?: eventMember.asUserOrNull().tag}"
                                                                 icon = eventMessage.author?.avatar?.url
-                                                                    ?: eventMember.asUserOrNull()?.avatar?.url
+                                                                    ?: eventMember.asUserOrNull().avatar?.url
                                                             }
                                                             timestamp = Clock.System.now()
                                                             color = DISCORD_PINK
@@ -174,9 +175,9 @@ class LogUploading : Extension() {
                                                             description = "Error: $e"
                                                             footer {
                                                                 text =
-                                                                    "Uploaded by ${eventMessage.author?.tag ?: eventMember.asUserOrNull()?.tag}"
+                                                                    "Uploaded by ${eventMessage.author?.tag ?: eventMember.asUserOrNull().tag}"
                                                                 icon = eventMessage.author?.avatar?.url
-                                                                    ?: eventMember.asUserOrNull()?.avatar?.url
+                                                                    ?: eventMember.asUserOrNull().avatar?.url
                                                             }
                                                             timestamp = Clock.System.now()
                                                             color = DISCORD_RED
@@ -216,6 +217,8 @@ class LogUploading : Extension() {
             }
         }
     }
+
+    @Serializable
     data class LogData(val success: Boolean, val id: String? = null, val error: String? = null)
     private suspend fun postToMCLogs(text: String): String {
         val client = HttpClient()

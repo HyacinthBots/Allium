@@ -341,7 +341,7 @@ None
 None
 ---
 ### Command name: `command-list`
-Description: Shows a list of Allium Beta's commands!
+Description: Shows a list of HyacinthDev2's commands!
 
 * Arguments:
 None
