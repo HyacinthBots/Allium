@@ -1,9 +1,13 @@
+@file:OptIn(PrivilegedIntent::class)
+
 package org.hyacinthbots.allium
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonParser
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.modules.extra.mappings.extMappings
+import dev.kord.gateway.Intent
+import dev.kord.gateway.PrivilegedIntent
 import me.shedaniel.linkie.utils.readText
 import org.hyacinthbots.allium.extensions.*
 import org.hyacinthbots.allium.utils.ENVIRONMENT
@@ -29,6 +33,9 @@ suspend fun main() {
             add(::StatusPing)
             add(::LogUploading)
             extMappings {  }
+        }
+        intents {
+            +Intent.MessageContent
         }
         i18n {
             defaultLocale = Locale.ENGLISH
