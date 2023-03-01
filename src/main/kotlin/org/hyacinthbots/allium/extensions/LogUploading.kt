@@ -14,6 +14,8 @@ import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.utils.download
 import com.kotlindiscord.kord.extensions.utils.isNullOrBot
 import dev.kord.common.entity.ButtonStyle
+import dev.kord.common.entity.Permission
+import dev.kord.common.entity.Permissions
 import dev.kord.core.behavior.channel.createEmbed
 import dev.kord.core.behavior.channel.createMessage
 import dev.kord.core.behavior.edit
@@ -31,6 +33,7 @@ import io.ktor.http.Parameters
 import kotlinx.datetime.Clock
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import org.hyacinthbots.allium.utils.botHasChannelPerms
 import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.util.zip.GZIPInputStream
@@ -53,10 +56,9 @@ class LogUploading : Extension() {
 
                 // I hate NullPointerExceptions. This is to prevent a null pointer exception if the message is a Pk one.
                 if (channelFor(event) == null) return@check
+                botHasChannelPerms(Permissions(Permission.SendMessages, Permission.EmbedLinks))
             }
             action {
-                // put whitelist checking here
-
                 val eventMessage = event.message.asMessageOrNull() // Get the message
                 var uploadChannel = eventMessage.channel.asChannelOrNull()
                 val eventMember = event.member ?: event.author
