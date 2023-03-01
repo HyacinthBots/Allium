@@ -27,6 +27,7 @@ suspend fun main() {
             add(::About)
             add(::PresenceUpdater)
             add(::StatusPing)
+            add(::LogUploading)
             extMappings {  }
         }
         i18n {
