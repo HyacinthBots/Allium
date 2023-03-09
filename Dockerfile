@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim
+FROM azul/zulu-openjdk-alpine:17-jre-latest
 
 RUN mkdir /bot
 RUN mkdir /data

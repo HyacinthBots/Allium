@@ -2,13 +2,14 @@
 detekt = "1.22.0"  # Note: Plugin versions must be updated in the settings.gradle.kts too
 
 jansi = "2.4.0"
-kord-extensions = "1.5.6-20230210.213831-2"
-kx-ser = "1.5.0-RC"
+kord-extensions = "1.5.6-20230307.155817-8"
+kx-ser = "1.5.0"
 logging = "2.1.23" # DON'T REMOVE OR UPDATE
 logback = "1.2.8" # DON'T REMOVE OR UPDATE
 gson = "2.10.1"
 groovy = "3.0.10" # DON'T REMOVE OR UPDATE
 doc-gen = "0.1.2-legacy-klogging"
+mongo = "4.9.0"
 
 [libraries]
 detekt = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
@@ -23,3 +24,4 @@ kx-ser = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 groovy = { module="org.codehaus.groovy:groovy", version.ref = "groovy" }
 doc-gen = { module="org.hyacinthbots:doc-generator", version.ref = "doc-gen" }
+mongo = { module="org.mongodb:mongodb-driver-sync", version.ref = "mongo"}
