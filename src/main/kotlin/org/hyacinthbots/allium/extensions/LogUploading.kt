@@ -4,6 +4,7 @@ import com.kotlindiscord.kord.extensions.DISCORD_PINK
 import com.kotlindiscord.kord.extensions.DISCORD_RED
 import com.kotlindiscord.kord.extensions.checks.anyGuild
 import com.kotlindiscord.kord.extensions.checks.channelFor
+import com.kotlindiscord.kord.extensions.checks.hasPermission
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.slash.ephemeralSubCommand
 import com.kotlindiscord.kord.extensions.commands.converters.impl.channel
@@ -227,9 +228,9 @@ class LogUploading : Extension() {
             ephemeralSubCommand(::Whitelist) {
                 name = "add-to-whitelist"
                 description = "Add a channel to the log-uploading whitelist"
-                requiredPerms.add(Permission.ManageChannels)
                 check {
                     anyGuild()
+                    hasPermission(Permission.ManageChannels)
                 }
                 action {
                     if (checkIfChannelIsInWhitelist(arguments.channel.id)) {
@@ -245,9 +246,9 @@ class LogUploading : Extension() {
             ephemeralSubCommand(::Whitelist) {
                 name = "remove-whitelist"
                 description = "Add a channel to the log-uploading whitelist"
-                requiredPerms.add(Permission.ManageChannels)
                 check {
                     anyGuild()
+                    hasPermission(Permission.ManageChannels)
                 }
                 action {
                     if (checkIfChannelIsInWhitelist(arguments.channel.id)) {
