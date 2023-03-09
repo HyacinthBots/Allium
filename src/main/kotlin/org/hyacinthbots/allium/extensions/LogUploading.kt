@@ -4,10 +4,14 @@ import com.kotlindiscord.kord.extensions.DISCORD_PINK
 import com.kotlindiscord.kord.extensions.DISCORD_RED
 import com.kotlindiscord.kord.extensions.checks.anyGuild
 import com.kotlindiscord.kord.extensions.checks.channelFor
+import com.kotlindiscord.kord.extensions.commands.Arguments
+import com.kotlindiscord.kord.extensions.commands.application.slash.ephemeralSubCommand
+import com.kotlindiscord.kord.extensions.commands.converters.impl.channel
 import com.kotlindiscord.kord.extensions.components.components
 import com.kotlindiscord.kord.extensions.components.ephemeralButton
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
+import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.sentry.tag
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.utils.download
@@ -34,6 +38,7 @@ import kotlinx.datetime.Clock
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import org.hyacinthbots.allium.database.*
 import org.hyacinthbots.allium.utils.botHasChannelPerms
 import java.io.ByteArrayInputStream
 import java.io.IOException
@@ -54,7 +59,7 @@ class LogUploading : Extension() {
                     event.message.author.isNullOrBot()
                     event.message.getChannelOrNull() !is MessageChannel
                 }
-
+                checkIfChannelIsInWhitelist(event.message.channelId)
                 // I hate NullPointerExceptions. This is to prevent a null pointer exception if the message is a Pk one.
                 if (channelFor(event) == null) return@check
                 botHasChannelPerms(Permissions(Permission.SendMessages, Permission.EmbedLinks))
@@ -215,6 +220,53 @@ class LogUploading : Extension() {
                     }
                 }
             }
+        }
+        publicSlashCommand {
+            name = "log-whitelist"
+            description = "Commands related to the log-uploading whitelist"
+            ephemeralSubCommand(::Whitelist) {
+                name = "add-to-whitelist"
+                description = "Add a channel to the log-uploading whitelist"
+                requiredPerms.add(Permission.ManageChannels)
+                check {
+                    anyGuild()
+                }
+                action {
+                    if (checkIfChannelIsInWhitelist(arguments.channel.id)) {
+                        respond {
+                            content = "Channel already in whitelist!"
+                        }
+                        return@action
+                    }
+                    this.guild?.id?.let { addChannelToWhitelist(it, arguments.channel.id) }
+                    respond { content = "Channel added to Whitelist" }
+                }
+            }
+            ephemeralSubCommand(::Whitelist) {
+                name = "remove-whitelist"
+                description = "Add a channel to the log-uploading whitelist"
+                requiredPerms.add(Permission.ManageChannels)
+                check {
+                    anyGuild()
+                }
+                action {
+                    if (checkIfChannelIsInWhitelist(arguments.channel.id)) {
+                        respond {
+                            content = "Channel already in whitelist!"
+                        }
+                        return@action
+                    }
+                    removeChannelFromWhitelist(arguments.channel.id)
+                    respond { content = "Channel added to Whitelist" }
+                }
+            }
+        }
+    }
+
+    inner class Whitelist : Arguments() {
+        val channel by channel {
+            name = "channel"
+            description = "Channel to add to the Whitelist"
         }
     }
 

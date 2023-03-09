@@ -8,7 +8,7 @@ With this the only person to access the data described below is Jansel and his h
 
 ## Data
 
-Allium only logs errors when they occur and provides these to Jansel immediately. Else no data is collected.
+Allium uses a Database to store Channel and Guild ID's for the Log Uploading Feature. Data will be stored as long the Bot is in the Guild. As soon it leaves it, any data in connection to that guild will be removed.
 
 ## Contact
 
