@@ -11,7 +11,7 @@ COPY build/libs/Allium-*-all.jar /usr/local/lib/Allium.jar
 
 ENV TEST_SERVER=1004868734378319883
 ENV TEST_CHANNEL=1013046925051834458
-ENV ENVIRONEMT=production
+ENV ENVIRONMENT=production
 
 WORKDIR /bot
 
