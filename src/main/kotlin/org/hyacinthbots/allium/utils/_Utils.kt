@@ -9,6 +9,7 @@ import dev.kord.core.behavior.channel.asChannelOfOrNull
 import dev.kord.core.entity.channel.NewsChannel
 import dev.kord.core.entity.channel.TextChannel
 import dev.kord.core.entity.channel.thread.ThreadChannel
+import kotlinx.coroutines.runBlocking
 import org.hyacinthbots.allium.database.Database
 import org.hyacinthbots.allium.database.collections.LogUploadingCollection
 import org.hyacinthbots.allium.splashes
@@ -21,7 +22,6 @@ fun getRandomSplash(): String {
     return splashes.get(entry).asString
 }
 
-@Suppress("unused")
 suspend inline fun ExtensibleBotBuilder.database(migrate: Boolean) {
     val db = Database()
 
@@ -33,6 +33,10 @@ suspend inline fun ExtensibleBotBuilder.database(migrate: Boolean) {
 
             loadModule {
                 single { LogUploadingCollection() } bind LogUploadingCollection::class
+            }
+
+            if (migrate) {
+                runBlocking { db.migrate() }
             }
         }
     }

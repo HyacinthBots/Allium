@@ -2,9 +2,7 @@ package org.hyacinthbots.allium.extensions
 
 import com.kotlindiscord.kord.extensions.DISCORD_PINK
 import com.kotlindiscord.kord.extensions.DISCORD_RED
-import com.kotlindiscord.kord.extensions.checks.anyGuild
-import com.kotlindiscord.kord.extensions.checks.channelFor
-import com.kotlindiscord.kord.extensions.checks.hasPermission
+import com.kotlindiscord.kord.extensions.checks.*
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.slash.ephemeralSubCommand
 import com.kotlindiscord.kord.extensions.commands.converters.impl.channel
@@ -59,10 +57,13 @@ class LogUploading : Extension() {
                     event.message.author.isNullOrBot()
                     event.message.getChannelOrNull() !is MessageChannel
                 }
-                LogUploadingCollection().checkIfChannelIsInWhitelist(event.guildId!!, event.message.channelId)
                 // I hate NullPointerExceptions. This is to prevent a null pointer exception if the message is a Pk one.
                 if (channelFor(event) == null) return@check
                 botHasChannelPerms(Permissions(Permission.SendMessages, Permission.EmbedLinks))
+
+                failIfNot {
+                    LogUploadingCollection().checkIfChannelIsInWhitelist(event.message.getGuild().id, event.message.channelId)
+                }
             }
             action {
                 val eventMessage = event.message.asMessageOrNull() // Get the message
@@ -238,7 +239,7 @@ class LogUploading : Extension() {
                         }
                         return@action
                     }
-                    this.guild?.id?.let { LogUploadingCollection().addChannelToWhitelist(it, arguments.channel.id) }
+                    LogUploadingCollection().addChannelToWhitelist(guild!!.id, arguments.channel.id)
                     respond { content = "Channel added to Whitelist" }
                 }
             }
@@ -256,7 +257,7 @@ class LogUploading : Extension() {
                         }
                         return@action
                     }
-                    this.guild?.id?.let { LogUploadingCollection().removeChannelFromWhitelist(it, arguments.channel.id) }
+                    LogUploadingCollection().removeChannelFromWhitelist(guild!!.id, arguments.channel.id)
                     respond { content = "Channel removed from Whitelist" }
                 }
             }

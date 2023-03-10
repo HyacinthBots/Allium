@@ -28,6 +28,20 @@ Description: what is this bot?
 * Arguments:
 None
 ---
+#### Command name: `log-whitelist add`
+**Description**: Add a channel to the log-uploading whitelist
+
+* **Arguments**:
+	* `channel` - Channel to add to the Whitelist - Channel
+
+---
+#### Command name: `log-whitelist remove`
+**Description**: Add a channel to the log-uploading whitelist
+
+* **Arguments**:
+	* `channel` - Channel to add to the Whitelist - Channel
+
+---
 #### Command name: `lyarn class`
 **Description**: Look up Legacy Yarn mappings info for a class.
 

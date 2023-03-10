@@ -20,9 +20,14 @@ class LogUploadingCollection : KordExKoinComponent {
     }
 
     suspend fun addChannelToWhitelist(guildId: Snowflake, channelId: Snowflake) {
-        val list = collection.findOne(LogUploadingData::guildId eq guildId)?.channels
-        list?.add(channelId)
-        collection.updateOne(LogUploadingData::guildId eq guildId, setValue(LogUploadingData::channels, list))
+        var list = collection.findOne(LogUploadingData::guildId eq guildId)?.channels
+        if (list != null) {
+            list.add(channelId)
+            collection.updateOne(LogUploadingData::guildId eq guildId, setValue(LogUploadingData::channels, list))
+        } else {
+            list = mutableListOf(channelId)
+            collection.insertOne(LogUploadingData(guildId, list))
+        }
     }
 
     suspend fun removeChannelFromWhitelist(guildId: Snowflake, channelId: Snowflake) {
