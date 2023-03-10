@@ -29,17 +29,16 @@ import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.rest.builder.message.create.embed
 import dev.kord.rest.builder.message.modify.actionRow
 import dev.kord.rest.builder.message.modify.embed
-import io.ktor.client.HttpClient
-import io.ktor.client.request.forms.FormDataContent
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
-import io.ktor.client.statement.readBytes
-import io.ktor.http.Parameters
+import io.ktor.client.*
+import io.ktor.client.request.*
+import io.ktor.client.request.forms.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
 import kotlinx.datetime.Clock
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import org.hyacinthbots.allium.database.*
+import org.hyacinthbots.allium.database.collections.LogUploadingCollection
 import org.hyacinthbots.allium.utils.botHasChannelPerms
 import java.io.ByteArrayInputStream
 import java.io.IOException
@@ -60,7 +59,7 @@ class LogUploading : Extension() {
                     event.message.author.isNullOrBot()
                     event.message.getChannelOrNull() !is MessageChannel
                 }
-                checkIfChannelIsInWhitelist(event.message.channelId)
+                LogUploadingCollection().checkIfChannelIsInWhitelist(event.guildId!!, event.message.channelId)
                 // I hate NullPointerExceptions. This is to prevent a null pointer exception if the message is a Pk one.
                 if (channelFor(event) == null) return@check
                 botHasChannelPerms(Permissions(Permission.SendMessages, Permission.EmbedLinks))
@@ -233,13 +232,13 @@ class LogUploading : Extension() {
                     hasPermission(Permission.ManageChannels)
                 }
                 action {
-                    if (checkIfChannelIsInWhitelist(arguments.channel.id)) {
+                    if (LogUploadingCollection().checkIfChannelIsInWhitelist(guild!!.id, arguments.channel.id)) {
                         respond {
                             content = "Channel already in whitelist!"
                         }
                         return@action
                     }
-                    this.guild?.id?.let { addChannelToWhitelist(it, arguments.channel.id) }
+                    this.guild?.id?.let { LogUploadingCollection().addChannelToWhitelist(it, arguments.channel.id) }
                     respond { content = "Channel added to Whitelist" }
                 }
             }
@@ -251,13 +250,13 @@ class LogUploading : Extension() {
                     hasPermission(Permission.ManageChannels)
                 }
                 action {
-                    if (checkIfChannelIsInWhitelist(arguments.channel.id)) {
+                    if (LogUploadingCollection().checkIfChannelIsInWhitelist(guild!!.id, arguments.channel.id)) {
                         respond {
                             content = "Channel already in whitelist!"
                         }
                         return@action
                     }
-                    removeChannelFromWhitelist(arguments.channel.id)
+                    this.guild?.id?.let { LogUploadingCollection().removeChannelFromWhitelist(it, arguments.channel.id) }
                     respond { content = "Channel added to Whitelist" }
                 }
             }

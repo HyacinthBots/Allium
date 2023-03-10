@@ -9,7 +9,7 @@ logback = "1.2.8" # DON'T REMOVE OR UPDATE
 gson = "2.10.1"
 groovy = "3.0.10" # DON'T REMOVE OR UPDATE
 doc-gen = "0.1.2-legacy-klogging"
-mongo = "4.9.0"
+kmongo = "4.8.0"
 
 [libraries]
 detekt = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
@@ -24,4 +24,4 @@ kx-ser = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 groovy = { module="org.codehaus.groovy:groovy", version.ref = "groovy" }
 doc-gen = { module="org.hyacinthbots:doc-generator", version.ref = "doc-gen" }
-mongo = { module="org.mongodb:mongodb-driver-sync", version.ref = "mongo"}
+kmongo = { module="org.litote.kmongo:kmongo-coroutine-serialization", version.ref = "kmongo"}
