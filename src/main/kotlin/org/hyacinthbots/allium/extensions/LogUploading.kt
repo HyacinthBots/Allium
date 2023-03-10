@@ -225,7 +225,7 @@ class LogUploading : Extension() {
             name = "log-whitelist"
             description = "Commands related to the log-uploading whitelist"
             ephemeralSubCommand(::Whitelist) {
-                name = "add-to-whitelist"
+                name = "add"
                 description = "Add a channel to the log-uploading whitelist"
                 check {
                     anyGuild()
@@ -243,7 +243,7 @@ class LogUploading : Extension() {
                 }
             }
             ephemeralSubCommand(::Whitelist) {
-                name = "remove-whitelist"
+                name = "remove"
                 description = "Add a channel to the log-uploading whitelist"
                 check {
                     anyGuild()
@@ -257,7 +257,7 @@ class LogUploading : Extension() {
                         return@action
                     }
                     this.guild?.id?.let { LogUploadingCollection().removeChannelFromWhitelist(it, arguments.channel.id) }
-                    respond { content = "Channel added to Whitelist" }
+                    respond { content = "Channel removed from Whitelist" }
                 }
             }
         }

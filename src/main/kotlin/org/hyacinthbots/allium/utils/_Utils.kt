@@ -1,19 +1,41 @@
 package org.hyacinthbots.allium.utils
 
+import com.kotlindiscord.kord.extensions.builders.ExtensibleBotBuilder
 import com.kotlindiscord.kord.extensions.checks.channelFor
 import com.kotlindiscord.kord.extensions.checks.types.CheckContext
+import com.kotlindiscord.kord.extensions.utils.loadModule
 import dev.kord.common.entity.Permissions
 import dev.kord.core.behavior.channel.asChannelOfOrNull
 import dev.kord.core.entity.channel.NewsChannel
 import dev.kord.core.entity.channel.TextChannel
 import dev.kord.core.entity.channel.thread.ThreadChannel
+import org.hyacinthbots.allium.database.Database
+import org.hyacinthbots.allium.database.collections.LogUploadingCollection
 import org.hyacinthbots.allium.splashes
 import org.hyacinthbots.allium.updatemessages
+import org.koin.dsl.bind
 
 fun getRandomSplash(): String {
     val entries = splashes.count()
     val entry = (0 until entries).random()
     return splashes.get(entry).asString
+}
+
+@Suppress("unused")
+suspend inline fun ExtensibleBotBuilder.database(migrate: Boolean) {
+    val db = Database()
+
+    hooks {
+        beforeKoinSetup {
+            loadModule {
+                single { db } bind Database::class
+            }
+
+            loadModule {
+                single { LogUploadingCollection() } bind LogUploadingCollection::class
+            }
+        }
+    }
 }
 
 fun getRandomUpdateMessage(): String {

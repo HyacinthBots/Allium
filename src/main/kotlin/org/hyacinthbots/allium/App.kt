@@ -12,6 +12,7 @@ import me.shedaniel.linkie.utils.readText
 import org.hyacinthbots.allium.extensions.*
 import org.hyacinthbots.allium.utils.ENVIRONMENT
 import org.hyacinthbots.allium.utils.TOKEN
+import org.hyacinthbots.allium.utils.database
 import org.hyacinthbots.docgenerator.docsGenerator
 import org.hyacinthbots.docgenerator.enums.CommandTypes
 import org.hyacinthbots.docgenerator.enums.SupportedFileFormat
@@ -25,6 +26,7 @@ suspend fun main() {
     splashes = JsonParser.parseString({}.javaClass.getResource("/splashes.json")?.readText()).asJsonArray
     updatemessages = JsonParser.parseString({}.javaClass.getResource("/updatemessage.json")?.readText()).asJsonArray
     val bot = ExtensibleBot(TOKEN) {
+        database(false)
         extensions {
             add(::EventHooks)
             add(::Modrinth)
