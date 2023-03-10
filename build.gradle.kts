@@ -94,7 +94,7 @@ dependencies {
     implementation(libs.kx.ser)
     implementation(libs.gson)
     implementation(libs.doc.gen)
-    implementation(libs.mongo)
+    implementation(libs.kmongo)
 
     // Logging dependencies
     implementation(libs.jansi)
