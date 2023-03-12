@@ -7,6 +7,7 @@ import dev.kord.core.entity.channel.GuildMessageChannel
 import dev.kord.core.event.gateway.DisconnectEvent
 import dev.kord.core.event.gateway.ReadyEvent
 import dev.kord.core.event.guild.GuildDeleteEvent
+import org.hyacinthbots.allium.database.collections.ConfigCollection
 import org.hyacinthbots.allium.database.collections.LogUploadingCollection
 import org.hyacinthbots.allium.utils.BUILD
 import org.hyacinthbots.allium.utils.TEST_SERVER_CHANNEL_ID
@@ -38,6 +39,8 @@ class EventHooks : Extension() {
         event<GuildDeleteEvent> {
             action {
                 LogUploadingCollection().removeWhitelist(event.guildId)
+                LogUploadingCollection().removeBlacklist(event.guildId)
+                ConfigCollection().removeConfig(event.guildId)
             }
         }
     }

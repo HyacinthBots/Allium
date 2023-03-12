@@ -4,7 +4,7 @@ import dev.kord.common.entity.Snowflake
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class LogUploadingData(
+data class LogUploadingBlacklistData(
     val guildId: Snowflake,
     val channels: MutableList<Snowflake>
 )

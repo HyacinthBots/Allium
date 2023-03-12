@@ -1,5 +1,5 @@
 # Roadmap for upcoming features
 
 - juxtapose integration (on hold)
-- log uploading
-- database integration
+- add a switch to change loguploading list type (white- or blacklist)
+- add config command
