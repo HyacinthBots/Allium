@@ -74,7 +74,7 @@ class Config : Extension() {
             description = "Moderator Role"
         }
         val logUploadingType by stringChoice {
-            name = "logUploadingType"
+            name = "type"
             description = "What Listtype should be used."
             choice("whitelist", "whitelist")
             choice("blacklist", "blacklist")
