@@ -70,7 +70,7 @@ class Config : Extension() {
 
     inner class setConfig : Arguments() {
         val moderatorRole by role {
-            name = "modRole"
+            name = "role"
             description = "Moderator Role"
         }
         val logUploadingType by stringChoice {
