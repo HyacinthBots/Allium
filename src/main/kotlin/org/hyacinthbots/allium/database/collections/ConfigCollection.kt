@@ -17,18 +17,13 @@ class ConfigCollection : KordExKoinComponent {
     internal val collection = db.mongo.getCollection<ConfigData>()
 
     suspend fun updateConfig(guildId: Snowflake, moderatorRole: Snowflake, logUploadingType: String) {
-        var coll = collection.findOne(ConfigData::guildId eq guildId)
+        val coll = collection.findOne(ConfigData::guildId eq guildId)
         if (coll != null) {
             collection.updateOne(ConfigData::guildId eq guildId, setValue(ConfigData::logUploadingType, logUploadingType))
             collection.updateOne(ConfigData::guildId eq guildId, setValue(ConfigData::moderatorRole, moderatorRole))
         } else {
             collection.insertOne(ConfigData(guildId, logUploadingType, moderatorRole))
         }
-    }
-
-    suspend fun isModeratorRole(guildId: Snowflake, moderatorRole: Snowflake): Boolean {
-        val coll = collection.findOne(ConfigData::guildId eq guildId)
-        return coll?.moderatorRole?.value?.equals(moderatorRole) ?: false
     }
 
     suspend fun hasModeratorRole(guildId: Snowflake, user: User): Boolean {

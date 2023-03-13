@@ -1,6 +1,7 @@
 package org.hyacinthbots.allium.extensions
 
 import com.kotlindiscord.kord.extensions.checks.anyGuild
+import com.kotlindiscord.kord.extensions.checks.hasPermission
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.slash.converters.impl.stringChoice
 import com.kotlindiscord.kord.extensions.commands.application.slash.publicSubCommand
@@ -8,6 +9,7 @@ import com.kotlindiscord.kord.extensions.commands.converters.impl.role
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
+import dev.kord.common.entity.Permission
 import dev.kord.rest.builder.message.create.embed
 import org.hyacinthbots.allium.database.collections.ConfigCollection
 
@@ -23,9 +25,7 @@ class Config : Extension() {
                 description = "Set the Config"
                 check {
                     anyGuild()
-                    failIfNot {
-                        ConfigCollection().hasModeratorRole(guildId!!, this.event.interaction.user)
-                    }
+                    hasPermission(Permission.ManageGuild)
                 }
                 action {
                     ConfigCollection().updateConfig(guild!!.id, arguments.moderatorRole.id, arguments.logUploadingType)
@@ -39,9 +39,7 @@ class Config : Extension() {
                 description = "Set the Config"
                 check {
                     anyGuild()
-                    failIfNot {
-                        ConfigCollection().hasModeratorRole(guildId!!, this.event.interaction.user)
-                    }
+                    hasPermission(Permission.ManageGuild)
                 }
                 action {
                     respond {
