@@ -32,8 +32,8 @@ class ConfigCollection : KordExKoinComponent {
     }
 
     suspend fun hasModeratorRole(guildId: Snowflake, user: User): Boolean {
-        val coll = collection.findOne(ConfigData::guildId eq guildId)
-        val moderatorRole = coll?.moderatorRole
+        val coll = collection.findOne(ConfigData::guildId eq guildId) ?: return false
+        val moderatorRole = coll.moderatorRole
         return user.asMember(guildId).roleIds.contains(moderatorRole)
     }
 
