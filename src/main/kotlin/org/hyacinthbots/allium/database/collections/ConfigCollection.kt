@@ -6,6 +6,7 @@ import org.hyacinthbots.allium.database.Database
 import org.hyacinthbots.allium.database.entities.ConfigData
 import org.koin.core.component.inject
 import org.litote.kmongo.eq
+import org.litote.kmongo.setValue
 
 class ConfigCollection : KordExKoinComponent {
 
@@ -13,6 +14,26 @@ class ConfigCollection : KordExKoinComponent {
 
     @PublishedApi
     internal val collection = db.mongo.getCollection<ConfigData>()
+
+    suspend fun updateConfig(guildId: Snowflake, moderatorRole: Snowflake, logUploadingType: String) {
+        var coll = collection.findOne(ConfigData::guildId eq guildId)
+        if (coll != null) {
+            collection.updateOne(ConfigData::guildId eq guildId, setValue(ConfigData::logUploadingType, logUploadingType))
+            collection.updateOne(ConfigData::guildId eq guildId, setValue(ConfigData::moderatorRole, moderatorRole))
+        } else {
+            collection.insertOne(ConfigData(guildId, logUploadingType, moderatorRole))
+        }
+    }
+
+    suspend fun isModeratorRole(guildId: Snowflake, moderatorRole: Snowflake): Boolean {
+        val coll = collection.findOne(ConfigData::guildId eq guildId)
+        return coll?.moderatorRole?.value?.equals(moderatorRole) ?: false
+    }
+
+    suspend fun logUploadingType(guildId: Snowflake): String {
+        val coll = collection.findOne(ConfigData::guildId eq guildId)
+        return coll?.logUploadingType ?: "whitelist"
+    }
 
     suspend fun removeConfig(guildId: Snowflake) = collection.deleteOne(ConfigData::guildId eq guildId)
 }
