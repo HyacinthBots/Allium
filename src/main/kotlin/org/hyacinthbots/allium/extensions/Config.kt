@@ -40,7 +40,12 @@ class Config : Extension() {
                 check {
                     anyGuild()
                     failIfNot {
-                        ConfigCollection().hasModeratorRole(guildId!!, this.event.interaction.user)
+                        // This is done because of a null-pointer exception...
+                        if (ConfigCollection().hasModeratorRole(guildId!!, this.event.interaction.user) == null) {
+                            return@failIfNot true
+                        } else {
+                            ConfigCollection().hasModeratorRole(guildId!!, this.event.interaction.user)
+                        }
                     }
                 }
                 action {
