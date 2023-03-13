@@ -2,6 +2,7 @@ package org.hyacinthbots.allium.database.collections
 
 import com.kotlindiscord.kord.extensions.koin.KordExKoinComponent
 import dev.kord.common.entity.Snowflake
+import dev.kord.core.entity.User
 import org.hyacinthbots.allium.database.Database
 import org.hyacinthbots.allium.database.entities.ConfigData
 import org.koin.core.component.inject
@@ -28,6 +29,17 @@ class ConfigCollection : KordExKoinComponent {
     suspend fun isModeratorRole(guildId: Snowflake, moderatorRole: Snowflake): Boolean {
         val coll = collection.findOne(ConfigData::guildId eq guildId)
         return coll?.moderatorRole?.value?.equals(moderatorRole) ?: false
+    }
+
+    suspend fun hasModeratorRole(guildId: Snowflake, user: User): Boolean {
+        val coll = collection.findOne(ConfigData::guildId eq guildId)
+        val moderatorRole = coll?.moderatorRole
+        return user.asMember(guildId).roleIds.contains(moderatorRole)
+    }
+
+    suspend fun moderatorRole(guildId: Snowflake): Snowflake? {
+        val coll = collection.findOne(ConfigData::guildId eq guildId)
+        return coll?.moderatorRole
     }
 
     suspend fun logUploadingType(guildId: Snowflake): String {

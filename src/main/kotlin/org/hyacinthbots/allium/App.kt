@@ -34,6 +34,7 @@ suspend fun main() {
             add(::PresenceUpdater)
             add(::StatusPing)
             add(::LogUploading)
+            add(::Config)
             extMappings {  }
         }
         intents {
