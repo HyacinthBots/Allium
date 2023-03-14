@@ -36,6 +36,7 @@ import kotlinx.datetime.Clock
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import org.hyacinthbots.allium.database.collections.ConfigCollection
 import org.hyacinthbots.allium.database.collections.LogUploadingCollection
 import org.hyacinthbots.allium.utils.botHasChannelPerms
 import java.io.ByteArrayInputStream
@@ -60,9 +61,20 @@ class LogUploading : Extension() {
                 // I hate NullPointerExceptions. This is to prevent a null pointer exception if the message is a Pk one.
                 if (channelFor(event) == null) return@check
                 botHasChannelPerms(Permissions(Permission.SendMessages, Permission.EmbedLinks))
-
-                failIfNot {
-                    LogUploadingCollection().checkIfChannelIsInWhitelist(event.message.getGuild().id, event.message.channelId)
+                if (ConfigCollection().logUploadingType(event.guildId!!) == "whitelist") {
+                    failIfNot {
+                        LogUploadingCollection().checkIfChannelIsInWhitelist(
+                            event.message.getGuild().id,
+                            event.message.channelId
+                        )
+                    }
+                } else if (ConfigCollection().logUploadingType(event.guildId!!) == "blacklist") {
+                    failIf {
+                        LogUploadingCollection().checkIfChannelIsInBlacklist(
+                            event.message.getGuild().id,
+                            event.message.channelId
+                        )
+                    }
                 }
             }
             action {
