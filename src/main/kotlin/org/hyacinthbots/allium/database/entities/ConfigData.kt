@@ -6,6 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ConfigData(
     val guildId: Snowflake,
-    val logUploadingType: String,
-    val moderatorRole: Snowflake
+    val logUploadingType: String
 )
