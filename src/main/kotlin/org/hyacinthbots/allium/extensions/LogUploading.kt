@@ -237,7 +237,7 @@ class LogUploading : Extension() {
         publicSlashCommand {
             name = "log-whitelist"
             description = "Commands related to the log-uploading whitelist"
-            ephemeralSubCommand(::Whitelist) {
+            ephemeralSubCommand(::BWList) {
                 name = "add"
                 description = "Add a channel to the log-uploading whitelist"
                 check {
@@ -255,7 +255,7 @@ class LogUploading : Extension() {
                     respond { content = "Channel added to Whitelist" }
                 }
             }
-            ephemeralSubCommand(::Whitelist) {
+            ephemeralSubCommand(::BWList) {
                 name = "remove"
                 description = "Add a channel to the log-uploading whitelist"
                 check {
@@ -274,9 +274,49 @@ class LogUploading : Extension() {
                 }
             }
         }
+        publicSlashCommand {
+            name = "log-blacklist"
+            description = "Commands related to the log-uploading blacklist"
+            ephemeralSubCommand(::BWList) {
+                name = "add"
+                description = "Add a channel to the log-uploading blacklist"
+                check {
+                    anyGuild()
+                    hasPermission(Permission.ManageChannels)
+                }
+                action {
+                    if (LogUploadingCollection().checkIfChannelIsInBlacklist(guild!!.id, arguments.channel.id)) {
+                        respond {
+                            content = "Channel already in blacklist!"
+                        }
+                        return@action
+                    }
+                    LogUploadingCollection().addChannelToBlacklist(guild!!.id, arguments.channel.id)
+                    respond { content = "Channel added to blacklist" }
+                }
+            }
+            ephemeralSubCommand(::BWList) {
+                name = "remove"
+                description = "Add a channel to the log-uploading blacklist"
+                check {
+                    anyGuild()
+                    hasPermission(Permission.ManageChannels)
+                }
+                action {
+                    if (LogUploadingCollection().checkIfChannelIsInBlacklist(guild!!.id, arguments.channel.id)) {
+                        respond {
+                            content = "Channel already in blacklist!"
+                        }
+                        return@action
+                    }
+                    LogUploadingCollection().removeChannelFromBlacklist(guild!!.id, arguments.channel.id)
+                    respond { content = "Channel removed from blacklist" }
+                }
+            }
+        }
     }
 
-    inner class Whitelist : Arguments() {
+    inner class BWList : Arguments() {
         val channel by channel {
             name = "channel"
             description = "Channel to add to the Whitelist"
