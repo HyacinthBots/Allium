@@ -1,5 +1,3 @@
-@file:OptIn(PrivilegedIntent::class)
-
 package org.hyacinthbots.allium
 
 import com.google.gson.JsonArray
@@ -22,6 +20,7 @@ import kotlin.io.path.Path
 var splashes = JsonArray()
 var updatemessages = JsonArray()
 
+@OptIn(PrivilegedIntent::class)
 suspend fun main() {
     splashes = JsonParser.parseString({}.javaClass.getResource("/splashes.json")?.readText()).asJsonArray
     updatemessages = JsonParser.parseString({}.javaClass.getResource("/updatemessage.json")?.readText()).asJsonArray

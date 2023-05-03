@@ -115,7 +115,7 @@ class LogUploading : Extension() {
                                         "(i.e. log or crash report) if the issue persists."
                                 footer {
                                     text = eventMessage.author?.tag ?: ""
-                                    icon = eventMessage.author?.avatar?.url
+                                    icon = eventMessage.author?.avatar?.cdnUrl.toString()
                                 }
                                 color = DISCORD_PINK
                             }
@@ -134,7 +134,7 @@ class LogUploading : Extension() {
                                         text =
                                             "Uploaded by ${eventMessage.author?.tag ?: eventMember?.asUserOrNull()?.tag}"
                                         icon =
-                                            eventMessage.author?.avatar?.url ?: eventMember?.asUserOrNull()?.avatar?.url
+                                            (eventMessage.author?.avatar?.cdnUrl ?: eventMember?.asUserOrNull()?.avatar?.cdnUrl).toString()
                                     }
                                     color = DISCORD_PINK
                                 }
@@ -155,8 +155,10 @@ class LogUploading : Extension() {
                                                     footer {
                                                         text =
                                                             "Uploaded by ${eventMessage.author?.tag ?: eventMember.asUserOrNull().tag}"
-                                                        icon = eventMessage.author?.avatar?.url
-                                                            ?: eventMember.asUserOrNull().avatar?.url
+                                                        icon = (
+                                                            eventMessage.author?.avatar?.cdnUrl
+                                                            ?: eventMember.asUserOrNull().avatar?.cdnUrl
+                                                        ).toString()
                                                     }
                                                     timestamp = Clock.System.now()
                                                     color = DISCORD_PINK
@@ -171,8 +173,10 @@ class LogUploading : Extension() {
                                                             footer {
                                                                 text =
                                                                     "Uploaded by ${eventMessage.author?.tag ?: eventMember.asUserOrNull().tag}"
-                                                                icon = eventMessage.author?.avatar?.url
-                                                                    ?: eventMember.asUserOrNull().avatar?.url
+                                                                icon = (
+                                                                    eventMessage.author?.avatar?.cdnUrl
+                                                                    ?: eventMember.asUserOrNull().avatar?.cdnUrl
+                                                                ).toString()
                                                             }
                                                             timestamp = Clock.System.now()
                                                             color = DISCORD_PINK
@@ -194,8 +198,10 @@ class LogUploading : Extension() {
                                                             footer {
                                                                 text =
                                                                     "Uploaded by ${eventMessage.author?.tag ?: eventMember.asUserOrNull().tag}"
-                                                                icon = eventMessage.author?.avatar?.url
-                                                                    ?: eventMember.asUserOrNull().avatar?.url
+                                                                icon = (
+                                                                    eventMessage.author?.avatar?.cdnUrl
+                                                                    ?: eventMember.asUserOrNull().avatar?.cdnUrl
+                                                                ).toString()
                                                             }
                                                             timestamp = Clock.System.now()
                                                             color = DISCORD_RED
