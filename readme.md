@@ -1,7 +1,7 @@
 ![img](./.github/img/cover-hq.png)
 # Allium
 
-This is a Minecraft-focused bot, with features for Mappings, mod searching and log uploading!
+This is a Minecraft-focused bot, with features for Mappings, mod searching and log uploading (planned!)
 
 ## Important Links
 [Commands Document](https://github.com/HyacinthBots/Allium/tree/root/docs/commands.md)
