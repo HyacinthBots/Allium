@@ -252,9 +252,7 @@ class LogUploading : Extension() {
                 }
                 action {
                     if (LogUploadingCollection().checkIfChannelIsInWhitelist(guild!!.id, arguments.channel.id)) {
-                        respond {
-                            content = "Channel already in whitelist!"
-                        }
+                        respond { content = "Channel already in whitelist!" }
                         return@action
                     }
                     LogUploadingCollection().addChannelToWhitelist(guild!!.id, arguments.channel.id)
@@ -270,13 +268,12 @@ class LogUploading : Extension() {
                 }
                 action {
                     if (LogUploadingCollection().checkIfChannelIsInWhitelist(guild!!.id, arguments.channel.id)) {
-                        respond {
-                            content = "Channel already in whitelist!"
-                        }
+                        LogUploadingCollection().removeChannelFromWhitelist(guild!!.id, arguments.channel.id)
+                        respond { content = "Channel removed from Whitelist" }
                         return@action
+                    } else {
+                        respond { content = "Channel is not in the Whitelist" }
                     }
-                    LogUploadingCollection().removeChannelFromWhitelist(guild!!.id, arguments.channel.id)
-                    respond { content = "Channel removed from Whitelist" }
                 }
             }
         }
@@ -292,9 +289,7 @@ class LogUploading : Extension() {
                 }
                 action {
                     if (LogUploadingCollection().checkIfChannelIsInBlacklist(guild!!.id, arguments.channel.id)) {
-                        respond {
-                            content = "Channel already in blacklist!"
-                        }
+                        respond { content = "Channel already in blacklist!" }
                         return@action
                     }
                     LogUploadingCollection().addChannelToBlacklist(guild!!.id, arguments.channel.id)
@@ -310,13 +305,12 @@ class LogUploading : Extension() {
                 }
                 action {
                     if (LogUploadingCollection().checkIfChannelIsInBlacklist(guild!!.id, arguments.channel.id)) {
-                        respond {
-                            content = "Channel already in blacklist!"
-                        }
+                        LogUploadingCollection().removeChannelFromBlacklist(guild!!.id, arguments.channel.id)
+                        respond { content = "Channel removed from blacklist" }
                         return@action
+                    } else {
+                        respond { content = "Channel is not in the blacklist" }
                     }
-                    LogUploadingCollection().removeChannelFromBlacklist(guild!!.id, arguments.channel.id)
-                    respond { content = "Channel removed from blacklist" }
                 }
             }
         }
