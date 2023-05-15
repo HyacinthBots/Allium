@@ -261,7 +261,7 @@ class LogUploading : Extension() {
             }
             ephemeralSubCommand(::BWList) {
                 name = "remove"
-                description = "Add a channel to the log-uploading whitelist"
+                description = "Remove a channel to the log-uploading whitelist"
                 check {
                     anyGuild()
                     hasPermission(Permission.ManageChannels)
@@ -298,7 +298,7 @@ class LogUploading : Extension() {
             }
             ephemeralSubCommand(::BWList) {
                 name = "remove"
-                description = "Add a channel to the log-uploading blacklist"
+                description = "Remove a channel to the log-uploading blacklist"
                 check {
                     anyGuild()
                     hasPermission(Permission.ManageChannels)

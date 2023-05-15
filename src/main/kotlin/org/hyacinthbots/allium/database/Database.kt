@@ -19,6 +19,6 @@ class Database {
     val mongo get() = client.getDatabase("Allium")
 
     suspend fun migrate() {
-        Migrator.migrateMain()
+        Migrator.migrate()
     }
 }

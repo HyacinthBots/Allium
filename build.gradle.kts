@@ -34,9 +34,9 @@ fun String.runCommand(
 
 
 group = "org.hyacinthbots.allium"
-version = "0.4.1-build.local-" + "git rev-parse --short=8 HEAD".runCommand(workingDir = rootDir) + "-" + "git branch --show-current".runCommand(workingDir = rootDir).replace("/", ".")
+version = "0.5.0-build.local-" + "git rev-parse --short=8 HEAD".runCommand(workingDir = rootDir) + "-" + "git branch --show-current".runCommand(workingDir = rootDir).replace("/", ".")
 var buildTime = Date().time / 1000
-//version = "0.4"
+//version = "0.5.0"
 // The current LTS Java version
 val javaVersion = 17
 
@@ -100,6 +100,7 @@ dependencies {
     implementation(libs.jansi)
     implementation(libs.logback)
     implementation(libs.logging)
+    implementation(libs.groovy)
 }
 
 application {
@@ -139,7 +140,7 @@ tasks {
         Update gradle by changing `gradleVersion` below to the new version,
         then run `./gradlew wrapper` twice to update the scripts properly.
          */
-        gradleVersion = "8.0.2"
+        gradleVersion = "8.1.1"
         distributionType = Wrapper.DistributionType.BIN
     }
 }

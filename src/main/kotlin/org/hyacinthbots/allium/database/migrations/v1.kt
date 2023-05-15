@@ -6,6 +6,6 @@ import org.litote.kmongo.coroutine.CoroutineDatabase
 
 suspend fun v1(db: CoroutineDatabase) {
     with(db.getCollection<LogUploadingBlacklistData>("logUploadingData")) {
-        collection.renameCollection(MongoNamespace("logUploadingBlacklistData"))
+        collection.renameCollection(MongoNamespace("logUploadingWhitelistData"))
     }
 }
