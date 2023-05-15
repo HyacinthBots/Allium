@@ -25,7 +25,7 @@ suspend fun main() {
     splashes = JsonParser.parseString({}.javaClass.getResource("/splashes.json")?.readText()).asJsonArray
     updatemessages = JsonParser.parseString({}.javaClass.getResource("/updatemessage.json")?.readText()).asJsonArray
     val bot = ExtensibleBot(TOKEN) {
-        database(false)
+        database(true)
         extensions {
             add(::EventHooks)
             add(::Modrinth)
