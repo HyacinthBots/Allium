@@ -12,6 +12,7 @@ import dev.kord.core.entity.channel.thread.ThreadChannel
 import kotlinx.coroutines.runBlocking
 import org.hyacinthbots.allium.database.Database
 import org.hyacinthbots.allium.database.collections.LogUploadingCollection
+import org.hyacinthbots.allium.database.collections.MetaCollection
 import org.hyacinthbots.allium.splashes
 import org.hyacinthbots.allium.updatemessages
 import org.koin.dsl.bind
@@ -33,6 +34,7 @@ suspend inline fun ExtensibleBotBuilder.database(migrate: Boolean) {
 
             loadModule {
                 single { LogUploadingCollection() } bind LogUploadingCollection::class
+                single { MetaCollection() } bind MetaCollection::class
             }
 
             if (migrate) {

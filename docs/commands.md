@@ -36,11 +36,38 @@ None
 
 ---
 #### Command name: `log-whitelist remove`
-**Description**: Add a channel to the log-uploading whitelist
+**Description**: Remove a channel to the log-uploading whitelist
 
 * **Arguments**:
 	* `channel` - Channel to add to the Whitelist - Channel
 
+---
+#### Command name: `log-blacklist add`
+**Description**: Add a channel to the log-uploading blacklist
+
+* **Arguments**:
+	* `channel` - Channel to add to the Whitelist - Channel
+
+---
+#### Command name: `log-blacklist remove`
+**Description**: Remove a channel to the log-uploading blacklist
+
+* **Arguments**:
+	* `channel` - Channel to add to the Whitelist - Channel
+
+---
+#### Command name: `config set`
+**Description**: Set the Config
+
+* **Arguments**:
+	* `type` - What Listtype should be used. - String Choice
+
+---
+#### Command name: `config get`
+**Description**: Set the Config
+
+* **Arguments**:
+None
 ---
 #### Command name: `lyarn class`
 **Description**: Look up Legacy Yarn mappings info for a class.
