@@ -99,6 +99,7 @@ dependencies {
     // Logging dependencies
     implementation(libs.jansi)
     implementation(libs.logback)
+    implementation(libs.logback.groovy)
     implementation(libs.logging)
     implementation(libs.groovy)
 }

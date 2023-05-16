@@ -7,12 +7,13 @@ kx-ser = "1.5.0"
 # logging = "3.0.5"
 logging = "2.1.23"
 # logback = "1.4.7"
-logback = "1.2.8"
+logback = "1.4.5"
+logback-groovy = "1.14.0"
 gson = "2.10.1"
 # doc-gen = "0.1.2-SNAPSHOT"
 doc-gen = "0.1.2-legacy-klogging"
 kmongo = "4.9.0"
-groovy = "3.0.10"
+groovy = "3.0.13"
 
 [libraries]
 detekt = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
@@ -22,6 +23,7 @@ kord-extensions-mappings = { module = "com.kotlindiscord.kord.extensions:extra-m
 kord-extensions-pluralkit = { module = "com.kotlindiscord.kord.extensions:extra-pluralkit", version.ref = "kord-extensions" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+logback-groovy = { module = "io.github.virtualdogbert:logback-groovy-config", version.ref = "logback-groovy" }
 logging = { module = "io.github.microutils:kotlin-logging", version.ref = "logging" }
 kx-ser = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kx-ser" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
