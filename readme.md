@@ -12,6 +12,10 @@ This is a Minecraft-focused bot, with features for Mappings, mod searching and l
 
 [Invite the Bot to your server](https://discord.com/api/oauth2/authorize?client_id=1013045351852298280&permissions=347136&scope=bot%20applications.commands)
 
+## Support the Project
+
+If you like this project, consider donating over at [Ko-Fi](https://ko-fi.com/jansel). All donations will go towards paying the server Allium runs on.
+
 ## Contributing
 This Repository is open for contributions of all kinds! Although please make sure that it merges with the develop branch and not the root branch! (Pushes to the root branch trigger a full Docker build, which I only want to do when releasing a new version.)
 
@@ -26,6 +30,7 @@ This Repository is open for contributions of all kinds! Although please make sur
 - [jansi](https://github.com/fusesource/jansi)
 - [kotlinx-serialization (Core)](https://github.com/Kotlin/kotlinx.serialization)
 - [ktor](https://ktor.io/)
+- [kmongo](https://litote.org/kmongo/)
 
 ### Statistics
 ![GitHub](https://img.shields.io/github/license/HyacinthBots/Allium?label=License&style=for-the-badge) ![GitHub repo size](https://img.shields.io/github/repo-size/HyacinthBots/Allium?label=Repository%20Size&style=for-the-badge)
