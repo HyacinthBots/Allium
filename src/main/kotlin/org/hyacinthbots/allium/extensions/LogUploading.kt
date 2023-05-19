@@ -64,15 +64,15 @@ class LogUploading : Extension() {
                 if (ConfigCollection().logUploadingType(event.guildId!!) == "whitelist") {
                     failIfNot {
                         LogUploadingCollection().checkIfChannelIsInWhitelist(
-                            event.message.getGuild().id,
-                            event.message.channelId
+                                event.message.getGuild().id,
+                                event.message.channelId
                         )
                     }
                 } else if (ConfigCollection().logUploadingType(event.guildId!!) == "blacklist") {
                     failIf {
                         LogUploadingCollection().checkIfChannelIsInBlacklist(
-                            event.message.getGuild().id,
-                            event.message.channelId
+                                event.message.getGuild().id,
+                                event.message.channelId
                         )
                     }
                 }
@@ -85,7 +85,7 @@ class LogUploading : Extension() {
                 eventMessage.attachments.forEach { attachment ->
                     val attachmentFileName = attachment.filename
                     val attachmentFileExtension = attachmentFileName.substring(
-                        attachmentFileName.lastIndexOf(".") + 1
+                            attachmentFileName.lastIndexOf(".") + 1
                     )
 
                     if (attachmentFileExtension in logFileExtensions) {
@@ -127,14 +127,17 @@ class LogUploading : Extension() {
                                 embed {
                                     title = "Do you want to upload this file to mclo.gs?"
                                     description =
-                                        "mclo.gs is a website that allows users to share minecraft logs " +
-                                                "through public posts.\nIt's easier for the mobile users to view " +
-                                                "the file on mclo.gs, do you want it to be uploaded?"
+                                            "mclo.gs is a website that allows users to share minecraft logs " +
+                                                    "through public posts.\nIt's easier for the mobile users to view " +
+                                                    "the file on mclo.gs, do you want it to be uploaded?"
                                     footer {
                                         text =
-                                            "Uploaded by ${eventMessage.author?.tag ?: eventMember?.asUserOrNull()?.tag}"
+                                                "Uploaded by ${eventMessage.author?.tag ?: eventMember?.asUserOrNull()?.tag}"
                                         icon =
-                                            (eventMessage.author?.avatar?.cdnUrl ?: eventMember?.asUserOrNull()?.avatar?.cdnUrl).toString()
+                                                (
+                                                    eventMessage.author?.avatar?.cdnUrl
+                                                        ?: eventMember?.asUserOrNull()?.avatar?.cdnUrl
+                                                ).toString()
                                     }
                                     color = DISCORD_PINK
                                 }
@@ -154,11 +157,11 @@ class LogUploading : Extension() {
                                                     title = "Uploading `$attachmentFileName` to mclo.gs..."
                                                     footer {
                                                         text =
-                                                            "Uploaded by ${eventMessage.author?.tag ?: eventMember.asUserOrNull().tag}"
+                                                                "Uploaded by ${eventMessage.author?.tag ?: eventMember.asUserOrNull().tag}"
                                                         icon = (
-                                                            eventMessage.author?.avatar?.cdnUrl
-                                                            ?: eventMember.asUserOrNull().avatar?.cdnUrl
-                                                        ).toString()
+                                                                eventMessage.author?.avatar?.cdnUrl
+                                                                        ?: eventMember.asUserOrNull().avatar?.cdnUrl
+                                                                ).toString()
                                                     }
                                                     timestamp = Clock.System.now()
                                                     color = DISCORD_PINK
@@ -172,11 +175,11 @@ class LogUploading : Extension() {
                                                             title = "`$attachmentFileName` uploaded to mclo.gs"
                                                             footer {
                                                                 text =
-                                                                    "Uploaded by ${eventMessage.author?.tag ?: eventMember.asUserOrNull().tag}"
+                                                                        "Uploaded by ${eventMessage.author?.tag ?: eventMember.asUserOrNull().tag}"
                                                                 icon = (
-                                                                    eventMessage.author?.avatar?.cdnUrl
-                                                                    ?: eventMember.asUserOrNull().avatar?.cdnUrl
-                                                                ).toString()
+                                                                        eventMessage.author?.avatar?.cdnUrl
+                                                                                ?: eventMember.asUserOrNull().avatar?.cdnUrl
+                                                                        ).toString()
                                                             }
                                                             timestamp = Clock.System.now()
                                                             color = DISCORD_PINK
@@ -193,15 +196,15 @@ class LogUploading : Extension() {
                                                     uploadMessage.edit {
                                                         embed {
                                                             title =
-                                                                "Failed to upload `$attachmentFileName` to mclo.gs"
+                                                                    "Failed to upload `$attachmentFileName` to mclo.gs"
                                                             description = "Error: $e"
                                                             footer {
                                                                 text =
-                                                                    "Uploaded by ${eventMessage.author?.tag ?: eventMember.asUserOrNull().tag}"
+                                                                        "Uploaded by ${eventMessage.author?.tag ?: eventMember.asUserOrNull().tag}"
                                                                 icon = (
-                                                                    eventMessage.author?.avatar?.cdnUrl
-                                                                    ?: eventMember.asUserOrNull().avatar?.cdnUrl
-                                                                ).toString()
+                                                                        eventMessage.author?.avatar?.cdnUrl
+                                                                                ?: eventMember.asUserOrNull().avatar?.cdnUrl
+                                                                        ).toString()
                                                             }
                                                             timestamp = Clock.System.now()
                                                             color = DISCORD_RED
@@ -325,16 +328,17 @@ class LogUploading : Extension() {
 
     @Serializable
     data class LogData(val success: Boolean, val id: String? = null, val error: String? = null)
+
     private suspend fun postToMCLogs(text: String): String {
         val client = HttpClient()
         val cleanText = text.replace("\r\n", "\n", true).replace("\r", "\n", true)
         val response = client.post("https://api.mclo.gs/1/log") {
             setBody(
-                FormDataContent(
-                    Parameters.build {
-                        append("content", cleanText)
-                    }
-                )
+                    FormDataContent(
+                            Parameters.build {
+                                append("content", cleanText)
+                            }
+                    )
             )
         }.readBytes().decodeToString()
         client.close()

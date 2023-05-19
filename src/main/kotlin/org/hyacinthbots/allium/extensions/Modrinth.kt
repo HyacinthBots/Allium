@@ -18,14 +18,13 @@ import dev.kord.rest.builder.message.EmbedBuilder
 import dev.kord.rest.builder.message.create.embed
 import io.ktor.client.*
 import io.ktor.client.call.*
+import io.ktor.client.call.body
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
-import io.ktor.util.reflect.*
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -138,34 +137,34 @@ class Modrinth : Extension() {
                                 action {
                                     when (this.selected[0]) {
                                         "category" -> searchFilters = createFilterMenu(
-                                            "category",
-                                            getModCategories().toMutableList(),
-                                            searchFilters
+                                                "category",
+                                                getModCategories().toMutableList(),
+                                                searchFilters
                                         )
 
                                         "environment" -> searchFilters = createFilterMenu(
-                                            "environment",
-                                            mutableListOf("server", "client"),
-                                            searchFilters
+                                                "environment",
+                                                mutableListOf("server", "client"),
+                                                searchFilters
                                         )
 
                                         "loader" -> searchFilters = createFilterMenu(
-                                            "loader",
-                                            getModLoaders().toMutableList(),
-                                            searchFilters
+                                                "loader",
+                                                getModLoaders().toMutableList(),
+                                                searchFilters
                                         )
 
                                         "version" -> searchFilters = createFilterMenu(
-                                            "version",
-                                            // only use 25 results due to limit of select menus
-                                            getMinecraftVersions().take(25).toMutableList(),
-                                            searchFilters
+                                                "version",
+                                                // only use 25 results due to limit of select menus
+                                                getMinecraftVersions().take(25).toMutableList(),
+                                                searchFilters
                                         )
 
                                         "license" -> searchFilters = createFilterMenu(
-                                            "license",
-                                            getLicenses().toMutableList(),
-                                            searchFilters
+                                                "license",
+                                                getLicenses().toMutableList(),
+                                                searchFilters
                                         )
                                     }
                                 }
@@ -211,14 +210,14 @@ class Modrinth : Extension() {
         this.description = data.description
         field("Latest Version", true) { data.latestVersion }
         field(
-            "Client/Server Side",
-            true
+                "Client/Server Side",
+                true
         ) { "Client: ${data.clientSide}\nServer: ${data.serverSide}" }
         field("Downloads", true) { data.downloads.toString() }
         field("Author", true) { data.author }
         field(
-            "Last Update",
-            true
+                "Last Update",
+                true
         ) { "<t:${Instant.parse(data.dateModified).epochSeconds}>" }
         field("License", true) { data.license.toString() }
         field("Loaders", true) { getProjectLoaders(data.slug).joinToString("\n") }
@@ -255,9 +254,9 @@ class Modrinth : Extension() {
         val response = client.get(MODRINTH_ENDPOINT) { url { appendPathSegments("v2", "project", name, "version") } }
         val versions: List<ProjectVersionData> = response.body()
         return versions.stream()
-            .flatMap { it.loaders.stream() }.distinct()  // collect all loaders distinctly
-            .map { it[0].uppercase() + it.drop(1) }      // Make first character uppercase
-            .toList()
+                .flatMap { it.loaders.stream() }.distinct()  // collect all loaders distinctly
+                .map { it[0].uppercase() + it.drop(1) }      // Make first character uppercase
+                .toList()
     }
 
     private suspend fun searchModrinthUser(arguments: UserSearchQuery): UserData {
@@ -284,29 +283,29 @@ class Modrinth : Extension() {
         groups.add(currentFilter.facets.filterValues { it == "version" }.map { Facet("versions", it.key) })
         groups.add(currentFilter.facets.filterValues { it == "license" }.map { Facet("license", it.key) })
         groups.add(
-            currentFilter.facets.filterValues { it == "environment" }.map {
-                if (it.key == "client") {
-                    Facet("client_side", "required")
-                } else {
-                    Facet("server_side", "required")
+                currentFilter.facets.filterValues { it == "environment" }.map {
+                    if (it.key == "client") {
+                        Facet("client_side", "required")
+                    } else {
+                        Facet("server_side", "required")
+                    }
                 }
-            }
         )
         groups.add(
-            currentFilter.facets.filterValues { it == "category" || it == "loader" }
-                .map { Facet("categories", it.key) }
+                currentFilter.facets.filterValues { it == "category" || it == "loader" }
+                        .map { Facet("categories", it.key) }
         )
 
         // ugly facet string builder
         val facetString = "[${                  // outer groups begin
             groups
-                .filter { it.isNotEmpty() }     // get rid of empty facet groups
-                .joinToString(",") { group ->   // join facet groups with ,
-                    "[${                        // inner group facets begin
-                        group
-                            .joinToString(",")  // join facets inside of groups with ,
-                    }]"                         // inner group facets end
-                }
+                    .filter { it.isNotEmpty() }     // get rid of empty facet groups
+                    .joinToString(",") { group ->   // join facet groups with ,
+                        "[${                        // inner group facets begin
+                            group
+                                    .joinToString(",")  // join facets inside of groups with ,
+                        }]"                         // inner group facets end
+                    }
         }]"                                     // outer groups end
 
         return client.get(MODRINTH_ENDPOINT) {
@@ -320,9 +319,9 @@ class Modrinth : Extension() {
     }
 
     private suspend fun EphemeralSelectMenuContext<*>.createFilterMenu(
-        filterType: String,
-        filterOptions: MutableList<String>,
-        currentFilter: SearchData
+            filterType: String,
+            filterOptions: MutableList<String>,
+            currentFilter: SearchData
     ): SearchData {
         respond {
             components {
@@ -379,87 +378,87 @@ class Modrinth : Extension() {
 
     @Serializable
     data class SearchData(
-        val query: String,
-        val facets: MutableMap<String, String>, // the key is the facet and the value is the facet type
+            val query: String,
+            val facets: MutableMap<String, String>, // the key is the facet and the value is the facet type
     )
 
     @Serializable
     data class SearchResponseData(
-        val hits: List<ProjectData>,
-        val offset: Int,
-        val limit: Int,
-        @SerialName("total_hits") val totalHits: Int
+            val hits: List<ProjectData>,
+            val offset: Int,
+            val limit: Int,
+            @SerialName("total_hits") val totalHits: Int
     )
 
     @Serializable
     data class ProjectData(
-        val slug: String,
-        val title: String,
-        val description: String,
-        val categories: MutableList<String>,
-        val author: String,
-        @SerialName("client_side") val clientSide: String,
-        @SerialName("server_side") val serverSide: String,
-        @SerialName("source_url") val sourceURL: String? = null,
-        @SerialName("discord_url") val discordURL: String? = null,
-        @SerialName("project_type") val projectType: String,
-        @SerialName("latest_version") val latestVersion: String,
-        @SerialName("date_modified") val dateModified: String,
-        val downloads: Int,
-        @SerialName("icon_url") val iconURL: String?,
-        val license: String?
+            val slug: String,
+            val title: String,
+            val description: String,
+            val categories: MutableList<String>,
+            val author: String,
+            @SerialName("client_side") val clientSide: String,
+            @SerialName("server_side") val serverSide: String,
+            @SerialName("source_url") val sourceURL: String? = null,
+            @SerialName("discord_url") val discordURL: String? = null,
+            @SerialName("project_type") val projectType: String,
+            @SerialName("latest_version") val latestVersion: String,
+            @SerialName("date_modified") val dateModified: String,
+            val downloads: Int,
+            @SerialName("icon_url") val iconURL: String?,
+            val license: String?
     )
 
     @Serializable
     data class UserData(
-        val username: String,
-        val name: String?,
-        val email: String?,
-        val bio: String?,
-        val id: String,
-        @SerialName("github_id") val githubId: Int,
-        @SerialName("avatar_url") val avatarUrl: String,
-        val created: String,
-        val role: String
+            val username: String,
+            val name: String?,
+            val email: String?,
+            val bio: String?,
+            val id: String,
+            @SerialName("github_id") val githubId: Int,
+            @SerialName("avatar_url") val avatarUrl: String,
+            val created: String,
+            val role: String
     )
 
     @Serializable
     data class ProjectVersionData(
-        val name: String,
-        val loaders: List<String>
+            val name: String,
+            val loaders: List<String>
     )
 
     @Serializable
     data class CategoryData(
-        val icon: String,
-        val name: String,
-        @SerialName("project_type") val projectType: String
+            val icon: String,
+            val name: String,
+            @SerialName("project_type") val projectType: String
     )
 
     @Serializable
     data class LoaderData(
-        val icon: String,
-        val name: String,
-        @SerialName("supported_project_types") val supportedProjectTypes: MutableList<String>
+            val icon: String,
+            val name: String,
+            @SerialName("supported_project_types") val supportedProjectTypes: MutableList<String>
     )
 
     @Serializable
     data class VersionData(
-        val version: String,
-        @SerialName("version_type") val versionType: String,
-        val date: String,
-        val major: Boolean
+            val version: String,
+            @SerialName("version_type") val versionType: String,
+            val date: String,
+            val major: Boolean
     )
 
     @Serializable
     data class LicenseData(
-        val short: String,
-        val name: String
+            val short: String,
+            val name: String
     )
 
     data class Facet(
-        val key: String,
-        val value: String
+            val key: String,
+            val value: String
     ) {
         override fun toString(): String = "%22$key:$value%22"  // I am so sorry about this
     }
