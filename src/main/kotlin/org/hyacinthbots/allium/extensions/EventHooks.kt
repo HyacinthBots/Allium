@@ -9,10 +9,7 @@ import dev.kord.core.event.gateway.ReadyEvent
 import dev.kord.core.event.guild.GuildDeleteEvent
 import org.hyacinthbots.allium.database.collections.ConfigCollection
 import org.hyacinthbots.allium.database.collections.LogUploadingCollection
-import org.hyacinthbots.allium.utils.BUILD
-import org.hyacinthbots.allium.utils.TEST_SERVER_CHANNEL_ID
-import org.hyacinthbots.allium.utils.TEST_SERVER_ID
-import org.hyacinthbots.allium.utils.getRandomSplash
+import org.hyacinthbots.allium.utils.*
 
 /**
  * Startup Functions.
@@ -27,7 +24,7 @@ class EventHooks : Extension() {
                 val onlineLog =
                     kord.getGuildOrNull(TEST_SERVER_ID)?.getChannelOf<GuildMessageChannel>(TEST_SERVER_CHANNEL_ID)
                 onlineLog?.createMessage("Bot Online, current version: $BUILD")
-
+                downloadLatestClientJar()
                 kord.editPresence {
                     playing(getRandomSplash())
                 }

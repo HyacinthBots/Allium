@@ -22,7 +22,6 @@ var updatemessages = JsonArray()
 
 @OptIn(PrivilegedIntent::class)
 suspend fun main() {
-    splashes = JsonParser.parseString({}.javaClass.getResource("/splashes.json")?.readText()).asJsonArray
     updatemessages = JsonParser.parseString({}.javaClass.getResource("/updatemessage.json")?.readText()).asJsonArray
     val bot = ExtensibleBot(TOKEN) {
         database(true)
@@ -31,6 +30,7 @@ suspend fun main() {
             add(::Modrinth)
             add(::About)
             add(::PresenceUpdater)
+            add(::ClientJarUpdater)
             add(::StatusPing)
             add(::LogUploading)
             add(::Config)

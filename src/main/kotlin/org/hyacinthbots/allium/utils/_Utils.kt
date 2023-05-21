@@ -9,18 +9,41 @@ import dev.kord.core.behavior.channel.asChannelOfOrNull
 import dev.kord.core.entity.channel.NewsChannel
 import dev.kord.core.entity.channel.TextChannel
 import dev.kord.core.entity.channel.thread.ThreadChannel
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
+import io.ktor.util.cio.*
+import io.ktor.utils.io.*
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import org.hyacinthbots.allium.database.Database
 import org.hyacinthbots.allium.database.collections.LogUploadingCollection
 import org.hyacinthbots.allium.database.collections.MetaCollection
-import org.hyacinthbots.allium.splashes
 import org.hyacinthbots.allium.updatemessages
 import org.koin.dsl.bind
+import java.io.File
+
+private val client = HttpClient(CIO) {
+    install(ContentNegotiation) {
+        json(Json { ignoreUnknownKeys = true })
+    }
+    install(UserAgent) {
+        agent = "hyacinthbots/allium/$BUILD (github@notjansel.de)"
+    }
+}
 
 fun getRandomSplash(): String {
-    val entries = splashes.count()
+    Runtime.getRuntime().exec("jar xf client.jar assets/minecraft/texts/splashes.txt")
+    val entries = File("./assets/minecraft/texts/splashes.txt").readLines().count()
     val entry = (0 until entries).random()
-    return splashes.get(entry).asString
+    return File("./assets/minecraft/texts/splashes.txt").readLines()[entry]
 }
 
 suspend inline fun ExtensibleBotBuilder.database(migrate: Boolean) {
@@ -48,6 +71,20 @@ fun getRandomUpdateMessage(): String {
     val entries = updatemessages.count()
     val entry = (0 until entries).random()
     return updatemessages.get(entry).asString
+}
+
+suspend fun downloadLatestClientJar() {
+    val response = client.get("https://meta.prismlauncher.org/v1/net.minecraft/")
+    val metaResponse: MetaResponse = response.body()
+    val latestVersion: Version = metaResponse.versions.first()
+    val version = client.get("https://meta.prismlauncher.org/v1/net.minecraft/${latestVersion.version}.json")
+    val versionResponse: VersionData = version.body()
+    val outputFile = File("./client.jar")
+    val out: ByteReadChannel = client.get {
+        url(versionResponse.mainJar.downloads.artifact.url)
+        method = HttpMethod.Get
+    }.bodyAsChannel()
+    out.copyAndClose(outputFile.writeChannel())
 }
 
 suspend inline fun CheckContext<*>.botHasChannelPerms(permissions: Permissions) {
@@ -107,3 +144,33 @@ suspend inline fun CheckContext<*>.botHasChannelPerms(permissions: Permissions) 
         fail("Unable to get permissions for channel! Please report this to the developers!")
     }
 }
+
+@Serializable
+data class MetaResponse(
+        val versions: MutableList<Version>
+)
+
+@Serializable
+data class Version(
+        val version: String
+)
+
+@Serializable
+data class VersionData(
+        val mainJar: MainJar
+)
+
+@Serializable
+data class MainJar(
+        val downloads: Downloads
+)
+
+@Serializable
+data class Downloads(
+        val artifact: Artifact
+)
+
+@Serializable
+data class Artifact(
+        val url: String
+)

@@ -14,7 +14,7 @@ class PresenceUpdater : Extension() {
     private lateinit var task: Task
 
     override suspend fun setup() {
-        task = scheduler.schedule(10.minutes, repeat = true, callback = ::updatePresence)
+        task = scheduler.schedule(2.minutes, repeat = true, callback = ::updatePresence)
     }
 
     private suspend fun updatePresence() {
