@@ -2,7 +2,7 @@
 detekt = "1.22.0"  # Note: Plugin versions must be updated in the settings.gradle.kts too
 
 jansi = "2.4.0"
-kord-extensions = "1.5.7-SNAPSHOT"
+kord-extensions = "1.5.8-SNAPSHOT"
 kx-ser = "1.5.0"
 logging = "3.0.5"
 logback = "1.4.5"
@@ -11,7 +11,7 @@ gson = "2.10.1"
 doc-gen = "0.1.2"
 kmongo = "4.9.0"
 groovy = "3.0.13"
-ktor = "2.3.0"
+ktor = "2.3.2"
 
 [libraries]
 detekt = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
