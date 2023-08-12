@@ -2,11 +2,11 @@
 detekt = "1.22.0"  # Note: Plugin versions must be updated in the settings.gradle.kts too
 
 jansi = "2.4.0"
-kord-extensions = "1.5.8-SNAPSHOT"
-kx-ser = "1.5.0"
+kord-extensions = "1.5.9-SNAPSHOT"
+kx-ser = "1.5.1"
 logging = "3.0.5"
-logback = "1.4.5"
-logback-groovy = "1.14.0"
+logback = "1.4.11"
+logback-groovy = "1.14.4"
 gson = "2.10.1"
 doc-gen = "0.1.2"
 kmongo = "4.9.0"

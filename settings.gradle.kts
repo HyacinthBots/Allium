@@ -12,7 +12,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "Allium"
+rootProject.name = "allium"
 
 dependencyResolutionManagement {
     versionCatalogs {
