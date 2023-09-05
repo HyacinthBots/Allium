@@ -63,5 +63,7 @@ class LogUploadingCollection : KordExKoinComponent {
     }
 
     suspend fun removeWhitelist(guildId: Snowflake) = whitelistCollection.deleteOne(LogUploadingWhitelistData::guildId eq guildId)
-    suspend fun removeBlacklist(guildId: Snowflake) = blacklistCollection.deleteOne(LogUploadingBlacklistData::guildId eq guildId)
+    suspend fun removeBlacklist(
+        guildId: Snowflake
+    ) = blacklistCollection.deleteOne(LogUploadingBlacklistData::guildId eq guildId)
 }

@@ -28,6 +28,7 @@ suspend fun main() {
         extensions {
             add(::EventHooks)
             add(::Modrinth)
+            add(::CurseForge)
             add(::About)
             add(::PresenceUpdater)
             add(::ClientJarUpdater)

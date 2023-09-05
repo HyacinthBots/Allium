@@ -114,7 +114,7 @@ class LogUploading : Extension() {
                                         "Please remove NEC, recreate the issue, and resend the relevant files " +
                                         "(i.e. log or crash report) if the issue persists."
                                 footer {
-                                    text = eventMessage.author?.tag ?: ""
+                                    text = eventMessage.author?.username ?: ""
                                     icon = eventMessage.author?.avatar?.cdnUrl.toString()
                                 }
                                 color = DISCORD_PINK
@@ -132,7 +132,7 @@ class LogUploading : Extension() {
                                                     "the file on mclo.gs, do you want it to be uploaded?"
                                     footer {
                                         text =
-                                                "Uploaded by ${eventMessage.author?.tag ?: eventMember?.asUserOrNull()?.tag}"
+                                                "Uploaded by ${eventMessage.author?.username ?: eventMember?.asUserOrNull()?.username}"
                                         icon =
                                                 (
                                                     eventMessage.author?.avatar?.cdnUrl
@@ -157,7 +157,7 @@ class LogUploading : Extension() {
                                                     title = "Uploading `$attachmentFileName` to mclo.gs..."
                                                     footer {
                                                         text =
-                                                                "Uploaded by ${eventMessage.author?.tag ?: eventMember.asUserOrNull().tag}"
+                                                                "Uploaded by ${eventMessage.author?.username ?: eventMember.asUserOrNull().username}"
                                                         icon = (
                                                                 eventMessage.author?.avatar?.cdnUrl
                                                                         ?: eventMember.asUserOrNull().avatar?.cdnUrl
@@ -175,7 +175,7 @@ class LogUploading : Extension() {
                                                             title = "`$attachmentFileName` uploaded to mclo.gs"
                                                             footer {
                                                                 text =
-                                                                        "Uploaded by ${eventMessage.author?.tag ?: eventMember.asUserOrNull().tag}"
+                                                                        "Uploaded by ${eventMessage.author?.username ?: eventMember.asUserOrNull().username}"
                                                                 icon = (
                                                                         eventMessage.author?.avatar?.cdnUrl
                                                                                 ?: eventMember.asUserOrNull().avatar?.cdnUrl
@@ -200,7 +200,7 @@ class LogUploading : Extension() {
                                                             description = "Error: $e"
                                                             footer {
                                                                 text =
-                                                                        "Uploaded by ${eventMessage.author?.tag ?: eventMember.asUserOrNull().tag}"
+                                                                        "Uploaded by ${eventMessage.author?.username ?: eventMember.asUserOrNull().username}"
                                                                 icon = (
                                                                         eventMessage.author?.avatar?.cdnUrl
                                                                                 ?: eventMember.asUserOrNull().avatar?.cdnUrl

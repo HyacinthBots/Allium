@@ -50,7 +50,7 @@ class Modrinth : Extension() {
     }
 
     override suspend fun setup() {
-        publicSlashCommand {
+            publicSlashCommand {
             name = "modrinth"
             description = "What is Modrinth?"
             publicSubCommand(::UserSearchQuery) {

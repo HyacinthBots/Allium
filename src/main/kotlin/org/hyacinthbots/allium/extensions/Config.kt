@@ -33,7 +33,7 @@ class Config : Extension() {
                     }
                 }
             }
-            publicSubCommand() {
+            publicSubCommand {
                 name = "get"
                 description = "Set the Config"
                 check {
