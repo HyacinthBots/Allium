@@ -416,7 +416,7 @@ class Modrinth : Extension() {
             val email: String?,
             val bio: String?,
             val id: String,
-            @SerialName("github_id") val githubId: Int,
+            @SerialName("github_id") val githubId: Int?,
             @SerialName("avatar_url") val avatarUrl: String,
             val created: String,
             val role: String
