@@ -19,6 +19,9 @@ const val BUILDTIME = "@buildTime@"
 /** Get the Mongo URI for the Client to connect to. */
 val MONGO_URI = envOrNull("MONGO_URI") ?: "mongodb://localhost:27017"
 
+/** Get the CurseForge API Key. */
+val CURSEFORGE_API_KEY = env("CURSEFORGE_API_KEY")
+
 /** Get the build revision. */
 const val BUILD = "@version@"
 

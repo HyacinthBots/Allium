@@ -5,8 +5,8 @@ import com.kotlindiscord.kord.extensions.commands.application.slash.publicSubCom
 import com.kotlindiscord.kord.extensions.commands.converters.impl.defaultingInt
 import com.kotlindiscord.kord.extensions.commands.converters.impl.string
 import com.kotlindiscord.kord.extensions.components.components
-import com.kotlindiscord.kord.extensions.components.ephemeralSelectMenu
-import com.kotlindiscord.kord.extensions.components.menus.EphemeralSelectMenuContext
+import com.kotlindiscord.kord.extensions.components.ephemeralStringSelectMenu
+import com.kotlindiscord.kord.extensions.components.menus.string.EphemeralStringSelectMenuContext
 import com.kotlindiscord.kord.extensions.components.publicButton
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
@@ -115,7 +115,7 @@ class Modrinth : Extension() {
                     respond {
                         content = "Use the menu below to narrow your search"
                         components {
-                            ephemeralSelectMenu(0) {
+                            ephemeralStringSelectMenu(0) {
                                 placeholder = "Adjust your search parameters"
                                 maximumChoices = 1
                                 option("Edit category filter", "category") {
@@ -318,14 +318,14 @@ class Modrinth : Extension() {
         }.body()
     }
 
-    private suspend fun EphemeralSelectMenuContext<*>.createFilterMenu(
+    private suspend fun EphemeralStringSelectMenuContext<*>.createFilterMenu(
             filterType: String,
             filterOptions: MutableList<String>,
             currentFilter: SearchData
     ): SearchData {
         respond {
             components {
-                ephemeralSelectMenu {
+                ephemeralStringSelectMenu {
                     maximumChoices = filterOptions.size
                     placeholder = "Filter by $filterType"
                     filterOptions.forEach {

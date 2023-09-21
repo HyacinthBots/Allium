@@ -34,9 +34,9 @@ fun String.runCommand(
 
 
 group = "org.hyacinthbots.allium"
-//version = "0.5.2-build.local-" + "git rev-parse --short=8 HEAD".runCommand(workingDir = rootDir) + "-" + "git branch --show-current".runCommand(workingDir = rootDir).replace("/", ".")
+version = "0.6.0-build.local-" + "git rev-parse --short=8 HEAD".runCommand(workingDir = rootDir) + "-" + "git branch --show-current".runCommand(workingDir = rootDir).replace("/", ".")
 var buildTime = Date().time / 1000
-version = "0.5.2"
+//version = "0.5.2"
 // The current LTS Java version
 val javaVersion = 17
 

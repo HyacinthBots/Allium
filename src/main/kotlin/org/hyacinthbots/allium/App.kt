@@ -27,6 +27,7 @@ suspend fun main() {
         database(true)
         extensions {
             add(::EventHooks)
+            add(::CurseForge)
             add(::Modrinth)
             add(::About)
             add(::PresenceUpdater)
