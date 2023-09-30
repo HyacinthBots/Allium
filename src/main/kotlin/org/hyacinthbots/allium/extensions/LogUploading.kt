@@ -17,7 +17,6 @@ import com.kotlindiscord.kord.extensions.utils.download
 import com.kotlindiscord.kord.extensions.utils.isNullOrBot
 import dev.kord.common.entity.ButtonStyle
 import dev.kord.common.entity.Permission
-import dev.kord.common.entity.Permissions
 import dev.kord.core.behavior.channel.createEmbed
 import dev.kord.core.behavior.channel.createMessage
 import dev.kord.core.behavior.edit
@@ -34,11 +33,9 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.datetime.Clock
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.hyacinthbots.allium.database.collections.ConfigCollection
 import org.hyacinthbots.allium.database.collections.LogUploadingCollection
-import org.hyacinthbots.allium.utils.botHasChannelPerms
 import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.util.zip.GZIPInputStream
@@ -60,7 +57,7 @@ class LogUploading : Extension() {
                 }
                 // I hate NullPointerExceptions. This is to prevent a null pointer exception if the message is a Pk one.
                 if (channelFor(event) == null) return@check
-                botHasChannelPerms(Permissions(Permission.SendMessages, Permission.EmbedLinks))
+                // botHasChannelPerms(Permissions(Permission.SendMessages, Permission.EmbedLinks))
                 if (ConfigCollection().logUploadingType(event.guildId!!) == "whitelist") {
                     failIfNot {
                         LogUploadingCollection().checkIfChannelIsInWhitelist(
@@ -85,13 +82,13 @@ class LogUploading : Extension() {
                 eventMessage.attachments.forEach { attachment ->
                     val attachmentFileName = attachment.filename
                     val attachmentFileExtension = attachmentFileName.substring(
-                            attachmentFileName.lastIndexOf(".") + 1
+                        attachmentFileName.lastIndexOf(".") + 1
                     )
 
                     if (attachmentFileExtension in logFileExtensions) {
                         val logBytes = attachment.download()
 
-                        val logContent: String = if (attachmentFileExtension != "gz") {
+                        val logContent: String = if (!attachmentFileName.endsWith(".gz")) {
                             // If the file is not a gz log, we just decode it
                             logBytes.decodeToString()
                         } else {
@@ -115,7 +112,6 @@ class LogUploading : Extension() {
                                         "(i.e. log or crash report) if the issue persists."
                                 footer {
                                     text = eventMessage.author?.username ?: ""
-                                    icon = eventMessage.author?.avatar?.cdnUrl.toString()
                                 }
                                 color = DISCORD_PINK
                             }
@@ -133,11 +129,6 @@ class LogUploading : Extension() {
                                     footer {
                                         text =
                                                 "Uploaded by ${eventMessage.author?.username ?: eventMember?.asUserOrNull()?.username}"
-                                        icon =
-                                                (
-                                                    eventMessage.author?.avatar?.cdnUrl
-                                                        ?: eventMember?.asUserOrNull()?.avatar?.cdnUrl
-                                                ).toString()
                                     }
                                     color = DISCORD_PINK
                                 }
@@ -158,10 +149,6 @@ class LogUploading : Extension() {
                                                     footer {
                                                         text =
                                                                 "Uploaded by ${eventMessage.author?.username ?: eventMember.asUserOrNull().username}"
-                                                        icon = (
-                                                                eventMessage.author?.avatar?.cdnUrl
-                                                                        ?: eventMember.asUserOrNull().avatar?.cdnUrl
-                                                                ).toString()
                                                     }
                                                     timestamp = Clock.System.now()
                                                     color = DISCORD_PINK
@@ -176,10 +163,6 @@ class LogUploading : Extension() {
                                                             footer {
                                                                 text =
                                                                         "Uploaded by ${eventMessage.author?.username ?: eventMember.asUserOrNull().username}"
-                                                                icon = (
-                                                                        eventMessage.author?.avatar?.cdnUrl
-                                                                                ?: eventMember.asUserOrNull().avatar?.cdnUrl
-                                                                        ).toString()
                                                             }
                                                             timestamp = Clock.System.now()
                                                             color = DISCORD_PINK
@@ -201,10 +184,6 @@ class LogUploading : Extension() {
                                                             footer {
                                                                 text =
                                                                         "Uploaded by ${eventMessage.author?.username ?: eventMember.asUserOrNull().username}"
-                                                                icon = (
-                                                                        eventMessage.author?.avatar?.cdnUrl
-                                                                                ?: eventMember.asUserOrNull().avatar?.cdnUrl
-                                                                        ).toString()
                                                             }
                                                             timestamp = Clock.System.now()
                                                             color = DISCORD_RED
