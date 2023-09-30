@@ -16,7 +16,6 @@ import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.datetime.Instant
@@ -45,28 +44,29 @@ class CurseForge : Extension() {
             publicSubCommand(::CurseForgeSearchQuery) {
                 name = "search"
                 description = "Search for mods on CurseForge"
-                    action {
-                        arguments.query.replace(" ", "%20")
-                        val response = searchCurseForge(arguments.query, arguments.limit)
-                        if (response.pagination.totalCount == 1) {
-                            respond {
+                action {
+                    arguments.query.replace(" ", "%20")
+                    val response = searchCurseForge(arguments.query, arguments.limit)
+                    when (response.pagination.totalCount) {
+                        1 -> respond {
                                 embed {
                                     embedProject(response.data[0])
                                 }
-                            }
-                            return@action
-                        } else {
-                            respondingPaginator {
-                                for ((i, _) in response.data.withIndex()) {
-                                    page {
-                                        embedProject(response.data[i])
-                                    }
-                                }
-                                timeoutSeconds = 180
-                                locale = Locale.ENGLISH
-                            }.send()
                         }
+
+                        0 -> respond { content = "No results found." }
+
+                        else -> respondingPaginator {
+                            for ((i, _) in response.data.withIndex()) {
+                                page {
+                                    embedProject(response.data[i])
+                                }
+                            }
+                            timeoutSeconds = 180
+                            locale = Locale.ENGLISH
+                        }.send()
                     }
+                }
             }
         }
     }
@@ -80,6 +80,7 @@ class CurseForge : Extension() {
                 parameter("searchFilter", query)
                 parameter("pageSize", limit)
                 parameter("sortField", 2)
+                parameter("sortOrder", "desc")
             }
             headers {
                 append("x-api-key", CURSEFORGE_API_KEY)
@@ -88,7 +89,7 @@ class CurseForge : Extension() {
         }.body()
     }
 
-    private suspend fun EmbedBuilder.embedProject(data: Mod) {
+    private fun EmbedBuilder.embedProject(data: Mod) {
         this.title = data.name
         this.url = URLBuilder(CURSEFORGE_FRONTEND_ENDPOINT).appendPathSegments("minecraft/mc-mods", data.slug).buildString()
         thumbnail {
