@@ -12,4 +12,4 @@ Allium uses a Database to store Channel and Guild ID's for the Log Uploading Fea
 
 ## Contact
 
-For questions, you may email me at github@notjansel.de. You may also contact Jansel#0001 on Discord.
+For questions, you may email me at github@notjansel.de. You may also contact jansel on Discord.
