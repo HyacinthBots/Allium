@@ -19,7 +19,7 @@ class PresenceUpdater : Extension() {
 
     private suspend fun updatePresence() {
         kord.editPresence {
-            playing(getRandomSplash().replace("§[0-9a-fk-or]", ""))
+            playing(getRandomSplash().replace(Regex("§[0-9a-fk-or]"), ""))
         }
     }
 }
