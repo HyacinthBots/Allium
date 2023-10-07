@@ -34,9 +34,9 @@ fun String.runCommand(
 
 
 group = "org.hyacinthbots.allium"
-// version = "0.6.0-build.local-" + "git rev-parse --short=8 HEAD".runCommand(workingDir = rootDir) + "-" + "git branch --show-current".runCommand(workingDir = rootDir).replace("/", ".")
+version = "0.6.0-build.local-" + "git rev-parse --short=8 HEAD".runCommand(workingDir = rootDir) + "-" + "git branch --show-current".runCommand(workingDir = rootDir).replace("/", ".")
 var buildTime = Date().time / 1000
-version = "0.6.0"
+// version = "0.6.0"
 // The current LTS Java version
 val javaVersion = 17
 
@@ -123,7 +123,7 @@ tasks {
     withType<KotlinCompile> {
         kotlinOptions {
             jvmTarget = javaVersion.toString()
-            languageVersion = "1.8" // The current major revision of Kotlin
+            languageVersion = "1.9" // The current major revision of Kotlin
             incremental = true
             freeCompilerArgs = listOf("-opt-in=kotlin.RequiresOptIn")
         }
@@ -142,7 +142,7 @@ tasks {
         Update gradle by changing `gradleVersion` below to the new version,
         then run `./gradlew wrapper` twice to update the scripts properly.
          */
-        gradleVersion = "8.2"
+        gradleVersion = "8.4"
         distributionType = Wrapper.DistributionType.BIN
     }
 }
@@ -156,5 +156,5 @@ java {
 detekt {
     buildUponDefaultConfig = true
     autoCorrect = true
-    config = rootProject.files("detekt.yml")
+    config.setFrom(rootProject.files("detekt.yml"))
 }
