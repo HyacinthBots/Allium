@@ -7,9 +7,9 @@ import com.kotlindiscord.kord.extensions.commands.application.slash.converters.i
 import com.kotlindiscord.kord.extensions.commands.application.slash.publicSubCommand
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
-import com.kotlindiscord.kord.extensions.types.respond
 import dev.kord.common.entity.Permission
-import dev.kord.rest.builder.message.create.embed
+import dev.kord.rest.builder.message.EmbedBuilder
+import dev.kord.rest.builder.message.embed
 import org.hyacinthbots.allium.database.collections.ConfigCollection
 
 class Config : Extension() {
@@ -42,14 +42,14 @@ class Config : Extension() {
                 }
                 action {
                     respond {
-                        embed {
+                        embed(fun EmbedBuilder.() {
                             title = "Config for Guild ${getGuild()!!.asGuild().name}"
                             field {
                                 name = "Log Uploading type"
                                 value = ConfigCollection().logUploadingType(guild!!.id)
                                 inline = true
                             }
-                        }
+                        })
                     }
                 }
             }

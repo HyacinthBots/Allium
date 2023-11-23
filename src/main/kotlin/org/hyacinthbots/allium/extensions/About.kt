@@ -4,10 +4,12 @@ import com.kotlindiscord.kord.extensions.components.components
 import com.kotlindiscord.kord.extensions.components.linkButton
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
-import com.kotlindiscord.kord.extensions.types.respond
-import dev.kord.rest.builder.message.create.embed
+import dev.kord.rest.builder.message.EmbedBuilder
+import dev.kord.rest.builder.message.embed
 import kotlinx.coroutines.flow.count
-import org.hyacinthbots.allium.utils.*
+import org.hyacinthbots.allium.utils.BUILD
+import org.hyacinthbots.allium.utils.BUILDTIME
+import org.hyacinthbots.allium.utils.getRandomUpdateMessage
 
 /**
  * About command.
@@ -24,7 +26,7 @@ class About : Extension() {
             action {
                 val kord = this@About.kord
                 respond {
-                    embed {
+                    embed(fun EmbedBuilder.() {
                         title = "Allium"
                         field {
                             name = "General Information"
@@ -66,7 +68,7 @@ class About : Extension() {
                             name = "Next update?"
                             value = getRandomUpdateMessage()
                         }
-                    }
+                    })
                     components {
                         linkButton {
                             this.label = "Source Code"

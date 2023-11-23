@@ -10,15 +10,10 @@ import com.kotlindiscord.kord.extensions.components.menus.string.EphemeralString
 import com.kotlindiscord.kord.extensions.components.publicButton
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
-import com.kotlindiscord.kord.extensions.types.edit
-import com.kotlindiscord.kord.extensions.types.editingPaginator
-import com.kotlindiscord.kord.extensions.types.respond
-import com.kotlindiscord.kord.extensions.types.respondingPaginator
 import dev.kord.rest.builder.message.EmbedBuilder
-import dev.kord.rest.builder.message.create.embed
+import dev.kord.rest.builder.message.embed
 import io.ktor.client.*
 import io.ktor.client.call.*
-import io.ktor.client.call.body
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -71,9 +66,9 @@ class Modrinth : Extension() {
                         return@action
                     }
                     respond {
-                        embed {
+                        embed(fun EmbedBuilder.() {
                             embedUser(response)
-                        }
+                        })
                     }
                 }
             }

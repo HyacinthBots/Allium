@@ -2,7 +2,9 @@ package org.hyacinthbots.allium.extensions
 
 import com.kotlindiscord.kord.extensions.DISCORD_PINK
 import com.kotlindiscord.kord.extensions.DISCORD_RED
-import com.kotlindiscord.kord.extensions.checks.*
+import com.kotlindiscord.kord.extensions.checks.anyGuild
+import com.kotlindiscord.kord.extensions.checks.channelFor
+import com.kotlindiscord.kord.extensions.checks.hasPermission
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.slash.ephemeralSubCommand
 import com.kotlindiscord.kord.extensions.commands.converters.impl.channel
@@ -12,7 +14,6 @@ import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.sentry.tag
-import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.utils.download
 import com.kotlindiscord.kord.extensions.utils.isNullOrBot
 import dev.kord.common.entity.ButtonStyle
@@ -23,9 +24,10 @@ import dev.kord.core.behavior.edit
 import dev.kord.core.entity.Message
 import dev.kord.core.entity.channel.MessageChannel
 import dev.kord.core.event.message.MessageCreateEvent
-import dev.kord.rest.builder.message.create.embed
-import dev.kord.rest.builder.message.modify.actionRow
-import dev.kord.rest.builder.message.modify.embed
+import dev.kord.rest.builder.component.ActionRowBuilder
+import dev.kord.rest.builder.message.EmbedBuilder
+import dev.kord.rest.builder.message.actionRow
+import dev.kord.rest.builder.message.embed
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
@@ -120,7 +122,7 @@ class LogUploading : Extension() {
                             var confirmationMessage: Message? = null
 
                             confirmationMessage = uploadChannel?.createMessage {
-                                embed {
+                                embed(fun EmbedBuilder.() {
                                     title = "Do you want to upload this file to mclo.gs?"
                                     description =
                                             "mclo.gs is a website that allows users to share minecraft logs " +
@@ -131,7 +133,7 @@ class LogUploading : Extension() {
                                                 "Uploaded by ${eventMessage.author?.username ?: eventMember?.asUserOrNull()?.username}"
                                     }
                                     color = DISCORD_PINK
-                                }
+                                })
 
                                 components {
                                     ephemeralButton(row = 0) {
@@ -168,11 +170,11 @@ class LogUploading : Extension() {
                                                             color = DISCORD_PINK
                                                         }
 
-                                                        actionRow {
+                                                        actionRow(fun ActionRowBuilder.() {
                                                             linkButton(response) {
                                                                 label = "Click here to view"
                                                             }
-                                                        }
+                                                        })
                                                     }
                                                 } catch (e: IOException) {
                                                     // If the upload fails, we'll just show the error
