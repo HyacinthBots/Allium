@@ -73,8 +73,21 @@ class Modrinth : Extension() {
                 }
             }
 
-            publicSubCommand(::ModrinthSearchQuery) {
+            publicSubCommand(::ModrinthSlugQuery) {
                 name = "project"
+                description = "Get a Project by it's slug"
+                action {
+                    val response = getProject(arguments.slug)
+                    respond {
+                        embed {
+                            embedProject(response)
+                        }
+                    }
+                }
+            }
+
+            publicSubCommand(::ModrinthSearchQuery) {
+                name = "search"
                 description = "Search for a mod/plugin"
                 action {
                     arguments.query.replace(" ", "%20")
@@ -272,6 +285,15 @@ class Modrinth : Extension() {
         }.body()
     }
 
+    private suspend fun getProject(slug: String): ProjectData {
+        return client.get(MODRINTH_ENDPOINT) {
+            url {
+                path("v2/project")
+                parameter("slug", slug)
+            }
+        }.body()
+    }
+
     private suspend fun searchModrinthAdvanced(currentFilter: SearchData): SearchResponseData {
         val groups = mutableListOf<List<Facet>>()
         println(currentFilter.facets)
@@ -343,6 +365,13 @@ class Modrinth : Extension() {
     companion object {
         const val MODRINTH_ENDPOINT = "https://api.modrinth.com/"
         const val MODRINTH_FRONTEND_ENDPOINT = "https://modrinth.com/"
+    }
+
+    inner class ModrinthSlugQuery : Arguments() {
+        val slug by string {
+            name = "slug"
+            description = "the slug of the project you want to look up"
+        }
     }
 
     inner class ModrinthSearchQuery : Arguments() {
