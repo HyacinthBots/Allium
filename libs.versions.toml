@@ -6,7 +6,7 @@ kord-extensions = "1.8.0-SNAPSHOT"
 kx-ser = "1.6.3"
 logging = "3.0.5"
 logback = "1.5.0"
-logback-groovy = "1.14.5"
+# logback-groovy = "1.14.5"
 gson = "2.10.1"
 doc-gen = "0.1.4"
 kmongo = "4.9.0"
@@ -21,9 +21,10 @@ kord-extensions-mappings = { module = "com.kotlindiscord.kord.extensions:extra-m
 kord-extensions-pluralkit = { module = "com.kotlindiscord.kord.extensions:extra-pluralkit", version.ref = "kord-extensions" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
-logback-groovy = { module = "io.github.virtualdogbert:logback-groovy-config", version.ref = "logback-groovy" }
+# logback-groovy = { module = "io.github.virtualdogbert:logback-groovy-config", version.ref = "logback-groovy" }
 logging = { module = "io.github.microutils:kotlin-logging", version.ref = "logging" }
 kx-ser = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kx-ser" }
+kx-ser-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kx-ser" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 doc-gen = { module="org.hyacinthbots:doc-generator", version.ref = "doc-gen" }
 kmongo = { module="org.litote.kmongo:kmongo-coroutine-serialization", version.ref = "kmongo"}

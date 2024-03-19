@@ -96,6 +96,7 @@ dependencies {
     implementation(libs.kord.extensions.pluralkit)
     implementation(libs.kotlin.stdlib)
     implementation(libs.kx.ser)
+    implementation(libs.kx.ser.json)
     implementation(libs.gson)
     implementation(libs.doc.gen)
     implementation(libs.kmongo)
@@ -104,7 +105,7 @@ dependencies {
     // Logging dependencies
     implementation(libs.jansi)
     implementation(libs.logback)
-    implementation(libs.logback.groovy)
+    // implementation(libs.logback.groovy)
     implementation(libs.logging)
     implementation(libs.groovy)
 }

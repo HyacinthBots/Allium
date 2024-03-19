@@ -80,7 +80,7 @@ class Modrinth : Extension() {
                     val response = getProject(arguments.slug)
                     respond {
                         embed {
-                            embedProject(response)
+                            embedDirectProject(response, arguments.slug)
                         }
                     }
                 }
@@ -234,6 +234,29 @@ class Modrinth : Extension() {
         }
     }
 
+    private suspend fun EmbedBuilder.embedDirectProject(data: DirectProjectData, slug: String) {
+        this.title = data.title
+        this.url = URLBuilder(MODRINTH_FRONTEND_ENDPOINT).appendPathSegments("project", data.slug).buildString()
+        thumbnail {
+            this.url = data.iconURL.toString()
+        }
+        this.description = data.description
+        field(
+            "Client/Server Side",
+            true
+        ) { "Client: ${data.clientSide}\nServer: ${data.serverSide}" }
+        field("Downloads", true) { data.downloads.toString() }
+        field(
+            "Last Update",
+            true
+        ) { "<t:${Instant.parse(data.updated).epochSeconds}>" }
+        field("License", true) { data.license.id }
+        field("Loaders", true) { getProjectLoaders(data.slug).joinToString("\n") }
+        footer {
+            this.text = "Modrinth"
+        }
+    }
+
     private suspend fun getLicenses(): List<String> {
         val response = client.get(MODRINTH_ENDPOINT) { url { path("v2/tag/license") } }
         val licenses: List<LicenseData> = response.body()
@@ -285,11 +308,10 @@ class Modrinth : Extension() {
         }.body()
     }
 
-    private suspend fun getProject(slug: String): ProjectData {
+    private suspend fun getProject(slug: String): DirectProjectData {
         return client.get(MODRINTH_ENDPOINT) {
             url {
-                path("v2/project")
-                parameter("slug", slug)
+                path("v2/project/$slug")
             }
         }.body()
     }
@@ -434,6 +456,30 @@ class Modrinth : Extension() {
     )
 
     @Serializable
+    data class DirectProjectData(
+        val slug: String,
+        val title: String,
+        val description: String,
+        val categories: MutableList<String>,
+        @SerialName("client_side") val clientSide: String,
+        @SerialName("server_side") val serverSide: String,
+        @SerialName("source_url") val sourceURL: String? = null,
+        @SerialName("discord_url") val discordURL: String? = null,
+        @SerialName("project_type") val projectType: String,
+        val updated: String,
+        val downloads: Int,
+        @SerialName("icon_url") val iconURL: String?,
+        val license: DirectLicenseData
+    )
+
+    @Serializable
+    data class DirectLicenseData(
+        val id: String,
+        val name: String,
+        val url: String
+    )
+
+    @Serializable
     data class UserData(
             val username: String,
             val name: String?,
@@ -444,6 +490,12 @@ class Modrinth : Extension() {
             @SerialName("avatar_url") val avatarUrl: String,
             val created: String,
             val role: String
+    )
+
+    data class TeamData(
+        val role: String,
+        @SerialName("team_id") val teamId: String,
+        val user: UserData
     )
 
     @Serializable
