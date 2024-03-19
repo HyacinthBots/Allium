@@ -54,6 +54,10 @@ repositories {
         url = uri("https://oss.sonatype.org/content/repositories/snapshots")
     }
     maven {
+        name = "Shedaniel Maven"
+        url = uri("https://maven.shedaniel.me")
+    }
+    maven {
         name = "Sonatype Snapshots"
         url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots")
     }
@@ -142,7 +146,7 @@ tasks {
         Update gradle by changing `gradleVersion` below to the new version,
         then run `./gradlew wrapper` twice to update the scripts properly.
          */
-        gradleVersion = "8.4"
+        gradleVersion = "8.6"
         distributionType = Wrapper.DistributionType.BIN
     }
 }

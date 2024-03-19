@@ -13,7 +13,6 @@ import com.kotlindiscord.kord.extensions.components.ephemeralButton
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
-import com.kotlindiscord.kord.extensions.sentry.tag
 import com.kotlindiscord.kord.extensions.utils.download
 import com.kotlindiscord.kord.extensions.utils.isNullOrBot
 import dev.kord.common.entity.ButtonStyle
@@ -190,12 +189,6 @@ class LogUploading : Extension() {
                                                             timestamp = Clock.System.now()
                                                             color = DISCORD_RED
                                                         }
-                                                    }
-                                                    // Capture Exception to Sentry
-                                                    sentry.captureException(e) {
-                                                        tag("log_file_name", attachmentFileName)
-                                                        tag("extension", extension.name)
-                                                        tag("id", eventMessage.id.toString())
                                                     }
                                                     e.printStackTrace()
                                                 }

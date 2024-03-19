@@ -1,17 +1,17 @@
 [versions]
-detekt = "1.23.3"  # Note: Plugin versions must be updated in the settings.gradle.kts too
+detekt = "1.23.5"  # Note: Plugin versions must be updated in the settings.gradle.kts too
 
-jansi = "2.4.0"
-kord-extensions = "1.6.0-SNAPSHOT"
-kx-ser = "1.6.1"
+jansi = "2.4.1"
+kord-extensions = "1.8.0-SNAPSHOT"
+kx-ser = "1.6.3"
 logging = "3.0.5"
-logback = "1.4.11"
-logback-groovy = "1.14.4"
+logback = "1.5.0"
+logback-groovy = "1.14.5"
 gson = "2.10.1"
-doc-gen = "0.1.2"
+doc-gen = "0.1.4"
 kmongo = "4.9.0"
-groovy = "3.0.13"
-ktor = "2.3.6"
+groovy = "3.0.20"
+ktor = "2.3.9"
 
 [libraries]
 detekt = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
