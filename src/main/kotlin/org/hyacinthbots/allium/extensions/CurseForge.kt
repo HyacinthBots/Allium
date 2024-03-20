@@ -61,6 +61,7 @@ class CurseForge : Extension() {
                                     embedProject(response.data[i])
                                 }
                             }
+                            owner = user
                             timeoutSeconds = 180
                             locale = Locale.ENGLISH
                         }.send()
