@@ -106,6 +106,7 @@ class Modrinth : Extension() {
                                     embedProject(response.hits[i])
                                 }
                             }
+                            owner = user
                             timeoutSeconds = 180
                             locale = Locale.ENGLISH
                         }.send()
