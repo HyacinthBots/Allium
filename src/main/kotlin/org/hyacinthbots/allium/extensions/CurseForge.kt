@@ -18,6 +18,7 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import org.hyacinthbots.allium.i18n.Translations
 import org.hyacinthbots.allium.utils.BUILD
 import org.hyacinthbots.allium.utils.CURSEFORGE_API_KEY
 import java.util.*
@@ -36,11 +37,11 @@ class CurseForge : Extension() {
 
 	override suspend fun setup() {
 		publicSlashCommand {
-			name = "curseforge"
-			description = "Search for mods on CurseForge"
+			name = Translations.Curseforge.Command.name
+			description = Translations.Curseforge.Command.description
 			publicSubCommand(::CurseForgeSearchQuery) {
-				name = "search"
-				description = "Search for mods on CurseForge"
+				name = Translations.Curseforge.Command.Search.name
+				description = Translations.Curseforge.Command.Search.description
 				action {
 					arguments.query.replace(" ", "%20")
 					val response = searchCurseForge(arguments.query, arguments.limit)
@@ -113,12 +114,12 @@ class CurseForge : Extension() {
 
 	inner class CurseForgeSearchQuery : Arguments() {
 		val query by string {
-			name = "query"
-			description = "The query to search for"
+			name = Translations.Curseforge.Arguments.Query.name
+			description = Translations.Curseforge.Arguments.Query.description
 		}
 		val limit by defaultingInt {
-			name = "limit"
-			description = "Set the Limit of Search results"
+			name = Translations.Curseforge.Arguments.Limit.name
+			description = Translations.Curseforge.Arguments.Limit.description
 			maxValue = 50
 			defaultValue = 5
 			minValue = 1

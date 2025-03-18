@@ -100,6 +100,11 @@ kordEx {
 
 		dataCollection(DataCollection.Minimal)
 	}
+
+	i18n {
+		classPackage = "org.hyacinthbots.allium.i18n"
+		translationBundle = "allium.strings"
+	}
 }
 
 tasks {
@@ -112,7 +117,7 @@ tasks {
 		 * Update gradle by changing `gradleVersion` below to the new version,
 		 * then run `./gradlew wrapper` twice to update the scripts properly.
 		 */
-		gradleVersion = "8.10.2"
+		gradleVersion = "8.13"
 		distributionType = Wrapper.DistributionType.BIN
 	}
 }

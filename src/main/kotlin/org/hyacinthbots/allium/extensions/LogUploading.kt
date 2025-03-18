@@ -39,6 +39,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.hyacinthbots.allium.database.collections.ConfigCollection
 import org.hyacinthbots.allium.database.collections.LogUploadingCollection
+import org.hyacinthbots.allium.i18n.Translations
 import org.hyacinthbots.allium.utils.BUILD
 import java.io.ByteArrayInputStream
 import java.io.IOException
@@ -139,7 +140,7 @@ class LogUploading : Extension() {
 
 								components {
 									ephemeralButton(row = 0) {
-										label = "Yes"
+										label = Translations.Loguploading.Module.Button.yes
 										style = ButtonStyle.Success
 
 										action {
@@ -202,7 +203,7 @@ class LogUploading : Extension() {
 									}
 
 									ephemeralButton(row = 0) {
-										label = "No"
+										label = Translations.Loguploading.Module.Button.no
 										style = ButtonStyle.Danger
 										check {
 											failIfNot(event.interaction.user.id == eventMember!!.id, "Only the Uploader can use this Menu.")
@@ -220,11 +221,11 @@ class LogUploading : Extension() {
 			}
 		}
 		publicSlashCommand {
-			name = "log-whitelist"
-			description = "Commands related to the log-uploading whitelist"
+			name = Translations.Loguploading.Command.Whitelist.name
+			description = Translations.Loguploading.Command.Whitelist.description
 			ephemeralSubCommand(::BWList) {
-				name = "add"
-				description = "Add a channel to the log-uploading whitelist"
+				name = Translations.Loguploading.Command.Whitelist.Add.name
+				description = Translations.Loguploading.Command.Whitelist.Add.description
 				check {
 					anyGuild()
 					hasPermission(Permission.ManageChannels)
@@ -239,8 +240,8 @@ class LogUploading : Extension() {
 				}
 			}
 			ephemeralSubCommand(::BWList) {
-				name = "remove"
-				description = "Remove a channel to the log-uploading whitelist"
+				name = Translations.Loguploading.Command.Whitelist.Remove.name
+				description = Translations.Loguploading.Command.Whitelist.Remove.description
 				check {
 					anyGuild()
 					hasPermission(Permission.ManageChannels)
@@ -256,8 +257,8 @@ class LogUploading : Extension() {
 				}
 			}
 			ephemeralSubCommand {
-				name = "list"
-				description = "List all channels that are in the whitelist"
+				name = Translations.Loguploading.Command.Whitelist.List.name
+				description = Translations.Loguploading.Command.Whitelist.List.description
 				check {
 					anyGuild()
 					hasPermission(Permission.ManageChannels)
@@ -280,11 +281,11 @@ class LogUploading : Extension() {
 			}
 		}
 		publicSlashCommand {
-			name = "log-blacklist"
-			description = "Commands related to the log-uploading blacklist"
+			name = Translations.Loguploading.Command.Blacklist.name
+			description = Translations.Loguploading.Command.Blacklist.description
 			ephemeralSubCommand(::BWList) {
-				name = "add"
-				description = "Add a channel to the log-uploading blacklist"
+				name = Translations.Loguploading.Command.Blacklist.Add.name
+				description = Translations.Loguploading.Command.Blacklist.Add.description
 				check {
 					anyGuild()
 					hasPermission(Permission.ManageChannels)
@@ -299,8 +300,8 @@ class LogUploading : Extension() {
 				}
 			}
 			ephemeralSubCommand(::BWList) {
-				name = "remove"
-				description = "Remove a channel to the log-uploading blacklist"
+				name = Translations.Loguploading.Command.Blacklist.Remove.name
+				description = Translations.Loguploading.Command.Blacklist.Remove.description
 				check {
 					anyGuild()
 					hasPermission(Permission.ManageChannels)
@@ -316,8 +317,8 @@ class LogUploading : Extension() {
 				}
 			}
 			ephemeralSubCommand {
-				name = "list"
-				description = "List all channels that are in the blacklist"
+				name = Translations.Loguploading.Command.Blacklist.List.name
+				description = Translations.Loguploading.Command.Blacklist.List.description
 				check {
 					anyGuild()
 					hasPermission(Permission.ManageChannels)
@@ -343,8 +344,8 @@ class LogUploading : Extension() {
 
 	inner class BWList : Arguments() {
 		val channel by channel {
-			name = "channel"
-			description = "Channel to add to the Whitelist"
+			name = Translations.Loguploading.Arguments.Channel.name
+			description = Translations.Loguploading.Arguments.Channel.description
 		}
 	}
 

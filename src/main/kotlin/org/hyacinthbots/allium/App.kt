@@ -8,6 +8,7 @@ import dev.kord.gateway.PrivilegedIntent
 import dev.kord.rest.builder.message.actionRow
 import dev.kord.rest.builder.message.embed
 import dev.kordex.core.ExtensibleBot
+import dev.kordex.core.i18n.SupportedLocales
 import dev.kordex.modules.func.mappings.extMappings
 import kotlinx.coroutines.flow.count
 import org.hyacinthbots.allium.extensions.*
@@ -102,7 +103,7 @@ suspend fun main() {
 			+Intent.MessageContent
 		}
 		i18n {
-			defaultLocale = Locale.ENGLISH
+			applicationCommandLocale(SupportedLocales.ENGLISH)
 		}
 		/*
 		docsGenerator {
