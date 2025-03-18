@@ -15,4 +15,4 @@ ENV ENVIRONMENT=production
 
 WORKDIR /bot
 
-ENTRYPOINT ["java", "-Xms2G", "-Xmx2G", "-XX:+DisableExplicitGC", "-jar", "/usr/local/lib/Allium.jar"]
+ENTRYPOINT ["java", "-Xmx2G", "-XX:+DisableExplicitGC", "-jar", "/usr/local/lib/Allium.jar"]
