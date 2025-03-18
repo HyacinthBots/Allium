@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - root
-    paths-ignore:
-      - .github
-      - readme.md
-      - docs
 
 jobs:
   build:
@@ -45,13 +41,13 @@ jobs:
           name: Build and Deploy Artifacts
           path: build/libs/*[0-9].jar
 
-      - name: Login to GitHub Container Registry
+      - name: Login to DigitalOcean Registry (temp solution for now)
         uses: docker/login-action@v3
 
         with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.CR_PAT }}
+          registry: registry.digitalocean.com
+          username: ${{ secrets.DO_UN }}
+          password: ${{ secrets.DO_KEY }}
 
       - name: Build and push
         uses: docker/build-push-action@v5
@@ -59,4 +55,4 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/hyacinthbots/allium:latest
+          tags: registry.digitalocean.com/jansel/allium:latest
