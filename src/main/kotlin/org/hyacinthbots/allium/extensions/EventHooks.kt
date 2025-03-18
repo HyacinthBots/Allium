@@ -24,10 +24,10 @@ class EventHooks : Extension() {
 				val onlineLog =
 					kord.getGuildOrNull(TEST_SERVER_ID)?.getChannelOf<GuildMessageChannel>(TEST_SERVER_CHANNEL_ID)
 				onlineLog?.createMessage("Bot Online, current version: $BUILD")
-// 				downloadLatestClientJar()
-// 				kord.editPresence {
-// 					playing(getRandomSplash())
-// 				}
+ 				downloadLatestClientJar()
+ 				kord.editPresence {
+ 					playing(getRandomSplash())
+ 				}
 			}
 		}
 		event<DisconnectEvent> {
