@@ -10,7 +10,6 @@ import dev.kordex.core.commands.application.slash.converters.impl.stringChoice
 import dev.kordex.core.commands.application.slash.publicSubCommand
 import dev.kordex.core.extensions.Extension
 import dev.kordex.core.extensions.publicSlashCommand
-import dev.kordex.core.i18n.generated.CoreTranslations
 import org.hyacinthbots.allium.database.collections.ConfigCollection
 import org.hyacinthbots.allium.i18n.Translations
 
