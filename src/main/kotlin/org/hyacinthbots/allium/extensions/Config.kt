@@ -11,17 +11,18 @@ import dev.kordex.core.commands.application.slash.publicSubCommand
 import dev.kordex.core.extensions.Extension
 import dev.kordex.core.extensions.publicSlashCommand
 import org.hyacinthbots.allium.database.collections.ConfigCollection
+import org.hyacinthbots.allium.i18n.Translations
 
 class Config : Extension() {
 	override val name = "config"
 	override suspend fun setup() {
 		publicSlashCommand {
-			name = "config"
-			description = "Config Commands"
+			name = Translations.Config.Command.name
+			description = Translations.Config.Command.description
 
 			publicSubCommand(::setConfig) {
-				name = "set"
-				description = "Set the Config"
+				name = Translations.Config.Command.Set.name
+				description = Translations.Config.Command.Set.description
 				check {
 					anyGuild()
 					hasPermission(Permission.ManageGuild)
@@ -34,8 +35,8 @@ class Config : Extension() {
 				}
 			}
 			publicSubCommand {
-				name = "get"
-				description = "Set the Config"
+				name = Translations.Config.Command.Set.name
+				description = Translations.Config.Command.Set.description
 				check {
 					anyGuild()
 					hasPermission(Permission.ManageGuild)
@@ -58,10 +59,10 @@ class Config : Extension() {
 
 	inner class setConfig : Arguments() {
 		val logUploadingType by stringChoice {
-			name = "type"
-			description = "What Listtype should be used."
-			choice("whitelist", "whitelist")
-			choice("blacklist", "blacklist")
+			name = Translations.Config.Arguments.Type.name
+			description = Translations.Config.Arguments.Type.description
+			choice(Translations.Config.Arguments.Type.Choice.`1`, "whitelist")
+			choice(Translations.Config.Arguments.Type.Choice.`2`, "blacklist")
 		}
 	}
 }

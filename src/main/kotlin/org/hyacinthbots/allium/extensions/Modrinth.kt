@@ -12,6 +12,7 @@ import dev.kordex.core.components.menus.string.EphemeralStringSelectMenuContext
 import dev.kordex.core.components.publicButton
 import dev.kordex.core.extensions.Extension
 import dev.kordex.core.extensions.publicSlashCommand
+import dev.kordex.core.i18n.toKey
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
@@ -23,6 +24,7 @@ import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import org.hyacinthbots.allium.i18n.Translations
 import org.hyacinthbots.allium.utils.*
 import java.util.*
 
@@ -45,11 +47,11 @@ class Modrinth : Extension() {
 
 	override suspend fun setup() {
 		publicSlashCommand {
-			name = "modrinth"
-			description = "What is Modrinth?"
+			name = Translations.Modrinth.Command.name
+			description = Translations.Modrinth.Command.description
 			publicSubCommand(::UserSearchQuery) {
-				name = "user"
-				description = "Search for a User"
+				name = Translations.Modrinth.Command.User.name
+				description = Translations.Modrinth.Command.User.description
 				action {
 					if (arguments.query == "") {
 						respond { content = "No query was given, aborting search." }
@@ -73,8 +75,8 @@ class Modrinth : Extension() {
 			}
 
 			publicSubCommand(::ModrinthSlugQuery) {
-				name = "project"
-				description = "Get a Project by it's slug"
+				name = Translations.Modrinth.Command.Project.name
+				description = Translations.Modrinth.Command.Project.description
 				action {
 					val response = getProject(arguments.slug)
 					respond {
@@ -86,8 +88,8 @@ class Modrinth : Extension() {
 			}
 
 			publicSubCommand(::ModrinthSearchQuery) {
-				name = "search"
-				description = "Search for a mod/plugin"
+				name = Translations.Modrinth.Command.Search.name
+				description = Translations.Modrinth.Command.Search.description
 				action {
 					arguments.query.replace(" ", "%20")
 					val response = searchModrinth(arguments.query, arguments.limit)
@@ -114,8 +116,8 @@ class Modrinth : Extension() {
 			}
 
 			publicSubCommand(::AdvancedSearchQuery) {
-				name = "advanced"
-				description = "Advanced search"
+				name = Translations.Modrinth.Command.Advanced.name
+				description = Translations.Modrinth.Command.Advanced.description
 				action {
 					arguments.query.replace(" ", "%20")
 					var searchFilters = SearchData(arguments.query, mutableMapOf(Pair("", "")))
@@ -124,22 +126,22 @@ class Modrinth : Extension() {
 						content = "Use the menu below to narrow your search"
 						components {
 							ephemeralStringSelectMenu(0) {
-								placeholder = "Adjust your search parameters"
+								placeholder = Translations.Modrinth.Command.Advanced.Filters.Menu.placeholder
 								maximumChoices = 1
-								option("Edit category filter", "category") {
-									description = "Change which categories you want to limit your search to"
+								option(Translations.Modrinth.Command.Advanced.Filters.Menu.Option.Category.name, "category") {
+									description = Translations.Modrinth.Command.Advanced.Filters.Menu.Option.Category.description
 								}
-								option("Edit environment filter", "environment") {
-									description = "Change which environment(s) you want to limit your search to"
+								option(Translations.Modrinth.Command.Advanced.Filters.Menu.Option.Environment.name, "environment") {
+									description = Translations.Modrinth.Command.Advanced.Filters.Menu.Option.Environment.description
 								}
-								option("Edit loader filter", "loader") {
-									description = "Change which mod loader(s) you want to limit your search to"
+								option(Translations.Modrinth.Command.Advanced.Filters.Menu.Option.Loader.name, "loader") {
+									description = Translations.Modrinth.Command.Advanced.Filters.Menu.Option.Loader.description
 								}
-								option("Edit version filter", "version") {
-									description = "Change which version(s) you want to limit your search to"
+								option(Translations.Modrinth.Command.Advanced.Filters.Menu.Option.Version.name, "version") {
+									description = Translations.Modrinth.Command.Advanced.Filters.Menu.Option.Version.description
 								}
-								option("Edit license filter", "license") {
-									description = "Change which license(s) you want to limit your search to"
+								option(Translations.Modrinth.Command.Advanced.Filters.Menu.Option.License.name, "license") {
+									description = Translations.Modrinth.Command.Advanced.Filters.Menu.Option.License.description
 								}
 
 								action {
@@ -178,7 +180,7 @@ class Modrinth : Extension() {
 								}
 							}
 							publicButton(1) {
-								label = "Search with your selections"
+								label = Translations.Modrinth.Command.Advanced.Filters.Buttons.Search.label
 								action {
 									val results = searchModrinthAdvanced(searchFilters)
 									edit {
@@ -366,9 +368,9 @@ class Modrinth : Extension() {
 			components {
 				ephemeralStringSelectMenu {
 					maximumChoices = filterOptions.size
-					placeholder = "Filter by $filterType"
+					placeholder = "Filter by $filterType".toKey()
 					filterOptions.forEach {
-						option(it, it)
+						option(it.toKey(), it)
 					}
 					action {
 						this.selected.forEach {
@@ -391,34 +393,34 @@ class Modrinth : Extension() {
 
 	inner class ModrinthSlugQuery : Arguments() {
 		val slug by string {
-			name = "slug"
-			description = "the slug of the project you want to look up"
+			name = Translations.Modrinth.Arguments.Slug.name
+			description = Translations.Modrinth.Arguments.Slug.description
 		}
 	}
 
 	inner class ModrinthSearchQuery : Arguments() {
 		val query by string {
-			name = "query"
-			description = "Query to search"
+			name = Translations.Modrinth.Arguments.Query.name
+			description = Translations.Modrinth.Arguments.Query.description
 		}
 		val limit by defaultingInt {
-			name = "limit"
-			description = "limit search results"
+			name = Translations.Modrinth.Arguments.Limit.name
+			description = Translations.Modrinth.Arguments.Limit.description
 			defaultValue = 5
 		}
 	}
 
 	inner class AdvancedSearchQuery : Arguments() {
 		val query by string {
-			name = "string"
-			description = "Query to search"
+			name = Translations.Modrinth.Arguments.Query.name
+			description = Translations.Modrinth.Arguments.Query.description
 		}
 	}
 
 	inner class UserSearchQuery : Arguments() {
 		val query by string {
-			name = "query"
-			description = "User to search up"
+			name = Translations.Modrinth.Arguments.User.name
+			description = Translations.Modrinth.Arguments.User.description
 		}
 	}
 

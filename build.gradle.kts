@@ -40,9 +40,9 @@ group = "org.hyacinthbots.allium"
 version = if ("git branch --show-current"
 		.runCommand(workingDir = rootDir)
 		.replace("/", ".") == "root") {
-	"1.0.0"
+	"1.0.1a"
 		} else {
-	"1.0.1-build.local-" +
+	"1.0.2-build.local-" +
 		"git rev-parse --short=8 HEAD"
 			.runCommand(workingDir = rootDir) +
 		"-" +
@@ -100,6 +100,11 @@ kordEx {
 
 		dataCollection(DataCollection.Minimal)
 	}
+
+	i18n {
+		classPackage = "org.hyacinthbots.allium.i18n"
+		translationBundle = "allium.strings"
+	}
 }
 
 tasks {
@@ -112,7 +117,7 @@ tasks {
 		 * Update gradle by changing `gradleVersion` below to the new version,
 		 * then run `./gradlew wrapper` twice to update the scripts properly.
 		 */
-		gradleVersion = "8.10"
+		gradleVersion = "8.13"
 		distributionType = Wrapper.DistributionType.BIN
 	}
 }
