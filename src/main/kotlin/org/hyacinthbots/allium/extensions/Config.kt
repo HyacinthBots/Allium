@@ -35,8 +35,8 @@ class Config : Extension() {
 				}
 			}
 			publicSubCommand {
-				name = Translations.Config.Command.Set.name
-				description = Translations.Config.Command.Set.description
+				name = Translations.Config.Command.Get.name
+				description = Translations.Config.Command.Get.description
 				check {
 					anyGuild()
 					hasPermission(Permission.ManageGuild)
@@ -61,8 +61,8 @@ class Config : Extension() {
 		val logUploadingType by stringChoice {
 			name = Translations.Config.Arguments.Type.name
 			description = Translations.Config.Arguments.Type.description
-			choice(Translations.Config.Arguments.Type.Choice.`1`, "whitelist")
-			choice(Translations.Config.Arguments.Type.Choice.`2`, "blacklist")
+			choice(Translations.Config.Arguments.Type.Choice.w, "whitelist")
+			choice(Translations.Config.Arguments.Type.Choice.b, "blacklist")
 		}
 	}
 }

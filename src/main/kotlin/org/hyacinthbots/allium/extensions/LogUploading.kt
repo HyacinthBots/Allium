@@ -355,7 +355,7 @@ class LogUploading : Extension() {
 	private suspend fun postToMCLogs(text: String): String {
 		val client = HttpClient {
 			install(UserAgent) {
-				agent = "hyacinthbots/allium/$BUILD (contact@jansel.moe)"
+				agent = "hyacinthbots/allium/$BUILD (contact@jansel.dev)"
 			}
 		}
 		val cleanText = text.replace("\r\n", "\n", true).replace("\r", "\n", true)

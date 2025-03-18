@@ -31,7 +31,7 @@ class CurseForge : Extension() {
 			json(Json { ignoreUnknownKeys = true })
 		}
 		install(UserAgent) {
-			agent = "hyacinthbots/allium/$BUILD (contact@jansel.moe)"
+			agent = "hyacinthbots/allium/$BUILD (contact@jansel.dev)"
 		}
 	}
 
