@@ -1,5 +1,7 @@
 package org.hyacinthbots.allium
 
+import ch.qos.logback.classic.Level
+import ch.qos.logback.classic.LoggerContext
 import com.google.gson.JsonArray
 import com.google.gson.JsonParser
 import dev.kord.core.Kord
@@ -17,12 +19,16 @@ import org.hyacinthbots.allium.utils.BUILDTIME
 import org.hyacinthbots.allium.utils.TOKEN
 import org.hyacinthbots.allium.utils.database
 import org.hyacinthbots.allium.utils.getRandomUpdateMessage
+import org.slf4j.LoggerFactory
 import java.util.*
 
 var updatemessages = JsonArray()
 
 @OptIn(PrivilegedIntent::class)
 suspend fun main() {
+	val loggerContext = LoggerFactory.getILoggerFactory() as LoggerContext
+	val rootLogger = loggerContext.getLogger("org.mongodb.driver")
+	rootLogger.level = Level.OFF
 	updatemessages = JsonParser.parseString({}.javaClass.getResource("/updatemessage.json")?.readText()).asJsonArray
 	val bot = ExtensibleBot(TOKEN) {
 		database(true)
