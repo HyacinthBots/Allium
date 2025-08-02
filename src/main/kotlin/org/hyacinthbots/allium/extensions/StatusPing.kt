@@ -32,6 +32,6 @@ class StatusPing : Extension() {
 	private suspend fun post() {
 		logger.debug { "Pinging!" }
 		client.post(env!!)
-		client.post(env2!!)
+		client.get(env2!!)
 	}
 }
