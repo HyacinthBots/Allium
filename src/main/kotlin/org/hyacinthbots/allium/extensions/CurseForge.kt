@@ -15,13 +15,14 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.hyacinthbots.allium.i18n.Translations
 import org.hyacinthbots.allium.utils.BUILD
 import org.hyacinthbots.allium.utils.CURSEFORGE_API_KEY
 import java.util.*
+import kotlin.time.ExperimentalTime
 
 class CurseForge : Extension() {
 	override val name = "CurseForge"
@@ -88,6 +89,7 @@ class CurseForge : Extension() {
 		}.body()
 	}
 
+	@OptIn(ExperimentalTime::class)
 	private fun EmbedBuilder.embedProject(data: Mod) {
 		this.title = data.name
 		this.url =

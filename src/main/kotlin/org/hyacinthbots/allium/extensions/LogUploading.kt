@@ -34,7 +34,7 @@ import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.hyacinthbots.allium.database.collections.ConfigCollection
@@ -44,6 +44,7 @@ import org.hyacinthbots.allium.utils.BUILD
 import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.util.zip.GZIPInputStream
+import kotlin.time.ExperimentalTime
 
 class LogUploading : Extension() {
 
@@ -52,6 +53,7 @@ class LogUploading : Extension() {
 	/** The file extensions that will be read and decoded by this system. */
 	private val logFileExtensions = setOf("log", "gz", "txt")
 
+	@OptIn(ExperimentalTime::class)
 	override suspend fun setup() {
 		event<MessageCreateEvent> {
 			check {

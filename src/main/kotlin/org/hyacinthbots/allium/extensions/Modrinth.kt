@@ -20,13 +20,14 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.hyacinthbots.allium.i18n.Translations
 import org.hyacinthbots.allium.utils.*
 import java.util.*
+import kotlin.time.ExperimentalTime
 
 /**
  * Modrinth Commands. Written in pure pain.
@@ -211,6 +212,7 @@ class Modrinth : Extension() {
 		}
 	}
 
+	@OptIn(ExperimentalTime::class)
 	private suspend fun EmbedBuilder.embedProject(data: ProjectData) {
 		this.title = data.title
 		this.url = URLBuilder(MODRINTH_FRONTEND_ENDPOINT).appendPathSegments("project", data.slug).buildString()
@@ -236,6 +238,7 @@ class Modrinth : Extension() {
 		}
 	}
 
+	@OptIn(ExperimentalTime::class)
 	private suspend fun EmbedBuilder.embedDirectProject(data: DirectProjectData, slug: String) {
 		this.title = data.title
 		this.url = URLBuilder(MODRINTH_FRONTEND_ENDPOINT).appendPathSegments("project", data.slug).buildString()

@@ -1,18 +1,29 @@
-FROM azul/zulu-openjdk-alpine:21-latest
+# escape=\
+# syntax=docker/dockerfile:1
 
-RUN mkdir /bot
-RUN mkdir /data
+FROM openjdk:21-jdk-slim
 
-COPY build/libs/allium-*-all.jar /usr/local/lib/Allium.jar
+# Create required directories
+RUN mkdir -p /bot/plugins
+RUN mkdir -p /bot/data
+RUN mkdir -p /dist/out
 
-# Only place env vars below that are fine to be publicised. Private stuff needs to be
-# applied deployment-side.
-# Optional: SENTRY_DSN
+# Declare required volumes
+VOLUME [ "/bot/data" ]
+VOLUME [ "/bot/plugins" ]
 
-ENV TEST_SERVER=1004868734378319883
-ENV TEST_CHANNEL=1013046925051834458
-ENV ENVIRONMENT=production
+# Copy the distribution files into the container
+COPY [ "build/distributions/allium-1.0.4.tar", "/dist" ]
 
+# Extract the distribution files, and prepare them for use
+RUN tar -xf /dist/allium-1.0.4.tar -C /dist/out
+RUN chmod +x /dist/out/allium-1.0.4/bin/allium
+
+# Clean up unnecessary files
+RUN rm /dist/allium-1.0.4.tar
+
+# Set the correct working directory
 WORKDIR /bot
 
-ENTRYPOINT ["java", "-Xmx2G", "-XX:+DisableExplicitGC", "-jar", "/usr/local/lib/Allium.jar"]
+# Run the distribution start script
+ENTRYPOINT [ "/dist/out/allium-1.0.4/bin/allium" ]

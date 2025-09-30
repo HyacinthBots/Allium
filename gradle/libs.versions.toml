@@ -1,26 +1,34 @@
 [versions]
-detekt = "1.23.5"  # Note: Plugin versions must be updated in the settings.gradle.kts too
+kotlin = "2.2.20"  # Note: Plugin versions must be updated in the settings.gradle.kts too
 
-jansi = "2.4.1"
-kx-ser = "1.8.0"
-logging = "7.0.3"
-gson = "2.12.1"
-doc-gen = "0.3.0-rc.2"
-kmongo = "5.1.0"
-groovy = "3.0.23"
-logback = "1.5.7"
+groovy = "3.0.25"
+jansi = "2.4.2"
+kx-ser = "1.9.0"
+logback = "1.5.18"
 logback-groovy = "1.14.5"
+logging = "7.0.13"
+kx-coroutines = "1.10.2"
+kmongo = "5.2.1"
+kordex-gradle = "1.7.4"
+doc-gen = "0.3.0-rc.2"
+gson = "2.12.1"
 
 [libraries]
-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-jansi = { module = "org.fusesource.jansi:jansi", version.ref = "jansi" }
-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib" }
-logging = { module = "io.github.oshai:kotlin-logging", version.ref = "logging" }
-logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
-logback-groovy = { module = "io.github.virtualdogbert:logback-groovy-config", version.ref = "logback-groovy" }
-kx-ser = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kx-ser" }
-kx-ser-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kx-ser" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 doc-gen = { module="org.hyacinthbots:doc-generator", version.ref = "doc-gen" }
-kmongo = { module="org.litote.kmongo:kmongo-coroutine-serialization", version.ref = "kmongo"}
-groovy = { module="org.codehaus.groovy:groovy", version.ref = "groovy" }
+groovy = { module = "org.codehaus.groovy:groovy", version.ref = "groovy" }
+jansi = { module = "org.fusesource.jansi:jansi", version.ref = "jansi" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
+kx-ser = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kx-ser" }
+kx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kx-coroutines" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+logback-groovy = { module = "io.github.virtualdogbert:logback-groovy-config", version.ref = "logback-groovy" }
+logging = { module = "io.github.oshai:kotlin-logging", version.ref = "logging" }
+kmongo = { module="org.litote.kmongo:kmongo-coroutine-serialization", version.ref = "kmongo" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+kordex-docker = { id = "dev.kordex.gradle.docker", version.ref = "kordex-gradle" }
+kordex-plugin = { id = "dev.kordex.gradle.kordex", version.ref = "kordex-gradle" }

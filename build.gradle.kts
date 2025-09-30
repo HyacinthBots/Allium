@@ -1,19 +1,19 @@
+import dev.kordex.gradle.plugins.docker.file.*
 import dev.kordex.gradle.plugins.kordex.DataCollection
+
 import java.util.*
 
 plugins {
-	application
+	distribution
 
-	kotlin("jvm")
-	kotlin("plugin.serialization")
+	alias(libs.plugins.kotlin.jvm)
+	alias(libs.plugins.kotlin.serialization)
 
-	id("com.github.gmazzo.buildconfig")
-	id("com.github.jakemarsden.git-hooks")
-	id("com.github.johnrengelman.shadow")
-	id("dev.kordex.gradle.kordex")
-	id("io.gitlab.arturbosch.detekt")
-	id("net.kyori.blossom")
-	id("net.kyori.indra.git")
+	alias(libs.plugins.kordex.plugin)
+	alias(libs.plugins.kordex.docker)
+
+	id("net.kyori.blossom") version "2.1.0"
+	id("net.kyori.indra.git") version "3.2.0"
 }
 
 fun String.runCommand(
@@ -65,11 +65,8 @@ sourceSets {
 }
 
 dependencies {
-	detektPlugins(libs.detekt)
-
 	implementation(libs.kotlin.stdlib)
 	implementation(libs.kx.ser)
-	implementation(libs.kx.ser.json)
 	implementation(libs.gson)
 	implementation(libs.doc.gen)
 	implementation(libs.kmongo)
@@ -80,12 +77,6 @@ dependencies {
 	implementation(libs.groovy)
 	implementation(libs.logback)
 	implementation(libs.logback.groovy)
-}
-
-gitHooks {
-	setHooks(
-		mapOf("pre-commit" to "detekt")
-	)
 }
 
 kordEx {
@@ -119,13 +110,64 @@ tasks {
 		 * Update gradle by changing `gradleVersion` below to the new version,
 		 * then run `./gradlew wrapper` twice to update the scripts properly.
 		 */
-		gradleVersion = "8.13"
+		gradleVersion = "9.1.0"
 		distributionType = Wrapper.DistributionType.BIN
 	}
 }
 
-detekt {
-	buildUponDefaultConfig = true
-	autoCorrect = true
-	config.setFrom(rootProject.files("detekt.yml"))
+docker {
+	// Create the Dockerfile in the root folder.
+	file(rootProject.file("Dockerfile"))
+
+	commands {
+		// Each function (aside from comment/emptyLine) corresponds to a Dockerfile instruction.
+		// See: https://docs.docker.com/reference/dockerfile/
+
+		from("openjdk:21-jdk-slim")
+
+		emptyLine()
+
+		comment("Create required directories")
+		runShell("mkdir -p /bot/plugins")
+		runShell("mkdir -p /bot/data")
+		runShell("mkdir -p /dist/out")
+
+		emptyLine()
+
+		// Add volumes for locations that you need to persist. This is important!
+		comment("Declare required volumes")
+		volume("/bot/data")  // Storage for data files
+		volume("/bot/plugins")  // Plugin ZIP/JAR location
+
+		emptyLine()
+
+		comment("Copy the distribution files into the container")
+		copy("build/distributions/${project.name}-${project.version}.tar", "/dist")
+
+		emptyLine()
+
+		comment("Extract the distribution files, and prepare them for use")
+		runShell("tar -xf /dist/${project.name}-${project.version}.tar -C /dist/out")
+
+		if (file("src/main/dist/plugins").isDirectory) {
+			runShell("mv /dist/out/${project.name}-${project.version}/plugins/* /bot/plugins")
+		}
+
+		runShell("chmod +x /dist/out/${project.name}-${project.version}/bin/$name")
+
+		emptyLine()
+
+		comment("Clean up unnecessary files")
+		runShell("rm /dist/${project.name}-${project.version}.tar")
+
+		emptyLine()
+
+		comment("Set the correct working directory")
+		workdir("/bot")
+
+		emptyLine()
+
+		comment("Run the distribution start script")
+		entryPointExec("/dist/out/${project.name}-${project.version}/bin/$name")
+	}
 }
