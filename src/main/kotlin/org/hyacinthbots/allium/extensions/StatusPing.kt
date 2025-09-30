@@ -19,6 +19,7 @@ class StatusPing : Extension() {
 	private val client = HttpClient {}
 
 	private val env = envOrNull("STATUS_URL")
+	private val env2 = envOrNull("STATUS_PRIV_URL")
 
 	private val logger = KotlinLogging.logger("Status ping")
 
@@ -31,5 +32,6 @@ class StatusPing : Extension() {
 	private suspend fun post() {
 		logger.debug { "Pinging!" }
 		client.post(env!!)
+		client.get(env2!!)
 	}
 }
