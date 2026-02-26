@@ -1,7 +1,15 @@
 package org.hyacinthbots.allium.extensions
 
+import dev.kord.common.entity.MessageFlag
+import dev.kord.common.entity.SeparatorSpacingSize
+import dev.kord.core.event.message.MessageCreateEvent
+import dev.kord.rest.builder.component.actionRow
+import dev.kord.rest.builder.component.section
+import dev.kord.rest.builder.component.textDisplay
 import dev.kord.rest.builder.message.EmbedBuilder
+import dev.kord.rest.builder.message.container
 import dev.kord.rest.builder.message.embed
+import dev.kord.rest.builder.message.messageFlags
 import dev.kordex.core.commands.Arguments
 import dev.kordex.core.commands.application.slash.publicSubCommand
 import dev.kordex.core.commands.converters.impl.defaultingInt
@@ -11,8 +19,10 @@ import dev.kordex.core.components.ephemeralStringSelectMenu
 import dev.kordex.core.components.menus.string.EphemeralStringSelectMenuContext
 import dev.kordex.core.components.publicButton
 import dev.kordex.core.extensions.Extension
+import dev.kordex.core.extensions.event
 import dev.kordex.core.extensions.publicSlashCommand
 import dev.kordex.core.i18n.toKey
+import dev.kordex.core.utils.respond
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
@@ -194,6 +204,66 @@ class Modrinth : Extension() {
 											}
 										}
 									}.send()
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		event<MessageCreateEvent> {
+			action {
+				val message = event.message.content
+				val regex = Regex("https?://(?:www\\.)?modrinth\\.com/(?:mod|datapack|resourcepack|plugin|shader|modpack)/([^/\\s]+)")
+				val match = regex.find(message)
+				if (match != null) {
+					val slug = match.groupValues[1]
+					val project = getProject(slug)
+					event.message.respond {
+						messageFlags {
+							+MessageFlag.IsComponentsV2
+						}
+						container {
+							section {
+								textDisplay("# ${project.title}")
+								thumbnailAccessory {
+									url = project.iconURL
+									description = "${project.title} icon"
+								}
+								textDisplay(project.description)
+							}
+							separator(SeparatorSpacingSize.Large)
+							textDisplay("""Downloads: ${project.downloads}
+								|Latest Version: ${project.gameVersions.last()}
+								|Client Side: ${project.clientSide}
+								|Server Side: ${project.serverSide}
+								|Version Range: ${project.gameVersions.first()}-${project.gameVersions.last()}
+							""".trimMargin())
+							separator(SeparatorSpacingSize.Large)
+							actionRow {
+								if (project.sourceURL != null) {
+									linkButton(project.sourceURL) {
+										label = "Project Source Code"
+									}
+								}
+								if (project.discordURL != null) {
+									linkButton(project.discordURL) {
+										label = "Project Discord"
+									}
+								}
+								if (project.wikiURL != null) {
+									linkButton(project.wikiURL) {
+										label = "Project Wiki"
+									}
+								}
+								if (project.issuesURL != null) {
+									linkButton(project.issuesURL) {
+										label = "Project Issues"
+									}
+								}
+								linkButton("https://modrinth.com/project/$slug") {
+									label = "Modrinth Page"
 								}
 							}
 						}
@@ -466,10 +536,13 @@ class Modrinth : Extension() {
 		val title: String,
 		val description: String,
 		val categories: MutableList<String>,
+		@SerialName("game_versions") val gameVersions: MutableList<String>,
 		@SerialName("client_side") val clientSide: String,
 		@SerialName("server_side") val serverSide: String,
 		@SerialName("source_url") val sourceURL: String? = null,
 		@SerialName("discord_url") val discordURL: String? = null,
+		@SerialName("issues_url") val issuesURL: String? = null,
+		@SerialName("wiki_url") val wikiURL: String? = null,
 		@SerialName("project_type") val projectType: String,
 		val updated: String,
 		val downloads: Int,
