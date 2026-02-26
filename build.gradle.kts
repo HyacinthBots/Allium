@@ -45,9 +45,9 @@ if (Os.isFamily(Os.FAMILY_WINDOWS)) {
 	version = if ("git branch --show-current"
 			.runCommand(workingDir = rootDir)
 			.replace("/", ".") == "root") {
-		"date +'%Y-%m-%d'".runCommand()
+		"date +%Y-%m-%d".runCommand()
 	} else {
-		"date +'%Y-%m-%d'".runCommand() + "-build.local-" +
+		"date +%Y-%m-%d".runCommand() + "-build.local-" +
 			"git rev-parse --short=8 HEAD"
 				.runCommand(workingDir = rootDir) +
 			"-" +
