@@ -1,18 +1,30 @@
 package org.hyacinthbots.allium.extensions
 
+import dev.kord.common.entity.MessageFlag
+import dev.kord.common.entity.SeparatorSpacingSize
+import dev.kord.core.event.message.MessageCreateEvent
+import dev.kord.rest.builder.component.actionRow
+import dev.kord.rest.builder.component.section
+import dev.kord.rest.builder.component.textDisplay
 import dev.kord.rest.builder.message.EmbedBuilder
+import dev.kord.rest.builder.message.container
 import dev.kord.rest.builder.message.embed
+import dev.kord.rest.builder.message.messageFlags
 import dev.kordex.core.commands.Arguments
 import dev.kordex.core.commands.application.slash.publicSubCommand
 import dev.kordex.core.commands.converters.impl.defaultingInt
 import dev.kordex.core.commands.converters.impl.string
 import dev.kordex.core.extensions.Extension
+import dev.kordex.core.extensions.event
 import dev.kordex.core.extensions.publicSlashCommand
+import dev.kordex.core.utils.respond
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.request
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlin.time.Instant
@@ -69,10 +81,66 @@ class CurseForge : Extension() {
 				}
 			}
 		}
+
+		event<MessageCreateEvent> {
+			action {
+				val message = event.message.content
+				val regex = Regex("https?://(?:www\\.)?curseforge\\.com/minecraft/(?:mc-mods|modpacks|shaders|bukkit-plugins|mc-addons|worlds|texture-packs|customization|data-packs)/([^/\\s]+)")
+				val match = regex.find(message)
+				if (match != null) {
+					val slug = match.groupValues[1]
+					val response = searchCurseForge(slug, 1)
+					val project = response.data.firstOrNull { it.slug == slug } ?: return@action
+
+					event.message.respond {
+						messageFlags {
+							+MessageFlag.IsComponentsV2
+						}
+						container {
+							section {
+								textDisplay("# ${project.name}")
+								thumbnailAccessory {
+									url = project.logo.url
+									description = "${project.name} logo"
+								}
+								textDisplay(project.summary)
+							}
+							separator(SeparatorSpacingSize.Large)
+							textDisplay("""Downloads: ${project.downloadCount}
+								|Latest supported Minecraft version: N/A due to bad sorting on Curseforge's End
+								|Authors: ${project.authors.joinToString(", ") { it.name }}
+								|Last Update: <t:${Instant.parse(project.dateModified).epochSeconds}>
+							""".trimMargin())
+							separator(SeparatorSpacingSize.Large)
+							actionRow {
+								if (!project.links.sourceUrl.isNullOrBlank()) {
+									linkButton(project.links.sourceUrl) {
+										label = "Project Source Code"
+									}
+								}
+								if (!project.links.wikiUrl.isNullOrBlank()) {
+									linkButton(project.links.wikiUrl) {
+										label = "Project Wiki"
+									}
+								}
+								if (!project.links.issuesUrl.isNullOrBlank()) {
+									linkButton(project.links.issuesUrl) {
+										label = "Project Issues"
+									}
+								}
+								linkButton(project.links.websiteUrl) {
+									label = "CurseForge Page"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	private suspend fun searchCurseForge(query: String, limit: Int): SearchResponse {
-		return client.get(CURSEFORGE_ENDPOINT) {
+		val a = client.get(CURSEFORGE_ENDPOINT) {
 			url {
 				path("v1/mods/search")
 				parameter("gameId", 432)
@@ -86,7 +154,9 @@ class CurseForge : Extension() {
 				append("x-api-key", CURSEFORGE_API_KEY)
 				append("Accept", "application/json")
 			}
-		}.body()
+		}
+		KotlinLogging.logger("DEBUG").info { a.request.url.toString() }
+		return a.body()
 	}
 
 	@OptIn(ExperimentalTime::class)
@@ -130,7 +200,7 @@ class CurseForge : Extension() {
 
 	@Serializable
 	data class SearchResponse(
-		val data: MutableList<Mod>,
+		val data: List<Mod>,
 		val pagination: Pagination
 	)
 
@@ -139,12 +209,21 @@ class CurseForge : Extension() {
 		val id: Int,
 		val name: String,
 		val slug: String,
+		val links: ModLinks,
 		val summary: String,
 		val downloadCount: Long,
-		val authors: MutableList<ModAuthor>,
+		val authors: List<ModAuthor>,
 		val logo: ModAsset,
 		val dateModified: String,
-		val allowModDistribution: Boolean?
+		val latestFiles: List<ModFile> = emptyList()
+	)
+
+	@Serializable
+	data class ModLinks(
+		val websiteUrl: String,
+		val wikiUrl: String? = null,
+		val issuesUrl: String? = null,
+		val sourceUrl: String? = null
 	)
 
 	@Serializable
@@ -162,6 +241,15 @@ class CurseForge : Extension() {
 		val description: String,
 		val thumbnailUrl: String,
 		val url: String
+	)
+
+	@Serializable
+	data class ModFile(
+		val id: Int,
+		val displayName: String,
+		val fileName: String,
+		val fileDate: String,
+		val gameVersions: List<String>
 	)
 
 	@Serializable

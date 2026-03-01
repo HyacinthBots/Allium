@@ -235,10 +235,10 @@ class Modrinth : Extension() {
 							}
 							separator(SeparatorSpacingSize.Large)
 							textDisplay("""Downloads: ${project.downloads}
-								|Latest Version: ${project.gameVersions.last()}
-								|Client Side: ${project.clientSide}
-								|Server Side: ${project.serverSide}
-								|Version Range: ${project.gameVersions.first()}-${project.gameVersions.last()}
+								|Latest supported Minecraft version: ${project.gameVersions.last()}
+								|Client side: ${project.clientSide}
+								|Server side: ${project.serverSide}
+								|Version range: ${project.gameVersions.first()}-${project.gameVersions.last()}
 							""".trimMargin())
 							separator(SeparatorSpacingSize.Large)
 							actionRow {
