@@ -10,6 +10,7 @@ import dev.kord.rest.builder.message.EmbedBuilder
 import dev.kord.rest.builder.message.container
 import dev.kord.rest.builder.message.embed
 import dev.kord.rest.builder.message.messageFlags
+import dev.kordex.core.checks.isNotBot
 import dev.kordex.core.commands.Arguments
 import dev.kordex.core.commands.application.slash.publicSubCommand
 import dev.kordex.core.commands.converters.impl.defaultingInt
@@ -73,7 +74,7 @@ class Modrinth : Extension() {
 						response = searchModrinthUser(arguments)
 					} catch (e: NoTransformationFoundException) {
 						respond {
-							content = "No User found or bad response."
+							content = "No user found or bad response."
 						}
 						return@action
 					}
@@ -195,7 +196,7 @@ class Modrinth : Extension() {
 								action {
 									val results = searchModrinthAdvanced(searchFilters)
 									edit {
-										content = "Here is your Problem"
+										content = "Here is your problem"
 									}
 									editingPaginator {
 										for (data in results.hits) {
@@ -213,6 +214,9 @@ class Modrinth : Extension() {
 		}
 
 		event<MessageCreateEvent> {
+			check {
+				isNotBot()
+			}
 			action {
 				val message = event.message.content
 				val regex = Regex("https?://(?:www\\.)?modrinth\\.com/(?:mod|datapack|resourcepack|plugin|shader|modpack)/([^/\\s]+)")
@@ -290,15 +294,15 @@ class Modrinth : Extension() {
 			this.url = data.iconURL.toString()
 		}
 		this.description = data.description
-		field("Latest Version", true) { data.latestVersion }
+		field("Latest supported Minecraft version", true) { data.versions.last() }
 		field(
-			"Client/Server Side",
+			"Client/Server side",
 			true
 		) { "Client: ${data.clientSide}\nServer: ${data.serverSide}" }
 		field("Downloads", true) { data.downloads.toString() }
 		field("Author", true) { data.author }
 		field(
-			"Last Update",
+			"Last update",
 			true
 		) { "<t:${Instant.parse(data.dateModified).epochSeconds}>" }
 		field("License", true) { data.license.toString() }
@@ -518,6 +522,7 @@ class Modrinth : Extension() {
 		val description: String,
 		val categories: MutableList<String>,
 		val author: String,
+		val versions: MutableList<String>,
 		@SerialName("client_side") val clientSide: String,
 		@SerialName("server_side") val serverSide: String,
 		@SerialName("source_url") val sourceURL: String? = null,
