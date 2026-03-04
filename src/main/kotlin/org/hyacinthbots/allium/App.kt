@@ -4,11 +4,18 @@ import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.LoggerContext
 import com.google.gson.JsonArray
 import com.google.gson.JsonParser
+import dev.kord.common.entity.MessageFlag
+import dev.kord.common.entity.SeparatorSpacingSize
 import dev.kord.core.Kord
 import dev.kord.gateway.Intent
 import dev.kord.gateway.PrivilegedIntent
+import dev.kord.rest.builder.component.actionRow
+import dev.kord.rest.builder.component.section
+import dev.kord.rest.builder.component.textDisplay
 import dev.kord.rest.builder.message.actionRow
+import dev.kord.rest.builder.message.container
 import dev.kord.rest.builder.message.embed
+import dev.kord.rest.builder.message.messageFlags
 import dev.kordex.core.ExtensibleBot
 import dev.kordex.core.i18n.SupportedLocales
 import dev.kordex.modules.func.mappings.extMappings
@@ -36,58 +43,48 @@ suspend fun main() {
 			ephemeral = false
 			general {
 				message {
-					embed {
-						description = "Hello! I am Allium, a Minecraft modding focused bot."
-						title = "Allium"
-
-						field {
-							name = "Birthday (initial date of idea)"
-							value = "September 6th, 2022"
-						}
-						field {
-							name = " Main Developers"
-							value = "Jansel"
-						}
-						field {
-							name = "Contributors"
-							value = """[Jansel](https://github.com/NotJansel)
-                          	|[TemperΘΔ](https://github.com/StonkDragon)
-                          	|[triphora](https://github.com/triphora)
-                          	|[NoComment](https://github.com/NoComment1105)
-                          	|[Scrumplex](https://github.com/Scrumplex)
-						  	|[gdude](https://github.com/gdude2002)
-                			""".trimMargin()
-						}
-						field {
-							val kord = getKoin().get<Kord>()
-							name = "Guilds"
-							value = kord.guilds.count().toString()
-						}
-						field {
-							name = "Build"
-							value = BUILD.toString()
-						}
-						field {
-							name = "This build was created on:"
-							value = "<t:$BUILDTIME>"
-						}
-						field {
-							name = "Next update?"
-							value = getRandomUpdateMessage()
-						}
+					val kord = getKoin().get<Kord>()
+					messageFlags {
+						+MessageFlag.IsComponentsV2
 					}
-					actionRow {
-						linkButton("https://github.com/HyacinthBots/Allium") {
-							label = "Source Code"
-						}
-						linkButton("https://discord.com/api/oauth2/authorize?client_id=1013045351852298280&permissions=347136&scope=bot%20applications.commands") {
-							label = "Invite"
-						}
-						linkButton("https://github.com/HyacinthBots/.github/blob/main/terms-of-service.md") {
-							label = "Terms of Service"
-						}
-						linkButton("https://github.com/HyacinthBots/Allium/tree/root/docs/privacy-policy.md") {
-							label = "Privacy Policy"
+					container {
+						textDisplay("""# Allium
+							|Hello! I am Allium, a Minecraft modding focused bot.
+						""".trimMargin())
+						separator(SeparatorSpacingSize.Large)
+						textDisplay("""## General info
+							|- Birthday (initial date of idea): September 6th, 2022
+							|- Main Developers: Jansel
+							|
+							|Contributors:
+							|[Jansel](https://github.com/NotJansel)
+                       		|[TemperΘΔ](https://github.com/StonkDragon)
+                       		|[triphora](https://github.com/triphora)
+                       		|[NoComment](https://github.com/NoComment1105)
+                       		|[Scrumplex](https://github.com/Scrumplex)
+					  		|[gdude](https://github.com/gdude2002)
+						""".trimMargin())
+						separator(SeparatorSpacingSize.Large)
+						textDisplay("""## Bot & Build info
+							|Guilds: ${kord.guilds.count()}
+							|Build: $BUILD
+							|Built on: <t:$BUILDTIME>
+							|Next Update: ${getRandomUpdateMessage()}
+						""".trimMargin())
+						separator(SeparatorSpacingSize.Large)
+						actionRow {
+							linkButton("https://github.com/HyacinthBots/Allium") {
+								label = "Source Code"
+							}
+							linkButton("https://discord.com/api/oauth2/authorize?client_id=1013045351852298280&permissions=347136&scope=bot%20applications.commands") {
+								label = "Add me to your Server"
+							}
+							linkButton("https://github.com/HyacinthBots/.github/blob/main/terms-of-service.md") {
+								label = "Terms of Service"
+							}
+							linkButton("https://github.com/HyacinthBots/Allium/tree/root/docs/privacy-policy.md") {
+								label = "Privacy Policy"
+							}
 						}
 					}
 				}

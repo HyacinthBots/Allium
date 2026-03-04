@@ -1,6 +1,6 @@
 import dev.kordex.gradle.plugins.docker.file.*
 import dev.kordex.gradle.plugins.kordex.DataCollection
-
+import org.apache.tools.ant.taskdefs.condition.Os
 import java.util.*
 
 plugins {
@@ -11,10 +11,12 @@ plugins {
 
 	alias(libs.plugins.kordex.plugin)
 	alias(libs.plugins.kordex.docker)
+	alias(libs.plugins.kordex.translation)
 
 	id("net.kyori.blossom") version "2.1.0"
 	id("net.kyori.indra.git") version "3.2.0"
 }
+
 
 fun String.runCommand(
 	workingDir: File = File("."),
@@ -35,20 +37,24 @@ fun String.runCommand(
 	}
 
 
-group = "org.hyacinthbots.allium"
+group = "org.hyacinthbots"
 
-version = if ("git branch --show-current"
-		.runCommand(workingDir = rootDir)
-		.replace("/", ".") == "root") {
-	"1.0.4"
-		} else {
-	"1.0.5-build.local-" +
-		"git rev-parse --short=8 HEAD"
-			.runCommand(workingDir = rootDir) +
-		"-" +
-		"git branch --show-current"
+if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+	version = "eww-testing-on-windows"
+} else {
+	version = if ("git branch --show-current"
 			.runCommand(workingDir = rootDir)
-			.replace("/", ".")
+			.replace("/", ".") == "root") {
+		"date +%Y-%m-%d".runCommand()
+	} else {
+		"date +%Y-%m-%d".runCommand() + "-build.local-" +
+			"git rev-parse --short=8 HEAD"
+				.runCommand(workingDir = rootDir) +
+			"-" +
+			"git branch --show-current"
+				.runCommand(workingDir = rootDir)
+				.replace("/", ".")
+	}
 }
 
 var buildTime = Date().time / 1000
@@ -83,6 +89,8 @@ kordEx {
 	// The current LTS Java version
 	jvmTarget = 21
 
+	kordVersion = "0.18.0-SNAPSHOT"
+
 	module("func-mappings")
 	module("pluralkit")
 
@@ -95,8 +103,7 @@ kordEx {
 	}
 
 	i18n {
-		classPackage = "org.hyacinthbots.allium.i18n"
-		translationBundle = "allium.strings"
+		bundle("allium.strings", "org.hyacinthbots.allium.i18n")
 	}
 }
 
@@ -110,7 +117,7 @@ tasks {
 		 * Update gradle by changing `gradleVersion` below to the new version,
 		 * then run `./gradlew wrapper` twice to update the scripts properly.
 		 */
-		gradleVersion = "9.1.0"
+		gradleVersion = "9.3.1"
 		distributionType = Wrapper.DistributionType.BIN
 	}
 }

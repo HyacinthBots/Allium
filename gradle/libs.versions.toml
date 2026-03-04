@@ -1,17 +1,19 @@
 [versions]
-kotlin = "2.2.20"  # Note: Plugin versions must be updated in the settings.gradle.kts too
+kotlin = "2.3.10"  # Note: Plugin versions must be updated in the settings.gradle.kts too
 
 groovy = "3.0.25"
 jansi = "2.4.2"
-kx-ser = "1.9.0"
-logback = "1.5.18"
+kx-ser = "1.10.0"
+logback = "1.5.32"
 logback-groovy = "1.14.5"
-logging = "7.0.13"
+logging = "8.0.01"
 kx-coroutines = "1.10.2"
-kmongo = "5.2.1"
-kordex-gradle = "1.7.4"
+kmongo = "5.5.1"
+kordex-gradle = "1.9.0"
 doc-gen = "0.3.0-rc.2"
-gson = "2.12.1"
+gson = "2.13.2"
+kordex-translation = "1.1.1"
+
 
 [libraries]
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
@@ -32,3 +34,5 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 
 kordex-docker = { id = "dev.kordex.gradle.docker", version.ref = "kordex-gradle" }
 kordex-plugin = { id = "dev.kordex.gradle.kordex", version.ref = "kordex-gradle" }
+kordex-translation = { id = "dev.kordex.gradle.i18n", version.ref = "kordex-translation" }
+
