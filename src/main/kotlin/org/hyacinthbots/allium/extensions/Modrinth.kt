@@ -10,6 +10,7 @@ import dev.kord.rest.builder.message.EmbedBuilder
 import dev.kord.rest.builder.message.container
 import dev.kord.rest.builder.message.embed
 import dev.kord.rest.builder.message.messageFlags
+import dev.kordex.core.checks.anyGuild
 import dev.kordex.core.checks.isNotBot
 import dev.kordex.core.commands.Arguments
 import dev.kordex.core.commands.application.slash.publicSubCommand
@@ -35,6 +36,8 @@ import kotlin.time.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import org.hyacinthbots.allium.database.collections.ConfigCollection
+import org.hyacinthbots.allium.database.collections.LinkListenerCollection
 import org.hyacinthbots.allium.i18n.Translations
 import org.hyacinthbots.allium.utils.*
 import java.util.*
@@ -215,7 +218,23 @@ class Modrinth : Extension() {
 
 		event<MessageCreateEvent> {
 			check {
+				anyGuild()
 				isNotBot()
+				if (ConfigCollection().linkListenerType(event.guildId!!) == "whitelist") {
+					failIfNot {
+						LinkListenerCollection().checkIfChannelIsInWhitelist(
+							event.message.getGuild().id,
+							event.message.channelId
+						)
+					}
+				} else if (ConfigCollection().linkListenerType(event.guildId!!) == "blacklist") {
+					failIf {
+						LinkListenerCollection().checkIfChannelIsInBlacklist(
+							event.message.getGuild().id,
+							event.message.channelId
+						)
+					}
+				}
 			}
 			action {
 				val message = event.message.content

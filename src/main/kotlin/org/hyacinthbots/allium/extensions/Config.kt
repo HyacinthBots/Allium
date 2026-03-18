@@ -28,7 +28,7 @@ class Config : Extension() {
 					hasPermission(Permission.ManageGuild)
 				}
 				action {
-					ConfigCollection().updateConfig(guild!!.id, arguments.logUploadingType)
+					ConfigCollection().updateConfig(guild!!.id, arguments.logUploadingType, arguments.linkListenerType)
 					respond {
 						content = "The Config was successfully set!"
 					}
@@ -50,6 +50,11 @@ class Config : Extension() {
 								value = ConfigCollection().logUploadingType(guild!!.id)
 								inline = true
 							}
+							field {
+								name = "Link Listener type"
+								value = ConfigCollection().linkListenerType(guild!!.id)
+								inline = true
+							}
 						})
 					}
 				}
@@ -61,6 +66,12 @@ class Config : Extension() {
 		val logUploadingType by stringChoice {
 			name = Translations.Config.Arguments.Type.name
 			description = Translations.Config.Arguments.Type.description
+			choice(Translations.Config.Arguments.Type.Choice.w, "whitelist")
+			choice(Translations.Config.Arguments.Type.Choice.b, "blacklist")
+		}
+		val linkListenerType by stringChoice {
+			name = Translations.Config.Arguments.Linklistenertype.name
+			description = Translations.Config.Arguments.Linklistenertype.description
 			choice(Translations.Config.Arguments.Type.Choice.w, "whitelist")
 			choice(Translations.Config.Arguments.Type.Choice.b, "blacklist")
 		}

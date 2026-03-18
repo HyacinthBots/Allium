@@ -100,6 +100,7 @@ suspend fun main() {
 			add(::StatusPing)
 			add(::LogUploading)
 			add(::Config)
+			add(::LinkListener)
 			extMappings { }
 		}
 		intents {

@@ -4,8 +4,8 @@ import dev.kord.common.entity.Snowflake
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ConfigData(
+data class LinkListenerData(
 	val guildId: Snowflake,
-	val logUploadingType: String,
-	val linkListenerType: String
+	val channels: MutableList<Snowflake>,
+	val type: String
 )

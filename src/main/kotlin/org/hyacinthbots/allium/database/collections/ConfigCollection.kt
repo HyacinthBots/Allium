@@ -15,21 +15,40 @@ class ConfigCollection : KordExKoinComponent {
 	@PublishedApi
 	internal val collection = db.mongo.getCollection<ConfigData>()
 
-	suspend fun updateConfig(guildId: Snowflake, logUploadingType: String) {
+	suspend fun updateConfig(guildId: Snowflake, logUploadingType: String? = null, linkListenerType: String? = null) {
 		val coll = collection.findOne(ConfigData::guildId eq guildId)
 		if (coll != null) {
-			collection.updateOne(
-				ConfigData::guildId eq guildId,
-				setValue(ConfigData::logUploadingType, logUploadingType)
-			)
+			if (logUploadingType != null) {
+				collection.updateOne(
+					ConfigData::guildId eq guildId,
+					setValue(ConfigData::logUploadingType, logUploadingType)
+				)
+			}
+			if (linkListenerType != null) {
+				collection.updateOne(
+					ConfigData::guildId eq guildId,
+					setValue(ConfigData::linkListenerType, linkListenerType)
+				)
+			}
 		} else {
-			collection.insertOne(ConfigData(guildId, logUploadingType))
+			collection.insertOne(
+				ConfigData(
+					guildId,
+					logUploadingType ?: "whitelist",
+					linkListenerType ?: "blacklist"
+				)
+			)
 		}
 	}
 
 	suspend fun logUploadingType(guildId: Snowflake): String {
 		val coll = collection.findOne(ConfigData::guildId eq guildId)
 		return coll?.logUploadingType ?: "whitelist"
+	}
+
+	suspend fun linkListenerType(guildId: Snowflake): String {
+		val coll = collection.findOne(ConfigData::guildId eq guildId)
+		return coll?.linkListenerType ?: "blacklist"
 	}
 
 	suspend fun removeConfig(guildId: Snowflake) = collection.deleteOne(ConfigData::guildId eq guildId)

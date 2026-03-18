@@ -14,6 +14,7 @@ import dev.kordex.core.commands.Arguments
 import dev.kordex.core.commands.application.slash.publicSubCommand
 import dev.kordex.core.commands.converters.impl.defaultingInt
 import dev.kordex.core.commands.converters.impl.string
+import dev.kordex.core.checks.anyGuild
 import dev.kordex.core.extensions.Extension
 import dev.kordex.core.extensions.event
 import dev.kordex.core.extensions.publicSlashCommand
@@ -30,6 +31,8 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlin.time.Instant
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import org.hyacinthbots.allium.database.collections.ConfigCollection
+import org.hyacinthbots.allium.database.collections.LinkListenerCollection
 import org.hyacinthbots.allium.i18n.Translations
 import org.hyacinthbots.allium.utils.BUILD
 import org.hyacinthbots.allium.utils.CURSEFORGE_API_KEY
@@ -83,6 +86,24 @@ class CurseForge : Extension() {
 		}
 
 		event<MessageCreateEvent> {
+			check {
+				anyGuild()
+				if (ConfigCollection().linkListenerType(event.guildId!!) == "whitelist") {
+					failIfNot {
+						LinkListenerCollection().checkIfChannelIsInWhitelist(
+							event.message.getGuild().id,
+							event.message.channelId
+						)
+					}
+				} else if (ConfigCollection().linkListenerType(event.guildId!!) == "blacklist") {
+					failIf {
+						LinkListenerCollection().checkIfChannelIsInBlacklist(
+							event.message.getGuild().id,
+							event.message.channelId
+						)
+					}
+				}
+			}
 			action {
 				val message = event.message.content
 				val regex = Regex("https?://(?:www\\.)?curseforge\\.com/minecraft/(?:mc-mods|modpacks|shaders|bukkit-plugins|mc-addons|worlds|texture-packs|customization|data-packs)/([^/\\s]+)")

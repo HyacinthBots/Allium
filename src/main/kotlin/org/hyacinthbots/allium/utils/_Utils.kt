@@ -16,6 +16,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.hyacinthbots.allium.database.Database
+import org.hyacinthbots.allium.database.collections.LinkListenerCollection
 import org.hyacinthbots.allium.database.collections.LogUploadingCollection
 import org.hyacinthbots.allium.database.collections.MetaCollection
 import org.hyacinthbots.allium.updatemessages
@@ -52,6 +53,7 @@ suspend inline fun ExtensibleBotBuilder.database(migrate: Boolean) {
 			loadModule {
 				single { LogUploadingCollection() } bind LogUploadingCollection::class
 				single { MetaCollection() } bind MetaCollection::class
+				single { LinkListenerCollection() } bind LinkListenerCollection::class
 			}
 
 			if (migrate) {
