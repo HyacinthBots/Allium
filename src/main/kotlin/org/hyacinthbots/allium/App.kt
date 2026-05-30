@@ -101,7 +101,7 @@ suspend fun main() {
 			add(::LogUploading)
 			add(::Config)
 			add(::LinkListener)
-			extMappings { }
+			extMappings {}
 		}
 		intents {
 			+Intent.MessageContent
